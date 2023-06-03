@@ -85,12 +85,7 @@ class Company{
         }
     }
 
-    //LA ETICA DEL HACKER - PROLOGO
-    //https://www.freelancer.com/signup%20
-    //P_F_24 - Br1O 
 
-    //workana
-      
     public static function showData(){
         include 'class_Conn.php';
 

@@ -18,10 +18,14 @@
 
         <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar todos </button>
 
-        <button name="form-company" onclick="redirectToPage('form_company.php')"> Insertar nueva compañia</button>
+        <button name="form-company" onclick="redirectToPage('form_company.php')"> Insertar Compañia</button>
 
         <button name="mostrarUsuarios" onclick="redirectToPage('../Controller/show_users.php')"> Mostrar Usuarios</button>
-        
+
+        <button><a href='../Controller/PDF_company.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
+
+        <button><a href='../Controller/PDF_company.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button>
+
         <button type="button" onclick="redirectToPage('login.html')" class="link CloseSesion-modal"> Cerrar Sesión </button>
  
     </div>
@@ -102,12 +106,12 @@ if($_GET['data']){
     foreach ($results as $fila){
         //imprimir datos en cada fila
      
-    echo"<Tr><Th rowspan ='9' id='th-1'>".$fila["nombre"]."</Th>"."<Tr><th>Servicios</Th><Td id='td-1'>".$fila["servicios"]."</Td></Tr>";
+    echo"<Tr><Th rowspan ='8'id='th-1'><a href='show_company.php?id=".$fila['id']."'>".$fila["nombre"]."</a></Th>"."<Tr><th>Servicios</Th><Td id='td-1'>".$fila["servicios"]."</Td></Tr>";
     echo"<Th>Responsable</Th><Td>".$fila["responsable"]."</Td><Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
     echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
-    echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
+    // echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
     echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
-    echo"<Tr><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' style='margin-right:40px;' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px margin:5px;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px margin:5px;'></a></Th></Tr><br>";
+    echo"<Tr id='tr-last' ><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a><a href='../Controller/.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a></Th></Tr>";
 }
 
 echo "</table>";
@@ -127,7 +131,7 @@ while($fila=$fil->fetch_assoc()){
     echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
     // echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
     echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
-    echo"<Tr id='tr-last' ><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' style='margin-right:40px;' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px margin:5px;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px margin:5px;'></a></Th></Tr>";
+    echo"<Tr id='tr-last' ><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a><a href='../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a></Th></Tr>";
 }
 
 echo "</table>";

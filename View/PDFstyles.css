@@ -1,0 +1,71 @@
+
+tr {
+    background-color:#9ccbdc;
+    border-color:#389ee0;
+
+}
+
+tr:hover {
+    background-color:rgba(142, 171, 222,0.5);
+    border-color:rgb(71, 127, 226);
+}
+
+td {
+    background-color:rgb(142, 171, 222);
+    border-color:rgb(71, 127, 226);
+    padding: 5px;
+
+}
+
+td:hover {
+    background-color:rgba(142, 171, 222,0.5);
+    border-color:rgb(71, 127, 226);
+}
+
+#th-1 {
+    background-color:rgb(211, 230, 247);
+    border-color:rgb(71, 127, 226);
+    border-radius: 15px 0 0 15px;
+    padding: 40px;
+    width:100px;
+    height:20px;
+}
+
+#th-1:hover {
+    background-color:rgba(211, 230, 247,0.5);
+    border-color:rgb(71, 127, 226);
+}
+
+#td-1 {
+    border-radius: 0 15px 0 0;
+
+}
+
+th{
+    padding: 5px;
+}
+
+#th-last {
+    display: none;
+}
+
+.th-last2 {
+    border-radius: 0 0 15px 0;
+    padding: 5px;
+}
+
+.table-companies{
+    border-radius: 15px;
+    border-color: #4c2a85;
+    border-style: none;
+    margin: auto;
+}
+
+a {
+    color: black; /* Default link color */
+    text-decoration: none; /* Remove underline */
+}
+
+a:hover {
+    color:  #4c2a85; /* Default link color */
+}
