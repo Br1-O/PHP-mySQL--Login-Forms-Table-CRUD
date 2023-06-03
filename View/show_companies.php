@@ -30,12 +30,12 @@
     <dialog class='modalFilters' id='modalFilters'>
     
         <div class="link-empresas">
-        <button name="btn-close" onclick="closeModal()">Cerrar Filtros</button>
+            <button name="btn-close" onclick="closeModal()">Cerrar Filtros</button>
         </div>
 
         <div class="link-empresas">
 
-            <form action="../Controller/filter_company.php" method="get">
+            <form class="form" action="../Controller/filter_company.php" method="get">
                 <label for="filtro-campo"> Seleccionar filtro:</label>
                 <select name="filtro-campo" id="">
                     <option value="nombre">Nombre</option>
@@ -49,7 +49,6 @@
                 </select>
                 <label for="campo"> Indique el valor a buscar:</label>
                 <input type="text" name="valor" placeholder= "Ingrese un valor" required>
-
                 <input type="submit" value="Buscar">
 
                 <!-- <label for="">A por nombre</label>
@@ -64,13 +63,10 @@
                 <input type="radio" name="" id=""> -->
             </form>
 
-            <form action="filter_company.php" method="get">
-
-            <label for="campo"> Indique la letras o letras por las que comienza el valor a buscar:</label>
+            <form class="form" action="filter_company.php" method="get">
+                <label for="campo"> Indique la letras o letras por las que comienza el valor a buscar:</label>
                 <input type="text" name="letra" placeholder= "Ingrese un valor" required>
-
                 <input type="submit" value="Buscar">
-
             </form>
         
         </div>
@@ -100,32 +96,43 @@ error_reporting(0);
 if($_GET['data']){
 
     $results=$_GET['data'];
+
+    echo "<table class='table-companies'>";
+
     foreach ($results as $fila){
         //imprimir datos en cada fila
      
-        echo"</head><Tr><Td rowspan ='9' bgcolor='#D3e6f7'>".$fila["nombre"]."</Td>"."<Tr><th>Servicios</Th><Td>".$fila["servicios"]."</Td></Tr>";
-        echo"<Th>Responsable</Th><Td>".$fila["responsable"]."</Td><Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
-        echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
-        echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
-        echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
-        echo"<Tr><Td colspan ='2'><a href='edit_company.php?assoc=".$fila['id']."' style='margin-right:10px;' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px margin:5px;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px margin:5px;'></a></Td></Tr>";
-    }
+    echo"<Tr><Th rowspan ='9' id='th-1'>".$fila["nombre"]."</Th>"."<Tr><th>Servicios</Th><Td id='td-1'>".$fila["servicios"]."</Td></Tr>";
+    echo"<Th>Responsable</Th><Td>".$fila["responsable"]."</Td><Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
+    echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
+    echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
+    echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
+    echo"<Tr><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' style='margin-right:40px;' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px margin:5px;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px margin:5px;'></a></Th></Tr><br>";
+}
+
+echo "</table>";
 
 }else{
 
 include '../Controller/class_Company.php';
 $fil=Company::showData();
 
+echo "<table class='table-companies'>";
+
 while($fila=$fil->fetch_assoc()){
     //imprimir datos en cada fila
- 
-    echo"</head><Tr><Td rowspan ='9' bgcolor='#D3e6f7'>".$fila["nombre"]."</Td>"."<Tr><th>Servicios</Th><Td>".$fila["servicios"]."</Td></Tr>";
+  
+    echo"<Tr><Th rowspan ='9' bgcolor='#D3e6f7' id='th-1'>".$fila["nombre"]."</Th>"."<Tr><th>Servicios</Th><Td id='td-1'>".$fila["servicios"]."</Td></Tr>";
     echo"<Th>Responsable</Th><Td>".$fila["responsable"]."</Td><Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
     echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
     echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
     echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
-    echo"<Tr><Td colspan ='2'><a href='edit_company.php?assoc=".$fila['id']."' style='margin-right:10px;' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px margin:5px;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px margin:5px;'></a></Td></Tr>";
+    echo"<Tr id='tr-last' ><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' style='margin-right:40px;' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px margin:5px;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px margin:5px;'></a></Th></Tr>";
+
+
 }
+
+echo "</table>";
 
 }
 

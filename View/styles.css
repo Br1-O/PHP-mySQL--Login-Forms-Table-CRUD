@@ -100,13 +100,13 @@ button:hover {
 /* Esto es de la segunda pagina, login, originalmente: */
 
 .link-empresas {
-    max-width: 500px;
+    max-width: 80%;
     position: relative;
     margin-top: 20%;
     margin: 20px auto;
-    background-color: #cd97ea70;
+    background-color: #cd97ea90;
     padding: 20px;
-    border-radius: 5% ;
+    border-radius: 15px ;
 }
 
 .link {
@@ -124,35 +124,90 @@ button:hover {
 tr {
     background-color:#9ccbdc;
     border-color:#389ee0;
+    margin-bottom: 10%;
+
+}
+
+tr:hover {
+    background-color:rgba(142, 171, 222,0.5);
+    border-color:rgb(71, 127, 226);
 }
 
 td {
     background-color:rgb(142, 171, 222);
     border-color:rgb(71, 127, 226);
+
 }
+
+td:hover {
+    background-color:rgba(142, 171, 222,0.5);
+    border-color:rgb(71, 127, 226);
+}
+
+#th-1 {
+    background-color:rgb(211, 230, 247);
+    border-color:rgb(71, 127, 226);
+    border-radius: 15px 0 0 15px;
+    padding: 10%;
+    width: 40%;
+}
+
+#th-1:hover {
+    background-color:rgba(211, 230, 247,0.5);
+    border-color:rgb(71, 127, 226);
+}
+
+#td-1 {
+    border-radius: 0 15px 0 0;
+
+}
+
+#th-last {
+    border-radius: 0 0 15px 0;
+
+}
+
+.table-companies{
+    border-radius: 15px;
+    border-color: #4c2a85;
+    border-style: none;
+    border-bottom: 2em;
+    margin: auto;
+}
+
 
 .modalFilters{
 
-    background: linear-gradient(to bottom, #8d8de3, #a874cd);
+    background: linear-gradient(to bottom, rgba(141, 141, 227,0.9), rgba(168, 116, 205,0.9));
     font-family: Arial, sans-serif;
     border-color: #4c2a85;
     border-radius: 15px;
     border-style: solid;
+    justify-content: flex-start;
+}
+
+.form{
+
+    background: linear-gradient(to bottom, rgb(141, 141, 227,0.9), rgb(168, 116, 205,0.9));
+    font-family: Arial, sans-serif;
+    border-radius: 15px;
 }
 
 .info-bar{
-    max-width: 90%;
-    position: relative;
+    max-width: 50%;
+    position: sticky;
+    top: 1%;
     margin-top: 20%;
     margin: 20px auto;
     background-color: #cd97ea70;
     padding: 10px;
     align-items: center;
     border-radius: 15px;
+    border-color: rgba(76, 42, 133,0.5);
+    border-style: solid;
 }
 
 .info-bar button {
-    
     display: inline-block;
 }
 
