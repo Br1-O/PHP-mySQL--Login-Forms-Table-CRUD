@@ -59,7 +59,7 @@ try {
     $mailer->isSMTP();
     $mailer->Host='smtp-relay.sendinblue.com';
     $mailer->SMTPAuth=true;
-    $mailer->Username=""; //insert credentials here
+    $mailer->Username=""; //insert credentials here!
     $mailer->Password="";
     $mailer->SMTPSecure= PHPMailer::ENCRYPTION_STARTTLS;
     $mailer->Port=587;

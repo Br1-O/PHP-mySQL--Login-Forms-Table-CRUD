@@ -131,3 +131,31 @@ td {
     border-color:rgb(71, 127, 226);
 }
 
+.modalFilters{
+
+    background: linear-gradient(to bottom, #8d8de3, #a874cd);
+    font-family: Arial, sans-serif;
+    border-color: #4c2a85;
+    border-radius: 15px;
+    border-style: solid;
+}
+
+.info-bar{
+    max-width: 90%;
+    position: relative;
+    margin-top: 20%;
+    margin: 20px auto;
+    background-color: #cd97ea70;
+    padding: 10px;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.info-bar button {
+    
+    display: inline-block;
+}
+
+.CloseSesion-modal{
+    margin-left: 20px;
+}

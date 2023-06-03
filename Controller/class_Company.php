@@ -124,6 +124,28 @@ class Company{
         }
     }
 
+    public static function searchByName($name){
+
+        $resultado=Company::showData();
+        $stack=array();
+        while($fila=$resultado->fetch_assoc()){
+            if ($fila['nombre']==$name){
+                array_push($stack, $fila);
+            }       
+        } 
+        if (empty($stack)){
+            echo '<script type="text/javascript">';
+                echo 'alert("' ."Error. No pudo encontrarse el registro.". '");';
+                echo 'setTimeout(function() {';
+                echo '  window.location.href = "../View/show_companies.php";';
+                echo '}, 500);';  
+                echo '</script>';
+                exit;
+        }
+       
+        return $stack;
+
+    }
 
     public function edit($Id){
         

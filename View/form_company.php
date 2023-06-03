@@ -45,7 +45,7 @@
     </form>
 
 
-       <div class="link-empresas">
+       <div class="info-bar">
         <button type="button" onclick="redirectToPage('login.html')" class="link"> Cerrar Sesión </button>
 
         <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')">Mostrar Empresas</button>
