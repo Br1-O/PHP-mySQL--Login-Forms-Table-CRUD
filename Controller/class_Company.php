@@ -1,6 +1,7 @@
 <?php
 
 class Company{
+
     public function __construct($name,$services,$responsable,$phone,$website,$comments,$OpeningDate,$ClosingDate){
         $this->name=$name;
         $this->services=$services;
@@ -11,6 +12,7 @@ class Company{
         $this->OpeningDate=$OpeningDate;
         $this->ClosingDate=$ClosingDate;
     }
+
 
     public function insert(){
         
@@ -41,6 +43,47 @@ class Company{
         // Cerrar la conexión
         $prep->close();
         $conn->close();
+
+    }
+
+    public static function delete($id){
+        
+        if($GET){
+        include "class_Conn.php";
+
+        $id=$GET['idborrar'];
+
+        // Consulta INSERT
+        $sql = "delete from empresas WHERE id=$id";
+
+        // Prepare la consulta
+        $prep = $conn->prepare($sql);
+
+        // Ejecutar la consulta
+        if ($prep->execute()) {
+            echo '<script type="text/javascript">';
+            echo 'alert("' ."Registro borrado exitosamente.". '");';
+            echo 'setTimeout(function() {';
+            echo '  window.location.href = "show_companies.php";';
+            echo '}, 500);';  
+            echo '</script>';
+            exit;
+        } else {
+            echo "Error al borrar el registro: " . $prep->error;
+        }
+        // Cerrar la conexión
+        $prep->close();
+        $conn->close();} else{
+            echo '<script type="text/javascript">';
+            echo 'alert("' ."Error. No pudo seleccionarse el registro deseado para ser borrado, intentelo nuevamente.". '");';
+            echo 'setTimeout(function() {';
+            echo '  window.location.href = "show_companies.php";';
+            echo '}, 500);';  
+            echo '</script>';
+            exit;
+        }
+
+
 
     }
       
@@ -76,25 +119,28 @@ class Company{
                     <Th>Fecha de Inicio</Th>
                     <Th>Fecha de Cierre</Th>
                 </Tr> -->
-            
+            <a href=""></a>
         </body>
         </html>
 
         <?php
-
+        
         while($fila=$resultado->fetch_assoc()){
-
             //imprimir datos en cada fila
-            echo"</head><Tr><Td rowspan ='8' bgcolor='#D3e6f7'>".$fila["nombre"]."</Td>"."<Tr><th>Servicios</Th><Td>".$fila["servicios"]."</Td></Tr>";
+         
+            echo"</head><Tr><Td rowspan ='9' bgcolor='#D3e6f7'>".$fila["nombre"]."</Td>"."<Tr><th>Servicios</Th><Td>".$fila["servicios"]."</Td></Tr>";
             echo"<Th>Responsable</Th><Td>".$fila["responsable"]."</Td><Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
             echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
             echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
             echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
+            echo"<Tr><Td> <img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px' id='btn_edit'></Td><Td><a href='delete_company.php?idborrar=".$fila['id']."><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px'></a></Td></Tr>";
+            $counter++;
         }
 
         $conn->close();
 
     }
+
 }
 
 ?>

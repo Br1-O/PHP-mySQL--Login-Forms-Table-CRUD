@@ -59,8 +59,8 @@ try {
     $mailer->isSMTP();
     $mailer->Host='smtp-relay.sendinblue.com';
     $mailer->SMTPAuth=true;
-    $mailer->Username=''; //insert credentials here!
-    $mailer->Password='';
+    $mailer->Username=""; //inserte credenciales aquí
+    $mailer->Password="";
     $mailer->SMTPSecure= PHPMailer::ENCRYPTION_STARTTLS;
     $mailer->Port=587;
     //remitente,dirección que recibirá el mensaje,etiquetasHTML,Charset,Asunto,Mensaje,Mensaje sin etiquetas HTML, y calleo al método de envio:
@@ -68,7 +68,7 @@ try {
     $mailer->addAddress('bruno.ortuno2@gmail.com', 'Bruno');
     $mailer->isHTML(true);
     $mailer->CharSet = 'UTF-8';
-    $mailer->Subject='Usuario agregado a la base de datos';
+    $mailer->Subject='Usuario agregado a la base de datos falopa de Bruno';
     $mailer->Body= $body;
     $mailer->AltBody=strip_tags($body);
     $rta= $mailer->send();
