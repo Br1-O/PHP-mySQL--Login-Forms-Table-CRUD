@@ -1,0 +1,133 @@
+body {
+    background: linear-gradient(to bottom, #8d8de3, #a874cd);
+    font-family: Arial, sans-serif;
+}
+
+form {
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: #cd97ea70;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+h1 {
+    margin:20px, 40px;
+    padding-left: 705px;
+   
+    color: #ffffff;
+
+
+}
+
+.titulo {
+    align-items: center;
+    position: relative;
+    padding-left: 200px; 
+    background-color: #ffffff;
+    border-radius: 40%;
+
+}
+
+.fecha_cierre {
+    margin: 10px;
+}
+
+
+input {
+    background-color: #d092f250;
+    border: none;
+    color: rgb(255, 255, 255);
+}
+
+label{
+    color: rgb(255, 255, 255,0.8);
+    margin: 10px;
+    display: block;
+    margin-bottom: 10px;
+    font-size: large;
+    font-weight: 200;
+    
+}
+
+::placeholder { 
+color: rgb(247, 245, 245, 0.8);
+opacity: 1; 
+}
+
+input[type="text"],
+input[type="tel"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+input[type="submit"] {
+    background-color: #4c2a85;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #693bb2;
+}
+
+button {
+    background-color: #4c2a85;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #693bb2;
+}
+
+
+/* Esto es de la segunda pagina, login, originalmente: */
+
+.link-empresas {
+    max-width: 500px;
+    position: relative;
+    margin-top: 20%;
+    margin: 20px auto;
+    background-color: #cd97ea70;
+    padding: 20px;
+    border-radius: 5% ;
+}
+
+.link {
+    background-color: #4c2a85;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 5%;
+
+}
+
+.link:hover {
+    background-color: #693bb2;
+}
+
+tr {
+    background-color:#9ccbdc;
+    border-color:#389ee0;
+}
+
+td {
+    background-color:rgb(142, 171, 222);
+    border-color:rgb(71, 127, 226);
+}
+
