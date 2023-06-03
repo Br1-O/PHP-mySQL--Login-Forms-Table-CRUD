@@ -48,8 +48,9 @@
        <div class="link-empresas">
         <button type="button" onclick="redirectToPage('login.html')" class="link"> Cerrar Sesión </button>
 
-        <button name="mostrarDatos" onclick="redirectToPage('../Controller/show_companies.php')">Mostrar Empresas</button>
+        <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')">Mostrar Empresas</button>
         <button name="mostrarUsuarios" onclick="redirectToPage('../Controller/show_users.php')">Mostrar Usuarios</button>
+
  
     </div>
 

@@ -27,10 +27,10 @@
 
 <?php
 
-include 'class_Company.php';
-Company::showData();
+include '../Controller/class_Company.php';
+$fil=Company::showData();
 
-while($fila){
+while($fila=$fil->fetch_assoc()){
     //imprimir datos en cada fila
  
     echo"</head><Tr><Td rowspan ='9' bgcolor='#D3e6f7'>".$fila["nombre"]."</Td>"."<Tr><th>Servicios</Th><Td>".$fila["servicios"]."</Td></Tr>";
@@ -38,8 +38,9 @@ while($fila){
     echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
     echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
     echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
-    echo"<Tr><Td><a href='show_companies.php?assoc=".$fila."'><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px' id='btn_edit'></a></Td><Td><a href='delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px'></a></Td></Tr>";
+    echo"<Tr><Td colspan ='2'><a href='edit_company.php?assoc=".$fila['id']."' style='margin-right:10px;' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px margin:5px;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px margin:5px;'></a></Td></Tr>";
 }
+
 
 
 ?>
