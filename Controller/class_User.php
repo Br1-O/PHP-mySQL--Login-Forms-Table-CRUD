@@ -27,13 +27,14 @@ class User{
         // Ejecutar la consulta
         if ($prep->execute()) {
 
-            echo '<script type="text/javascript">';
-            echo 'alert("' ."Usuario creado correctamente.". '");';
-            echo 'setTimeout(function() {';
-            echo '  window.location.href = "../View/login.html";';
-            echo '}, 500);';  
-            echo '</script>';
-            exit;
+            // echo '<script type="text/javascript">';
+            // echo 'alert("' ."Usuario creado correctamente.". '");';
+            // echo 'setTimeout(function() {';
+            // echo '  window.location.href = "../View/login.html";';
+            // echo '}, 500);';  
+            // echo '</script>'
+            //exit;
+            echo "¡Usuario creado correctamente!";
         } else {
             echo "Error al insertar el registro: " . $prep->error;
         } 

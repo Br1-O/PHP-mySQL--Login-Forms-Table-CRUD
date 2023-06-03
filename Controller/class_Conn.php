@@ -2,6 +2,7 @@
 
 class Conn {
 
+
     public function __construct($host,$user,$password,$dbname) {    
         $this->host=$host;
         $this->user=$user;

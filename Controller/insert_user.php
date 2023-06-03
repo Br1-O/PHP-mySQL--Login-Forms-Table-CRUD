@@ -21,68 +21,74 @@ if($_POST){
 ///////////////////////////////////////Instance of User///////////////////////////////////////////////
 
 $user= new User($usuario,$hashed_password,$nombre,$apellido,$empresa,$email,$telefono,$pais,$localidad);
-
 $user->insert();
 
-/////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////PHPMailer///////////////////////////////////////////////
 
 if(empty(trim($nombre))) $nombre = 'anonimo';
 if(empty(trim($apellido))) $apellido = ' ';
 
 $body="
-    <h1> ¡Un nuevo usuario se ha registrado! </h1>
-    <p> De: $nombre $apellido / $email </p>
-    <h2> » Los datos de $nombre son: </h2>
+    <h1> ¡Un nuevo usuario se ha registrado! </h1><br>
+    <p> De: $nombre $apellido / <a href='mailto:$email'> $email</a> </p><br>
+    <h2> » Los datos de $nombre son: </h2><br>
     <ul>
-        <li>$usuario</li>
+        <li>Usuario: $usuario</li>
+        <li>Contraseña: $hashed_password</li>
 
-        <li>$nombre</li>
-        <li>$apellido</li>
-        <li>$empresa</li>
-        <li>$email</li>
-        <li>$telefono,</li>
-        <li>$pais</li>
-        <li>$localidad</li>
+        <li>Nombre: $nombre</li>
+        <li>Apellido: $apellido</li>
+        <li>Empresa: $empresa</li>
+        <li>E-mail: $email</li>
+        <li>Telefono: $telefono,</li>
+        <li>País: $pais</li>
+        <li>Localidad: $localidad</li>
     </ul>";
 
-/////////////////////////////////////Usando mail() function/////////////////////////////////////////////////////////
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/SMTP.php';
 
+use PHPMailer\PHPMailer\{PHPMailer, SMTP, Exception};
 
+$mailer= new PHPMailer(true);
 
-// $to = 'bruno.ortuno2@gmail.com';
-// $subject = '¡Nuevo usuario registrado!';
-// $header = "From: $nombre $apellido | $email";
+try {
+    //Configuraciones SMTP de sendinblue:
+    $mailer->SMTPDebug= SMTP::DEBUG_OFF;
+    $mailer->isSMTP();
+    $mailer->Host='smtp-relay.sendinblue.com';
+    $mailer->SMTPAuth=true;
+    $mailer->Username=''; //insert credentials here!
+    $mailer->Password='';
+    $mailer->SMTPSecure= PHPMailer::ENCRYPTION_STARTTLS;
+    $mailer->Port=587;
+    //remitente,dirección que recibirá el mensaje,etiquetasHTML,Charset,Asunto,Mensaje,Mensaje sin etiquetas HTML, y calleo al método de envio:
+    $mailer->setFrom($email, "$nombre $apellido");
+    $mailer->addAddress('bruno.ortuno2@gmail.com', 'Bruno');
+    $mailer->isHTML(true);
+    $mailer->CharSet = 'UTF-8';
+    $mailer->Subject='Usuario agregado a la base de datos';
+    $mailer->Body= $body;
+    $mailer->AltBody=strip_tags($body);
+    $rta= $mailer->send();
+    var_dump($rta);
 
-// if (mail($to, $subject, $body, $header)) {
-//     echo 'Email sent successfully.';
-// } else {
-//     echo 'Email could not be sent.';
-// }
+    if($rta){
+        echo '<script type="text/javascript">';
+        echo 'alert("' ."Usuario creado correctamente.". '");';
+        echo 'setTimeout(function() {';
+        echo '  window.location.href = "../View/login.html";';
+        echo '}, 500);';  
+        echo '</script>';
+        exit;
+    }else{
+        echo "Algo salió mal. Por favor, volver a intentarlo";
+    }
 
-
-/////////////////////////////////////////////PHPMailer/////////////////////////////////////////////////
-
-// require 'PHPMailer/src/PHPMailer.php';
-// require 'PHPMailer/src/Exception.php';
-
-// use PHPMailer\PHPMailer\PHPMailer;
-
-// $mailer= new PHPMailer();
-// $mailer->setFrom($email, "$nombre $apellido");
-// $mailer->addAddress('bruno.ortuno2@gmail.com', 'Bruno');
-// $mailer->Subject="Usuario agregado a la base de datos";
-// $mailer->msgHTML($body);
-// $mailer->AltBody=strip_tags($body);
-// $rta= $mailer->send();
-// var_dump($rta);
-
-// if($rta){
-//     echo "¡Usuario registrado correctamente!";
-// }else{
-//     echo "Algo salió mal. Por favor, volver a intentarlo";
-// }
-
-
-
+}catch (Exception $e) {
+    echo 'Mensaje '.$mailer->ErrorInfo;
+}
 
 ?>
+
