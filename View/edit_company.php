@@ -6,7 +6,6 @@ $fila=array();
 
 if($_GET){
     $fila=Company::searchById($_GET['assoc']);
-    print_r ($fila);
 }
 ?>
 
@@ -54,9 +53,18 @@ if($_GET){
             <input type="hidden" name="id" id="id" value="<?php  echo $fila['id'];?>"><br>
 
             <input type="submit" value="Editar datos">
-            
-            
+
         </form>
+
+        <button onclick="redirectToPage('show_companies.php')"> Volver </button>
+        </div>
+
+        <script type="text/javascript">
+            function redirectToPage(destination) {
+                window.location.href = destination;
+             }
+        </script>
+
     </body>
 
  </html>

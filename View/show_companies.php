@@ -16,7 +16,7 @@
 
         <button name="btn-open" onclick="openModal()">Aplicar Filtros</button>
 
-        <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar todas las compañias</button>
+        <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar todos </button>
 
         <button name="form-company" onclick="redirectToPage('form_company.php')"> Insertar nueva compañia</button>
 
@@ -63,6 +63,15 @@
                 <label for=""></label>
                 <input type="radio" name="" id=""> -->
             </form>
+
+            <form action="filter_company.php" method="get">
+
+            <label for="campo"> Indique la letras o letras por las que comienza el valor a buscar:</label>
+                <input type="text" name="letra" placeholder= "Ingrese un valor" required>
+
+                <input type="submit" value="Buscar">
+
+            </form>
         
         </div>
 
@@ -87,7 +96,7 @@
 </html>
 
 <?php
-
+error_reporting(0);
 if($_GET['data']){
 
     $results=$_GET['data'];
