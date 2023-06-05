@@ -194,17 +194,6 @@ tr:hover, tr:hover td, tr:hover th{
     margin: auto;
 }
 
-
-.modalFilters{
-
-    background: linear-gradient(to bottom, rgba(141, 141, 227,0.9), rgba(168, 116, 205,0.9));
-    font-family: Arial, sans-serif;
-    border-color: #4c2a85;
-    border-radius: 15px;
-    border-style: solid;
-    justify-content: flex-start;
-}
-
 .form{
 
     background: linear-gradient(to bottom, rgb(141, 141, 227,0.9), rgb(168, 116, 205,0.9));
@@ -230,8 +219,31 @@ tr:hover, tr:hover td, tr:hover th{
     display: inline-block;
 }
 
+.modalFilters{
+
+    background: #cd97ea70;
+    font-family: Arial, sans-serif;
+    border-color: #4c2a85;
+    border-radius: 15px;
+    border-style: solid;
+    justify-content: flex-start;
+}
+
+.div-modal {
+    max-width: 100%;
+    position: relative;
+    background-color: #cd97ea00;
+    padding: 20px;
+    border-radius: 15px ;
+}
+
 .CloseSesion-modal{
     margin-left: 5%;
+}
+
+.CloseSesion{
+    margin-left: 5%;
+
 }
 
 a {
@@ -241,4 +253,23 @@ a {
 
 a:hover {
     color:  #4c2a85; /* Default link color */
+}
+
+.tableText {
+    display: None;
+}
+
+.tableIcon:hover + .tableText {
+    display: inline-block;
+}
+
+.form-logout{
+    padding: 10px;
+    align-items: center;
+    border:none;
+    background:#00000000; 
+    display:inline-block;
+    box-shadow: none;
+    margin: 0px;
+    margin-left: 3%;
 }

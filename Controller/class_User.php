@@ -42,26 +42,83 @@ class User{
         $conn->close();
     }
     
-    public static function show(){
+    public static function showData(){
 
         include "class_Conn.php";
 
-        $sql="SELECT*FROM usuarios";
+        $sql="SELECT * FROM usuarios";
         $resultado = $conn->query($sql);
 
-        $conn->error();
+        $conn->error(); 
 
-        while($fila=$resultado->fetch_assoc()){
-            //imprimir datos en cada fila
-            echo$fila["usuario"]." - ".$fila["contrasena"]."<br>"."<br>";
-            echo$fila["nombre"]." - ".$fila["apellido"]."<br>"."<br>";
-            echo$fila["empresa"]."<br>"."<br>";
-            echo$fila["email"]."<br>"."<br>";
-            echo$fila["telefono"];
-            echo$fila["pais"]." - ".$fila["localidad"]."<br>"."<br>"."<br>"."<br>";
-        }
         $conn->close();
+        return $resultado;
+       
     }
+
+    
+    public static function searchById($Id){
+
+        $resultado=User::showData();
+        while($fila=$resultado->fetch_assoc()){
+            if ($fila['id']==$Id){
+               return $fila;
+            }       
+        }
+        if (empty($fila)){
+            echo '<script type="text/javascript">';
+                echo 'alert("' ."Error. No pudo encontrarse el usuario que desea editar.". '");';
+                echo 'setTimeout(function() {';
+                echo '  window.location.href = "../View/login.php";';
+                echo '}, 500);';  
+                echo '</script>';
+                exit;
+        }
+    }
+
+    public static function searchByUsername($Username){
+
+        $resultado=User::showData();
+        while($fila=$resultado->fetch_assoc()){
+            if ($fila['usuario']==$Username){
+               return $fila;
+            }       
+        }
+        if (empty($fila)){
+            echo '<script type="text/javascript">';
+                echo 'alert("' ."Error. No pudo encontrarse el usuario.". '");';
+                echo 'setTimeout(function() {';
+                echo '  window.location.href = "../View/login.php";';
+                echo '}, 500);';  
+                echo '</script>';
+                exit;
+        }
+    }
+
+    public static function search($field, $value){
+
+        $resultado=User::showData();
+        $stack=array();
+        while($fila=$resultado->fetch_assoc()){
+            if ($fila["$field"]==$value){
+                array_push($stack, $fila);
+            }       
+        } 
+        if (empty($stack)){
+            echo '<script type="text/javascript">';
+                echo 'alert("' ."Error. No pudo encontrarse el usuario.". '");';
+                echo 'setTimeout(function() {';
+                echo '  window.location.href = "../View/login.php";';
+                echo '}, 500);';  
+                echo '</script>';
+                exit;
+        }
+       
+        return $stack;
+
+    }
+
+
 }
 
 ?>

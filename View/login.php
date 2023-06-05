@@ -148,12 +148,12 @@
   <div class="container">
     <div class="form-container">
 
-      <form id="login-form" class="visible" action="form_company.php" method="POST">
+      <form id="login-form" class="visible" action="../Controller/login.php" method="POST">
         <h2>· Ingrese a su cuenta ·</h2>
-        <label for="empresa">» Usuario:</label>
+        <label for="usuario_login">» Usuario:</label>
         <input type="text" name="usuario_login" placeholder="Ingrese su Usuario" required>
-        <label for="empresa">» Contraseña:</label>
-        <input type="password" name="contraseña_login" placeholder="Ingrese su Contraseña" required>
+        <label for="password_login">» Contraseña:</label>
+        <input type="password" name="password_login" placeholder="Ingrese su Contraseña" required>
         <button type="submit">Ingresar</button>
         
         <div class="toggle-form">
@@ -214,5 +214,6 @@
       registerForm.classList.add('visible');
     });
   </script>
+
 </body>
 </html>

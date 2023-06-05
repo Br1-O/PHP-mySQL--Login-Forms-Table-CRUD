@@ -1,3 +1,20 @@
+<?php
+
+session_start();
+
+if(!$_SESSION['id']){
+    header('Location:login.php');
+}
+
+if($_GET['logout']==true){
+    session_destroy();
+    header('Location:login.php');
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +40,12 @@ $fila=Company::searchById($_GET['id']);
     echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
     echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
     echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr class='th-last2'><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
-    echo"<Tr id='tr-last' ><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a><a href='../Controller/.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a></Th></Tr>";
+    echo"<Tr id='tr-last' ><Th id='th-last' colspan ='2' >
+    <a href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
+    <a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+    <a href='../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+    <a href='../Controller/EXCEL_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+    </Th></Tr>";
+}    
     echo "</table>";
-}
 ?>

@@ -1,3 +1,20 @@
+<?php
+error_reporting(0);
+
+session_start();
+
+if(!$_SESSION['id']){
+    header('Location:login.php');
+}
+
+if($_GET['logout']==true){
+    session_destroy();
+    header('Location:login.php');
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +29,7 @@
 <body>
     <div id="titulo">
 
-    <h1> · Ingrese los datos de la Empresa · </h1></div>
+    <h1> · Ingrese los datos de la Empresa, <?php echo $_SESSION['nombre']; ?>. · </h1></div>
 
     <form method="POST" action="../Controller/insert_company.php">
 
@@ -26,7 +43,7 @@
         <input type="text" name="responsable" id="responsable" placeholder="Ingrese el nombre del contacto dentro de la Empresa" required><br>
         
         <label for="telefono">» Teléfono:</label>
-        <input type="tel" name="telefono" id="telefono" placeholder="Ingrese el telefono de contacto" required><br>
+        <input type="tel" name="telefono" id="telefono" pattern="[0-9+-]" maxlength="20" placeholder="Ingrese el telefono de contacto" required><br>
 
         <label for="pagina">» Página:</label>
         <input type="text" name="pagina" id="pagina" placeholder="Ingrese la direccion del sitio web de la Empresa" required><br>
@@ -46,12 +63,13 @@
     </form>
 
 
-       <div class="info-bar">
-        <button type="button" onclick="redirectToPage('login.html')" class="link"> Cerrar Sesión </button>
-
+       <div class="info-bar" style="max-width:30%;">
         <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')">Mostrar Empresas</button>
-        <button name="mostrarUsuarios" onclick="redirectToPage('../Controller/show_users.php')">Mostrar Usuarios</button>
-
+        <button name="mostrarUsuarios" onclick="redirectToPage('show_users.php')">Mostrar Usuarios</button>
+        <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
+            <input type="hidden" name="logout" value="true">
+            <input type="submit" class='link closeSesion' value='Cerrar Sesión'>
+        </form>
  
     </div>
     
