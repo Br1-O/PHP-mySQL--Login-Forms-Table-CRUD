@@ -5,12 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="functions.js"></script>
     <title>Listado de Empresas</title>
 </head>
 
 <body background: "linear-gradient(to bottom, #8d8de3, #a874cd)"  bgcolor="#2C62D4">
-
-    <table border="4"; bgcolor="#9ccbdcF5"; text-align:"center";  border-color:"#389ee0";>
 
     <div class="info-bar">
 
@@ -22,8 +21,8 @@
 
         <button name="mostrarUsuarios" onclick="redirectToPage('../Controller/show_users.php')"> Mostrar Usuarios</button>
 
-        <button><a href='../Controller/PDF_company.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
-
+        <button><a href='../Controller/PDF_companies.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
+       
         <button><a href='../Controller/PDF_company.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button>
 
         <button type="button" onclick="redirectToPage('login.html')" class="link CloseSesion-modal"> Cerrar Sesión </button>
@@ -76,22 +75,13 @@
         </div>
 
     </dialog>
-    
-    
-    <script>
+        <script>
+            var modal=document.getElementById('modalFilters');
 
-        var modal=document.getElementById('modalFilters');
+            function openModal(){modal.showModal();}
 
-        function openModal(){modal.showModal();}
-
-        function closeModal(){modal.close();}
-
-        function redirectToPage(destination) {
-            window.location.href = destination;
-            }
-
-    </script>
-
+            function closeModal(){modal.close();}
+        </script>
 </body>
 </html>
 
@@ -106,35 +96,41 @@ if($_GET['data']){
     foreach ($results as $fila){
         //imprimir datos en cada fila
      
-    echo"<Tr><Th rowspan ='8'id='th-1'><a href='show_company.php?id=".$fila['id']."'>".$fila["nombre"]."</a></Th>"."<Tr><th>Servicios</Th><Td id='td-1'>".$fila["servicios"]."</Td></Tr>";
-    echo"<Th>Responsable</Th><Td>".$fila["responsable"]."</Td><Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
-    echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
-    // echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
-    echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
-    echo"<Tr id='tr-last' ><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a><a href='../Controller/.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a></Th></Tr>";
+        echo "<Tr><Th rowspan ='8'id='th-1'><a href='show_company.php?id=".$fila['id']."'>".$fila["nombre"]."</a></Th></Tr>";
+        echo "<Tr><th>Servicios</Th><Td id='td-1'>".$fila["servicios"]."</Td></Tr>";
+        echo "<Tr><Th>Responsable</Th><Td>".$fila["responsable"]."</Td></Tr>";
+        echo "<Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
+        echo "<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
+        // echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
+        echo "<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr>";
+        echo "<Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
+        echo "<Tr id='tr-last' ><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a><a href='../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a></Th></Tr>";
 }
 
-echo "</table>";
+    echo "</table>";
 
 }else{
 
-include '../Controller/class_Company.php';
-$fil=Company::showData();
+    include '../Controller/class_Company.php';
+    $fil=Company::showData();
 
-echo "<table class='table-companies'>";
+    echo "<table class='table-companies'>";
 
-while($fila=$fil->fetch_assoc()){
-    //imprimir datos en cada fila
-  
-    echo"<Tr><Th rowspan ='8'id='th-1'><a href='show_company.php?id=".$fila['id']."'>".$fila["nombre"]."</a></Th>"."<Tr><th>Servicios</Th><Td id='td-1'>".$fila["servicios"]."</Td></Tr>";
-    echo"<Th>Responsable</Th><Td>".$fila["responsable"]."</Td><Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
-    echo"<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
-    // echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
-    echo"<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr><Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
-    echo"<Tr id='tr-last' ><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a><a href='../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a></Th></Tr>";
+    while($fila=$fil->fetch_assoc()){
+        //imprimir datos en cada fila
+    
+        echo "<Tr><Th rowspan ='8'id='th-1'><a href='show_company.php?id=".$fila['id']."'>".$fila["nombre"]."</a></Th></Tr>";
+        echo "<Tr><th>Servicios</Th><Td id='td-1'>".$fila["servicios"]."</Td></Tr>";
+        echo "<Tr><Th>Responsable</Th><Td>".$fila["responsable"]."</Td></Tr>";
+        echo "<Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
+        echo "<Tr><Th>Pagina</Th><Td>".$fila["pagina"]."</Td></Tr>";
+        // echo"<Tr><Th>Comentarios</Th><Td>".$fila["comentarios"]."</Td></Tr>";
+        echo "<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr>";
+        echo "<Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
+        echo "<Tr id='tr-last' ><Th id='th-last' colspan ='2' ><a href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a><a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a><a href='../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a></Th></Tr>";
 }
 
-echo "</table>";
+    echo "</table>";    
 
 }
 

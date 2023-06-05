@@ -16,6 +16,7 @@ if($_GET){
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="styles.css">
+        <script type="text/javascript" src="functions.js"></script>
         <title> Editar datos de la Empresa </title>
     </head>
 
@@ -58,12 +59,6 @@ if($_GET){
 
         <button onclick="redirectToPage('show_companies.php')"> Volver </button>
         </div>
-
-        <script type="text/javascript">
-            function redirectToPage(destination) {
-                window.location.href = destination;
-             }
-        </script>
 
     </body>
 

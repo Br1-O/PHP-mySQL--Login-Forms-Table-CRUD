@@ -1,8 +1,5 @@
 
-
 <?php
-
-if($_GET['id']){
 //////////////////////////////////////CARGA en cache de todo el archivo HTML//////////////////////////////////////
 ob_start();
 ?>
@@ -14,11 +11,10 @@ ob_start();
 </html>
 
 <?php
-$url= "../View/show_company.php";
+$url= "../View/show_companies.php";
 include $url;
 //////////////////////////////////////GET del cache de todo el archivo HTML//////////////////////////////////////
 $report=ob_get_clean();
-}
 
 //////////////////////////////////////DOMpdf volcado del HTML al archivo PDF//////////////////////////////////////
 
@@ -43,3 +39,10 @@ $dompdf->render();
 $dompdf->stream($fila['nombre'].".pdf", array('Attachment'=> false));
 
 ?>
+
+
+
+
+
+
+
