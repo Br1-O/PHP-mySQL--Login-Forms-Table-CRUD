@@ -27,9 +27,19 @@ if($_GET['logout']==true){
 </head>
 
 <body>
-    <div id="titulo">
 
-    <h1> · Ingrese los datos de la Empresa, <?php echo $_SESSION['nombre']; ?>. · </h1></div>
+    <div class="info-bar" style="max-width:30%;">
+        <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')">Mostrar Empresas</button>
+        <button name="mostrarUsuarios" onclick="redirectToPage('show_users.php')">Mostrar Usuarios</button>
+        <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
+            <input type="hidden" name="logout" value="true">
+            <input type="submit" class='link closeSesion' value='Cerrar Sesión'>
+        </form>
+    </div>
+
+    <div id="titulo">
+        <h1> · Ingrese los datos de la Empresa, <?php echo $_SESSION['nombre']; ?>. · </h1>
+    </div>
 
     <form method="POST" action="../Controller/insert_company.php">
 
@@ -62,16 +72,5 @@ if($_GET['logout']==true){
         
     </form>
 
-
-       <div class="info-bar" style="max-width:30%;">
-        <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')">Mostrar Empresas</button>
-        <button name="mostrarUsuarios" onclick="redirectToPage('show_users.php')">Mostrar Usuarios</button>
-        <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
-            <input type="hidden" name="logout" value="true">
-            <input type="submit" class='link closeSesion' value='Cerrar Sesión'>
-        </form>
- 
-    </div>
-    
 </body>
 </html>
