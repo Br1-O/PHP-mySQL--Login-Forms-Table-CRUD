@@ -1,6 +1,6 @@
 <?php
 
-include '../Model/classes/class_Company.php';
+require_once '../Model/classes/autoload.php';
 
 if ($_POST) {
 
@@ -18,7 +18,7 @@ if ($_POST) {
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-$user= new Company($nombre,$servicios,$responsable,$telefono,$pagina,$comentarios,$fecha_inicio,$fecha_cierre);
-$user->insert();
+$company= new Company($conn,$nombre,$servicios,$responsable,$telefono,$pagina,$comentarios,$fecha_inicio,$fecha_cierre);
+$company->insert();
 
 ?>

@@ -1,5 +1,5 @@
 <?php
-include '../Model/classes/class_Company.php';
+require_once '../Model/classes/autoload.php';
 
 if($_POST){
  
@@ -13,7 +13,7 @@ if($_POST){
     $ClosingDate=$_POST["fecha_cierre"];
     $Id=$_POST["id"];
 
-    $company= new Company($name,$services,$responsable,$phone,$website,$comments,$OpeningDate,$ClosingDate);
+    $company= new Company($conn,$name,$services,$responsable,$phone,$website,$comments,$OpeningDate,$ClosingDate);
     $company->edit($Id);
 
 }else{

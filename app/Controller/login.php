@@ -5,9 +5,9 @@ if($_POST['usuario_login']){
     $usuario=$_POST['usuario_login'];
     $password=$_POST['password_login'];
 
-    include '../Model/classes/class_User.php';
+    require_once '../Model/classes/autoload.php';
 
-    $usuario_db=User::searchByUsername($usuario);
+    $usuario_db=User::searchByUsername($conn, $usuario);
 
     if(!empty($usuario_db)){
 
@@ -16,12 +16,6 @@ if($_POST['usuario_login']){
             $_SESSION['id']=$usuario_db['id'];
             $_SESSION['usuario']=$usuario_db['usuario'];
             $_SESSION['nombre']=$usuario_db['nombre'];
-            $_SESSION['apellido']=$usuario_db['apellido'];
-            $_SESSION['empresa']=$usuario_db['empresa'];
-            $_SESSION['email']=$usuario_db['email'];
-            $_SESSION['telefono']=$usuario_db['telefono'];
-            $_SESSION['localidad']=$usuario_db['localidad'];
-            $_SESSION['pais']=$usuario_db['pais'];
 
             header('Location:../View/form_company.php');
 

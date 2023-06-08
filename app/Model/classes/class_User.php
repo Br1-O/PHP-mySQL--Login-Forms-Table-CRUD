@@ -1,7 +1,10 @@
 <?php
 
 class User{
-    public function __construct($user,$password,$name,$lastN,$company,$email,$phone,$country,$city){
+
+    private $conn;
+
+    public function __construct($conn, $user,$password,$name,$lastN,$company,$email,$phone,$country,$city){
         $this->user=$user;
         $this->password=$password;
         $this->name=$name;
@@ -11,16 +14,15 @@ class User{
         $this->phone=$phone;
         $this->country=$country;
         $this->city=$city;
+        $this->conn=$conn;
     }
 
     public function insert(){
 
-        include "class_Conn.php";
-
         $sql = "INSERT INTO usuarios (usuario, contrasena, nombre, apellido, empresa, email, telefono, pais, localidad)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $prep = $conn->prepare($sql);
+        $prep = $this->conn->prepare($sql);
 
         $prep->bind_param("sssssssss",$this->user,$this->password,$this->name,$this->lastN,$this->company,$this->email,$this->phone,$this->country,$this->city);
 
@@ -39,12 +41,10 @@ class User{
             echo "Error al insertar el registro: " . $prep->error;
         } 
         $prep->close();
-        $conn->close();
+        $this->conn->close();
     }
     
-    public static function showData(){
-
-        include "class_Conn.php";
+    public static function showData($conn){
 
         $sql="SELECT * FROM usuarios";
         $resultado = $conn->query($sql);
@@ -57,9 +57,9 @@ class User{
     }
 
     
-    public static function searchById($Id){
+    public static function searchById($conn, $Id){
 
-        $resultado=User::showData();
+        $resultado=User::showData($conn);
         while($fila=$resultado->fetch_assoc()){
             if ($fila['id']==$Id){
                return $fila;
@@ -76,9 +76,9 @@ class User{
         }
     }
 
-    public static function searchByUsername($Username){
+    public static function searchByUsername($conn,$Username){
 
-        $resultado=User::showData();
+        $resultado=User::showData($conn);
         while($fila=$resultado->fetch_assoc()){
             if ($fila['usuario']==$Username){
                return $fila;
@@ -95,9 +95,9 @@ class User{
         }
     }
 
-    public static function search($field, $value){
+    public static function search($conn, $field, $value){
 
-        $resultado=User::showData();
+        $resultado=User::showData($conn);
         $stack=array();
         while($fila=$resultado->fetch_assoc()){
             if ($fila["$field"]==$value){

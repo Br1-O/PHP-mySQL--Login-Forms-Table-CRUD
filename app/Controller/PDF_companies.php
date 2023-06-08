@@ -6,7 +6,7 @@ ob_start();
 
 <!DOCTYPE html>
 <head>
-    <link rel="stylesheet" type="text/css" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/Proyecto_panama/View/PDFstyles.css">
+    <link rel="stylesheet" type="text/css" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/Proyecto_panama/public/css/PDFstyles.css">
 </head>
 </html>
 
@@ -18,7 +18,7 @@ $report=ob_get_clean();
 
 //////////////////////////////////////DOMpdf volcado del HTML al archivo PDF//////////////////////////////////////
 
-require_once '../vendor/DOMpdf/autoload.inc.php';
+require_once '../../vendor/DOMpdf/autoload.inc.php';
 use Dompdf\Dompdf;
 $dompdf= new Dompdf();
 

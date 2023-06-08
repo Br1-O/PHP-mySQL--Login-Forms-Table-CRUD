@@ -123,8 +123,9 @@ if($_GET['data_user']){
 
 }else{
 
-    include '../Model/classes/class_User.php';
-    $fil=User::showData();
+    require_once '../Model/classes/autoload.php';
+    
+    $fil=User::showData($conn);
 
     echo "<table class='table-companies'>";
 

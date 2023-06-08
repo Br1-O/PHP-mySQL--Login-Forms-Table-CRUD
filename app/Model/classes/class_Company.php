@@ -2,7 +2,9 @@
 
 class Company{
 
-    public function __construct($name,$services,$responsable,$phone,$website,$comments,$OpeningDate,$ClosingDate){
+    private $conn;
+
+    public function __construct($conn,$name,$services,$responsable,$phone,$website,$comments,$OpeningDate,$ClosingDate){
         $this->name=$name;
         $this->services=$services;
         $this->responsable=$responsable;
@@ -12,19 +14,18 @@ class Company{
         $this->OpeningDate=$OpeningDate;
         $this->ClosingDate=$ClosingDate;
         $this->$fila;
+        $this->conn=$conn;
     }
 
 
     public function insert(){
-        
-        include "class_Conn.php";
 
         // Consulta INSERT
         $sql = "INSERT INTO empresas (nombre, servicios, responsable, telefono, pagina, comentarios, fecha_inicio, fecha_cierre) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Prepare la consulta
-        $prep = $conn->prepare($sql);
+        $prep = $this->conn->prepare($sql);
 
         // Bind los parámetros
         $prep->bind_param("ssssssss",$this->name,$this->services,$this->responsable,$this->phone,$this->website,$this->comments,$this->OpeningDate,$this->ClosingDate);
@@ -43,14 +44,13 @@ class Company{
         }
         // Cerrar la conexión
         $prep->close();
-        $conn->close();
+        $this->conn->close();
 
     }
 
-    public static function delete(){
+    public static function delete($conn){
         
         if($_GET){
-        include "class_Conn.php";
 
         $id=$_GET['idborrar'];
 
@@ -86,8 +86,7 @@ class Company{
     }
 
 
-    public static function showData(){
-        include 'class_Conn.php';
+    public static function showData($conn){
 
         $sql="SELECT * FROM empresas";
         $resultado = $conn->query($sql);
@@ -100,9 +99,9 @@ class Company{
 
     }
 
-    public static function searchById($Id){
+    public static function searchById($conn, $Id){
 
-        $resultado=Company::showData();
+        $resultado=Company::showData($conn);
         while($fila=$resultado->fetch_assoc()){
             if ($fila['id']==$Id){
                return $fila;
@@ -119,9 +118,9 @@ class Company{
         }
     }
 
-    public static function searchByName($name){
+    public static function searchByName($conn, $name){
 
-        $resultado=Company::showData();
+        $resultado=Company::showData($conn);
         $stack=array();
         while($fila=$resultado->fetch_assoc()){
             if ($fila['nombre']==$name){
@@ -142,9 +141,9 @@ class Company{
 
     }
 
-    public static function search($field, $value){
+    public static function search($conn, $field, $value){
 
-        $resultado=Company::showData();
+        $resultado=Company::showData($conn);
         $stack=array();
         while($fila=$resultado->fetch_assoc()){
             if ($fila["$field"]==$value){
@@ -165,13 +164,11 @@ class Company{
 
     }
 
-    public static function searchLetter($field, $value){
+    public static function searchLetter($conn, $field, $value){
 
-        $resultado=Company::showData();
+        $resultado=Company::showData($conn);
 
         $stack=array();
-
-        include "class_Conn.php";
 
         // Consulta INSERT
         $sql = "INSERT INTO empresas (nombre, servicios, responsable, telefono, pagina, comentarios, fecha_inicio, fecha_cierre) 
@@ -222,14 +219,12 @@ class Company{
     }
 
     public function edit($Id){
-        
-        include "class_Conn.php";
 
         // Consulta INSERT
         $sql = "UPDATE empresas set nombre=?, servicios=?, responsable=?, telefono=?, pagina=?, comentarios=?, fecha_inicio=?, fecha_cierre=? WHERE id=?";
 
         // Prepare la consulta
-        $prep = $conn->prepare($sql);
+        $prep = $this->conn->prepare($sql);
 
         // Bind los parámetros
         $prep->bind_param("sssssssss",$this->name,$this->services,$this->responsable,$this->phone,$this->website,$this->comments,$this->OpeningDate,$this->ClosingDate,$Id);
@@ -257,7 +252,7 @@ class Company{
 
         // Cerrar la conexión
         $prep->close();
-        $conn->close();
+        $this->conn->close();
     }
 
 }

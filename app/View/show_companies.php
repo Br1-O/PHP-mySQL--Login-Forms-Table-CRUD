@@ -122,8 +122,9 @@ if($_GET['data']){
 
 }else{
 
-    include '../Model/classes/class_Company.php';
-    $fil=Company::showData();
+    require_once '../Model/classes/autoload.php';
+    
+    $fil=Company::showData($conn);
 
     echo "<table class='table-companies'>";
 

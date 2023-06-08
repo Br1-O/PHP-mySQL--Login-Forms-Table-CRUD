@@ -1,11 +1,11 @@
 <?php
 require '../Controller/session_validation.php';
-include '../Model/classes/class_Company.php';
+require_once '../Model/classes/autoload.php';
 
 $fila=array();
 
 if($_GET){
-    $fila=Company::searchById($_GET['assoc']);
+    $fila=Company::searchById($conn, $_GET['assoc']);
 }
 ?>
 

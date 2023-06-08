@@ -1,6 +1,6 @@
 <?php
 
-include '../Model/classes/class_User.php';
+require_once '../Model/classes/autoload.php';
 
 if($_POST){
 
@@ -20,7 +20,7 @@ if($_POST){
 
 ///////////////////////////////////////Instance of User///////////////////////////////////////////////
 
-$user= new User($usuario,$hashed_password,$nombre,$apellido,$empresa,$email,$telefono,$pais,$localidad);
+$user= new User($conn,$usuario,$hashed_password,$nombre,$apellido,$empresa,$email,$telefono,$pais,$localidad);
 $user->insert();
 
 //////////////////////////////////////PHPMailer///////////////////////////////////////////////
@@ -45,9 +45,9 @@ $body="
         <li>Localidad: $localidad</li>
     </ul>";
 
-require '../vendor/PHPMailer/src/PHPMailer.php';
-require '../vendor/PHPMailer/src/Exception.php';
-require '../vendor/PHPMailer/src/SMTP.php';
+require '../../vendor/PHPMailer/src/PHPMailer.php';
+require '../../vendor/PHPMailer/src/Exception.php';
+require '../../vendor/PHPMailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\{PHPMailer, SMTP, Exception};
 

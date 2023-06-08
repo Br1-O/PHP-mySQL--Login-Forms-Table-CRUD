@@ -22,8 +22,8 @@ require '../Controller/session_validation.php';
 
 if($_GET['id']){
 
-include '../Model/classes/class_Company.php';
-$fila=Company::searchById($_GET['id']);
+require_once '../Model/classes/autoload.php';
+$fila=Company::searchById($conn, $_GET['id']);
 
     echo "<table class='table-companies'>";
     echo"<Tr><Th rowspan ='9'id='th-1'>".$fila["nombre"]."</Th>"."<Tr><th>Servicios</Th><Td id='td-1'>".$fila["servicios"]."</Td></Tr>";
