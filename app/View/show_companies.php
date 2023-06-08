@@ -11,8 +11,8 @@ require '../Controller/session_validation.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../public/css/styles.css">
-    <script type="text/javascript" src="../public/js/functions.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../public/css/styles.css">
+    <script type="text/javascript" src="../../public/js/functions.js"></script>
     <title>Listado de Empresas</title>
 </head>
 
@@ -111,10 +111,10 @@ if($_GET['data']){
         echo "<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr>";
         echo "<Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
         echo "<Tr id='tr-last' ><Th id='th-last' colspan ='2' >
-        <a href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
-        <a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        <a href='../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        <a href='../Controller/EXCEL_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+        <a href='edit_company.php?assoc=".$fila['id']."' ><img src='../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
+        <a href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+        <a href='../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+        <a href='../Controller/EXCEL_company.php?id=".$fila['id']."'><img id='btn_delete' src='../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
         </Th></Tr>";
 }
 
@@ -139,10 +139,10 @@ if($_GET['data']){
         echo "<Tr><Th>Fecha de Inicio</Th><Td>".$fila["fecha_inicio"]."</Td></Tr>";
         echo "<Tr><Th>Fecha de Cierre</Th><Td>".$fila["fecha_cierre"]."</Td></Tr>";
         echo "<Tr id='tr-last' ><Th id='th-last' colspan ='2' >
-        <a title='Editar' class='tableIcon' href='edit_company.php?assoc=".$fila['id']."' ><img src='../images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
-        <a title='Borrar' href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        <a title='Exportar PDF' href='../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        <a title='Exportar Excel' href='../Controller/EXCEL_company.php?id=".$fila['id']."'><img id='btn_delete' src='../images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+        <a title='Editar' class='tableIcon' href='edit_company.php?assoc=".$fila['id']."' ><img src='../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
+        <a title='Borrar' href='../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+        <a title='Exportar PDF' href='../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+        <a title='Exportar Excel' href='../Controller/EXCEL_company.php?id=".$fila['id']."'><img id='btn_delete' src='../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
         </Th></Tr>";
 }
 
