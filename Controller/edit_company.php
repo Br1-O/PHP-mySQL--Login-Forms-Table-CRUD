@@ -1,5 +1,5 @@
 <?php
-include 'class_Company.php';
+include '../Model/classes/class_Company.php';
 
 if($_POST){
  

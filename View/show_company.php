@@ -1,15 +1,6 @@
 <?php
 
-session_start();
-
-if(!$_SESSION['id']){
-    header('Location:login.php');
-}
-
-if($_GET['logout']==true){
-    session_destroy();
-    header('Location:login.php');
-}
+require '../Controller/session_validation.php';
 
 ?>
 
@@ -21,8 +12,8 @@ if($_GET['logout']==true){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <script type="text/javascript" src="functions.js"></script>
+    <link rel="stylesheet" type="text/css" href="../public/css/styles.css">
+    <script type="text/javascript" src="../public/js/functions.js"></script>
     <title> Datos de la Empresa </title>
 </head>
 
@@ -31,7 +22,7 @@ if($_GET['logout']==true){
 
 if($_GET['id']){
 
-include '../Controller/class_Company.php';
+include '../Model/classes/class_Company.php';
 $fila=Company::searchById($_GET['id']);
 
     echo "<table class='table-companies'>";

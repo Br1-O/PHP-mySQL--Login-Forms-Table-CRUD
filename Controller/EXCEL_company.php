@@ -3,8 +3,6 @@
 use PhpOffice\PhpSpreadsheet\SpreadSheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-
-
 $sheet = new SpreadSheet();
 
 $sheet->getProperties()->setCreator("usuario")->setTitle("Compañias");

@@ -5,7 +5,7 @@ if($_POST['usuario_login']){
     $usuario=$_POST['usuario_login'];
     $password=$_POST['password_login'];
 
-    include 'class_User.php';
+    include '../Model/classes/class_User.php';
 
     $usuario_db=User::searchByUsername($usuario);
 

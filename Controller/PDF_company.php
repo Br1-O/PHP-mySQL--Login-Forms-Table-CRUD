@@ -22,7 +22,7 @@ $report=ob_get_clean();
 
 //////////////////////////////////////DOMpdf volcado del HTML al archivo PDF//////////////////////////////////////
 
-require_once 'DOMpdf/autoload.inc.php';
+require_once '..vendor/DOMpdf/autoload.inc.php';
 use Dompdf\Dompdf;
 $dompdf= new Dompdf();
 

@@ -1,6 +1,6 @@
 <?php
 
-include 'class_User.php';
+include '../Model/classes/class_User.php';
 
 if($_POST){
 
@@ -15,7 +15,7 @@ if($_POST){
     $pais=$_POST["pais"];
     $localidad=$_POST["localidad"];
 }else{
-    header('Location:../View/login.html');
+    header('Location:../View/login.php');
 }
 
 ///////////////////////////////////////Instance of User///////////////////////////////////////////////
@@ -45,9 +45,9 @@ $body="
         <li>Localidad: $localidad</li>
     </ul>";
 
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/SMTP.php';
+require '../vendor/PHPMailer/src/PHPMailer.php';
+require '../vendor/PHPMailer/src/Exception.php';
+require '../vendor/PHPMailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\{PHPMailer, SMTP, Exception};
 

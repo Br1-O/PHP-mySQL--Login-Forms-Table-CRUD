@@ -1,6 +1,6 @@
 <?php
 
-include 'class_User.php';
+include '../Model/classes/class_User.php';
 
 if($_GET['filtro-campo']){
     $results= User::search($_GET['filtro-campo'], $_GET['valor']);
