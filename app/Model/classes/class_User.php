@@ -2,9 +2,36 @@
 
 class User{
 
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Private_Variables ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+
+
+    private $user;
+    private $password;
+    private $role;
+    private $name;
+    private $lastN;
+    private $birthDate;
+    private $gender;
+    private $company;
+    private $email;
+    private $phone;
+    private $country;
+    private $city;
+    private $socialMedia;
+    private $picture;
+    private $validatedEmail;
+    private $registrationDate;
+    private $lastLogin;
+    private $isActive;
+    private $activationToken;
+    private $resetPasswordToken;
     private $conn;
 
-    public function __construct($conn, $user,$password,$name,$lastN,$company,$email,$phone,$country,$city){
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Constructor ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+
+    
+    public function __construct($conn,$user,$password,$name,$lastN,$company,$email,$phone,$country,$city,$birthDate,$gender){
+        
         $this->user=$user;
         $this->password=$password;
         $this->name=$name;
@@ -12,60 +39,235 @@ class User{
         $this->company=$company;
         $this->email=$email;
         $this->phone=$phone;
-        $this->country=$country;
+        $this->country=$country;  
         $this->city=$city;
+        $this->birthDate=$birthDate;
+        $this->gender=$gender;
+
         $this->conn=$conn;
+
+        $this->role=1;
+        $this->socialMedia=[];
+        $this->picture="";
+        $this->validatedEmail=0;
+        $this->registrationDate=date('Y-m-d');
+        $this->lastLogin="0000-00-00";
+        $this->isActive=0;
+        $this->activationToken="";
+        $this->resetPasswordToken="";
     }
+
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Getters ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+
+
+    public function getUser(){
+        return $this->user;
+    }
+    public function getPassword(){
+        return $this->password;
+    }
+    public function getRole(){
+        return $this->role;
+    }
+    public function getName(){
+        return $this->name;
+    }
+    public function getLastN(){
+        return $this->lastN;
+    }
+    public function getBirthDate(){
+        return $this->birthDate;
+    }
+    public function getGender(){
+        return $this->gender;
+    }
+    public function getCompany(){
+        return $this->company;
+    }
+    public function getEmail(){
+        return $this->email;
+    }
+    public function getPhone(){
+        return $this->phone;
+    }
+    public function getCity(){
+        return $this->city;
+    }
+    public function getCountry(){
+        return $this->country;
+    }
+    public function getPicture(){
+        return $this->picture;
+    }
+    public function getValidatedEmail(){
+        return $this->validatedEmail;
+    }
+    public function getRegistrationDate(){
+        return $this->registrationDate;
+    }
+    public function getLastLogin(){
+        return $this->lastLogin;
+    }
+    public function getIsActive(){
+        return $this->isActive;
+    }
+    public function getActivationToken(){
+        return $this->activationToken;
+    }
+    public function getResetPasswordToken(){
+        return $this->resetPasswordToken;
+    }
+    public function getSocialMedia(){
+        return $this->socialMedia;
+    }
+    public function getConn(){
+        return $this->conn;
+    }
+    
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Setters ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+    
+
+    public function setUser($user){
+        $this->user=$user;
+    }
+    public function setPassword($password){
+        $this->password=$password;
+    }
+    public function setRole($role){
+        $this->role=$role;
+    }
+    public function setName($name){
+        $this->name=$name;
+    }
+    public function setLastN($lastN){
+        $this->lastN=$lastN;
+    }
+    public function setBirthDate($birthDate){
+        $this->birthDate=$birthDate;
+    }
+    public function setGender($gender){
+        $this->gender=$gender;
+    }
+    public function setCompany($company){
+        $this->company=$company;
+    }
+    public function setEmail($email){
+        $this->email=$email;
+    }
+    public function setPhone($phone){
+        $this->phone=$phone;
+    }
+    public function setCity($city){
+        $this->city=$city;
+    }
+    public function setCountry($country){
+        $this->country=$country;
+    }
+    public function setPicture($picture){
+        $this->picture=$picture;
+    }
+    public function setValidatedEmail($validatedEmail){
+        $this->validatedEmail=$validatedEmail;
+    }
+    public function setRegistrationDate($registrationDate){
+        $this->registrationDate=$registrationDate;
+    }
+    public function setLastLogin($lastLogin){
+        $this->lastLogin=$lastLogin;
+    }
+    public function setIsActive($isActive){
+        $this->isActive=$isActive;
+    }
+    public function setActivationToken($activationToken){
+        $this->activationToken=$activationToken;
+    }
+    public function setResetPasswordToken($resetPasswordToken){
+        $this->resetPasswordToken=$resetPasswordToken;
+    }
+    public function setSocialMedia($index, $socialMedia){
+        $this->socialMedia[$index]=$socialMedia;
+    }
+    public function setConn($conn){
+         $this->conn=$conn;
+    }
+
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Dinamic Methods ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+
 
     public function insert(){
 
-        $sql = "INSERT INTO usuarios (usuario, contrasena, nombre, apellido, empresa, email, telefono, pais, localidad)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users 
+        (user, password, role, name, lastName, 
+        birthDate, gender, company, email, phone, 
+        country, city, socialMedia, picture, validatedEmail, 
+        registrationDate, lastLogin, isActive, activationToken, resetPasswordToken)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $prep = $this->conn->prepare($sql);
 
-        $prep->bind_param("sssssssss",$this->user,$this->password,$this->name,$this->lastN,$this->company,$this->email,$this->phone,$this->country,$this->city);
+        $prep->bind_param("ssisssssssssssississ",
+        $this->user,
+        $this->password,
+        $this->role,
+        $this->name,
+        $this->lastN,
+        $this->birthDate,
+        $this->gender,
+        $this->company,
+        $this->email,
+        $this->phone,
+        $this->country,
+        $this->city,
+        $this->socialMedia,
+        $this->picture,
+        $this->validatedEmail,
+        $this->registrationDate,
+        $this->lastLogin,
+        $this->isActive,
+        $this->activationToken,
+        $this->resetPasswordToken);
 
         // Ejecutar la consulta
         if ($prep->execute()) {
 
-            // echo '<script type="text/javascript">';
-            // echo 'alert("' ."Usuario creado correctamente.". '");';
-            // echo 'setTimeout(function() {';
-            // echo '  window.location.href = "../View/login.html";';
-            // echo '}, 500);';  
-            // echo '</script>'
-            //exit;
-            echo "¡Usuario creado correctamente!";
+            echo '<script type="text/javascript">';
+            echo 'alert("' ."Usuario creado correctamente.". '");';
+            echo 'setTimeout(function() {';
+            echo '  window.location.href = "../View/login.php";';
+            echo '}, 500);';  
+            echo '</script>';
+            exit;
         } else {
             echo "Error al insertar el registro: " . $prep->error;
         } 
         $prep->close();
         $this->conn->close();
     }
+
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Static Methods ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
     
+
     public static function showData($conn){
 
-        $sql="SELECT * FROM usuarios";
-        $resultado = $conn->query($sql);
+        $sql="SELECT * FROM users";
+        $result = $conn->query($sql);
 
         $conn->error(); 
-
         $conn->close();
-        return $resultado;
-       
+
+        return $result;
     }
 
-    
     public static function searchById($conn, $Id){
 
-        $resultado=User::showData($conn);
-        while($fila=$resultado->fetch_assoc()){
-            if ($fila['id']==$Id){
-               return $fila;
+        $result=User::showData($conn);
+
+        while($row=$result->fetch_assoc()){
+            if ($row['id']==$Id){
+               return $row;
             }       
         }
-        if (empty($fila)){
+        if (empty($row)){
             echo '<script type="text/javascript">';
                 echo 'alert("' ."Error. No pudo encontrarse el usuario que desea editar.". '");';
                 echo 'setTimeout(function() {';
@@ -78,13 +280,13 @@ class User{
 
     public static function searchByUsername($conn,$Username){
 
-        $resultado=User::showData($conn);
-        while($fila=$resultado->fetch_assoc()){
-            if ($fila['usuario']==$Username){
-               return $fila;
+        $result=User::showData($conn);
+        while($row=$result->fetch_assoc()){
+            if ($row['user']==$Username){
+               return $row;
             }       
         }
-        if (empty($fila)){
+        if (empty($row)){
             echo '<script type="text/javascript">';
                 echo 'alert("' ."Error. No pudo encontrarse el usuario.". '");';
                 echo 'setTimeout(function() {';
@@ -97,11 +299,11 @@ class User{
 
     public static function search($conn, $field, $value){
 
-        $resultado=User::showData($conn);
+        $result=User::showData($conn);
         $stack=array();
-        while($fila=$resultado->fetch_assoc()){
-            if ($fila["$field"]==$value){
-                array_push($stack, $fila);
+        while($row=$result->fetch_assoc()){
+            if ($row["$field"]==$value){
+                array_push($stack, $row);
             }       
         } 
         if (empty($stack)){
@@ -113,9 +315,7 @@ class User{
                 echo '</script>';
                 exit;
         }
-       
         return $stack;
-
     }
 
 

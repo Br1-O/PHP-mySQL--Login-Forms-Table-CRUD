@@ -1,3 +1,9 @@
+<?php
+require_once '../Model/classes/autoload.php';
+$conn->createUsersTable()
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,7 +194,11 @@
         <input type="text" name="pais"  pattern="[A-Za-Z]+" maxlength="20" placeholder="Ingrese su pais" required>
         <label for="localidad">» Localidad:</label>
         <input type="text" name="localidad" pattern="[A-Za-Z]+" maxlength="20"  placeholder="Ingrese su ciudad" required>
-
+        <label for="localidad">» Ingrese su género:</label>
+        <input type="text" name="gender" pattern="[A-Za-Z]+" maxlength="20"  placeholder="Ingrese su género" required>
+        <label for="pais">» Fecha de Nacimiento:</label>
+        <input type="date" name="birthDate"  pattern="[0-9-()]+" maxlength="20" placeholder="Ingrese su fecha de nacimiento" required>
+ 
         <button type="submit">Registrarse</button>
         
         <div class="toggle-form">

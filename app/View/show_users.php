@@ -44,20 +44,20 @@ require '../Controller/session_validation.php';
         <div class="div-modal">
             <button name="btn-close-Modal" onclick="closeModal()">Cerrar</button>
             <form class="form" action="../Controller/filter_user.php" method="get">
-                <label for="filtro-campo"> Seleccionar filtro:</label>
-                <select name="filtro-campo" id="">
-                    <option value="usuario">Usuario</option>
-                    <option value="nombre">Nombre</option>
-                    <option value="apellido">Apellido</option>
-                    <option value="empresa">Empresa</option>
+                <label for="filter-field"> Seleccionar filtro:</label>
+                <select name="filter-field" id="">
+                    <option value="user">Usuario</option>
+                    <option value="name">Nombre</option>
+                    <option value="lastN">Apellido</option>
+                    <option value="company">Empresa</option>
                     <option value="email">Email</option>
-                    <option value="telefono">Telefono</option>
-                    <option value="localidad">Localidad</option>
-                    <option value="pais">País</option>
-                    <option value="usuario">Usuario</option>
+                    <option value="phone">Telefono</option>
+                    <option value="city">Localidad</option>
+                    <option value="country">País</option>
+                    <option value="gender">Género</option>
                 </select>
-                <label for="campo"> Indique el valor a buscar:</label>
-                <input type="text" name="valor" placeholder= "Ingrese un valor" required>
+                <label for="value"> Indique el valor a buscar:</label>
+                <input type="text" name="value" placeholder= "Ingrese un valor" required>
                 <input type="submit" value="Buscar">
 
                 <!-- <label for="">A por nombre</label>

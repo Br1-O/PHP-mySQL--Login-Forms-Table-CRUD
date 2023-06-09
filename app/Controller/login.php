@@ -2,20 +2,20 @@
 
 if($_POST['usuario_login']){
 
-    $usuario=$_POST['usuario_login'];
+    $user=$_POST['usuario_login'];
     $password=$_POST['password_login'];
 
     require_once '../Model/classes/autoload.php';
 
-    $usuario_db=User::searchByUsername($conn, $usuario);
+    $user_db=User::searchByUsername($conn, $user);
 
-    if(!empty($usuario_db)){
+    if(!empty($user_db)){
 
-        if(password_verify($password, $usuario_db['contrasena'])){
+        if(password_verify($password, $user_db['password'])){
             session_start();
-            $_SESSION['id']=$usuario_db['id'];
-            $_SESSION['usuario']=$usuario_db['usuario'];
-            $_SESSION['nombre']=$usuario_db['nombre'];
+            $_SESSION['id']=$user_db['id'];
+            $_SESSION['user']=$user_db['user'];
+            $_SESSION['name']=$user_db['name'];
 
             header('Location:../View/form_company.php');
 
