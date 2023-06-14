@@ -1,9 +1,9 @@
 body {
-    background: linear-gradient(to bottom, #8d8de3, #a874cd);
+    background: linear-gradient(to bottom right, #4568dc,  #b06ab3);
     font-family: Arial, sans-serif;
 }
 
-form {
+.form {
     max-width: 500px;
     margin: 20px auto;
     background-color: #cd97ea70;
@@ -15,12 +15,16 @@ form {
 
 
 h1 {
-    margin:20px, 40px;
-    padding-left: 705px;
-   
+    margin:auto;
     color: #ffffff;
 
 
+}
+
+.titulo-modal{
+    margin:auto;
+    color: #ffffff;
+    text-shadow:#00000000;
 }
 
 .titulo {
@@ -137,7 +141,7 @@ td {
 
 }
 
-tr:hover, tr:hover td, tr:hover th{
+.trIntern:hover, .trIntern:hover td, .trIntern:hover th{
     background-color:rgba(142, 171, 222,0.5);
     border-color:rgb(71, 127, 226);
     color: #FFF;
@@ -147,20 +151,14 @@ tr:hover, tr:hover td, tr:hover th{
     background-color:rgb(211, 230, 247);
     border-color:rgb(71, 127, 226);
     border-radius: 15px 0 0 15px;
-    padding: 10%;
     width: 40%;
 }
-
-/* #th-1:hover {
-    background-color:rgba(211, 230, 247,0.5);
-    border-color:rgb(71, 127, 226);
-    color:#FFF;
-} */
 
 #th-1:hover {
     background-color:rgba(156, 203, 220);
     border-color:rgb(71, 127, 226);
     color: #FFF;
+   
 }
 
 .glow-up:hover {
@@ -194,6 +192,11 @@ tr:hover, tr:hover td, tr:hover th{
     margin: auto;
 }
 
+#td-outside{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
 .form{
 
     background: linear-gradient(to bottom, rgb(141, 141, 227,0.9), rgb(168, 116, 205,0.9));
@@ -202,7 +205,7 @@ tr:hover, tr:hover td, tr:hover th{
 }
 
 .info-bar{
-    max-width: 52%;
+    max-width: 32%;
     position: sticky;
     top: 1%;
     margin-top: 20%;
@@ -219,14 +222,14 @@ tr:hover, tr:hover td, tr:hover th{
     display: inline-block;
 }
 
-.modalFilters{
+.modal {
 
     background: #cd97ea70;
     font-family: Arial, sans-serif;
     border-color: #4c2a85;
     border-radius: 15px;
     border-style: solid;
-    justify-content: flex-start;
+    display: flexbox;
 }
 
 .div-modal {
@@ -272,4 +275,32 @@ a:hover {
     box-shadow: none;
     margin: 0px;
     margin-left: 3%;
+}
+
+#inputSearch{
+    display: inline;
+    max-width: 80%;
+    margin:10px;
+}
+
+#searchField{
+    display: inline;
+}
+
+#searchBtn{
+    display: inline;
+}
+
+.search{
+    display: grid;
+    grid-template-columns: 1fr 100% 1fr; /* Specify 3 columns with equal width */    
+    grid-gap: 10px; 
+    align-items: center;
+}
+
+#optionsNav{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Specify 3 columns with equal width */    
+    grid-gap: 10px; 
+    align-items: center;
 }

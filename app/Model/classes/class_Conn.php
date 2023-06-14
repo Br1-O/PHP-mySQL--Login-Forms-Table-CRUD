@@ -11,7 +11,7 @@ class Conn {
         private $dbname;
         private $conn;
 
-    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Constructor ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    Constructor    ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
 
         public function __construct($host,$user,$password,$dbname) {    
@@ -22,7 +22,7 @@ class Conn {
             $this->conn= new mysqli($this->host,$this->user,$this->password,$this->dbname);
         }
 
-    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Getters ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■      Getters      ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
 
         public function getHost(){
@@ -38,7 +38,7 @@ class Conn {
             return $this->dbname;
         }
 
-    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Setters ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■      Setters      ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
 
         public function setHost($host){
@@ -54,7 +54,7 @@ class Conn {
             $this->dbname=$dbname;
         }
 
-    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Dinamic Methods ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  Dinamic Methods  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
         public function prepare($sql) {
             return $this->conn->prepare($sql);
@@ -109,8 +109,55 @@ class Conn {
             }
         }
 
+        public function createCompaniesTable() {
+
+            $sql = "CREATE TABLE IF NOT EXISTS companies (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            `name` VARCHAR(50),
+            `status` VARCHAR(50),
+            opportunityLevel VARCHAR(20),
+            nextAction VARCHAR(50),
+            industry VARCHAR(50),
+            services VARCHAR(200),
+            phone VARCHAR(50),
+            email VARCHAR(100),
+            website VARCHAR(50),
+            socialMedia VARCHAR(255),
+            responsable VARCHAR(50),
+            phoneResponsable VARCHAR(50),
+            emailResponsable VARCHAR(100),
+            extraInfoResponsable VARCHAR(255),
+            extraInfoCompany VARCHAR(255),
+            `address` VARCHAR(50),
+            city VARCHAR(50),
+            country VARCHAR(50),
+            commentsSales1 VARCHAR(255),
+            commentsSales2 VARCHAR(255),
+            openingDate DATE,
+            lastCheckDate DATE,
+            closingDate DATE,
+            nextDateForContact DATE,
+            nextDateForClosing DATE,
+            isInterested TINYINT(1),
+            salesState VARCHAR(50),
+            isClient TINYINT(1),
+            salesmanContacter VARCHAR(50),
+            salesmanCloser VARCHAR(50),
+            typeOfContract VARCHAR(100),
+            companyFiles VARCHAR(255)
+            )";
+        
+            try {
+                $this->conn->query($sql);
+            } catch(mysqli_sql_exception $e) {
+                echo "Error creando la base de datos para las compañias: " . $e->getMessage();
+            } finally{
+                $this->conn->close();
+            }
+        }
 }
-//■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Instance of class Conn ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+
+//■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Instance of class Conn ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
 
 $conn = new Conn("127.0.0.1","root","","panama");

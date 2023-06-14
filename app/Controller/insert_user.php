@@ -4,16 +4,17 @@ require_once '../Model/classes/autoload.php';
 
 if($_POST){
 
-    $user=$_POST["usuario"];
-    $password=$_POST["contraseña"];
+    $user=$_POST["user"];
+    $password=$_POST["password"];
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $name=$_POST["nombre"];
-    $lastN=$_POST["apellido"];
-    $company=$_POST["empresa"];
+    $role=intval($_POST["role"]);
+    $name=$_POST["name"];
+    $lastN=$_POST["lastN"];
+    $company=$_POST["company"];
     $email=$_POST["email"];
-    $phone=$_POST["telefono"];
-    $country=$_POST["pais"];
-    $city=$_POST["localidad"];
+    $phone=$_POST["phone"];
+    $country=$_POST["country"];
+    $city=$_POST["city"];
     $birthDate=$_POST["birthDate"];
     $gender=$_POST["gender"];
 }else{
@@ -22,7 +23,7 @@ if($_POST){
 
 ///////////////////////////////////////Instance of User///////////////////////////////////////////////
 
-$user= new User($conn,$user,$hashed_password,$name,$lastN,$company,$email,$phone,$country,$city,$birthDate,$gender);
+$user= new User($conn,$user,$hashed_password,$role,$name,$lastN,$company,$email,$phone,$city,$country,$birthDate,$gender);
 $user->insert();
 
 //////////////////////////////////////PHPMailer///////////////////////////////////////////////
@@ -80,7 +81,7 @@ try {
         echo '<script type="text/javascript">';
         echo 'alert("' ."Usuario creado correctamente.". '");';
         echo 'setTimeout(function() {';
-        echo '  window.location.href = "../View/login.html";';
+        echo '  window.location.href = "../View/login.php";';
         echo '}, 500);';  
         echo '</script>';
         exit;

@@ -1,5 +1,6 @@
 <?php
 require '../Controller/session_validation.php';
+require_once '../Model/classes/autoload.php';
 
 ?>
 
@@ -27,7 +28,7 @@ require '../Controller/session_validation.php';
     </div>
 
     <div id="titulo">
-        <h1> · Ingrese los datos de la Empresa, <?php echo $_SESSION['nombre']; ?>. · </h1>
+        <h1> · Ingrese los datos de la Empresa, <?php echo $_SESSION['name']; ?>. · </h1>
     </div>
 
     <form method="POST" action="../Controller/insert_company.php">

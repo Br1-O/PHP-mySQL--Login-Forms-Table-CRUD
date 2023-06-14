@@ -1,8 +1,8 @@
 <?php
 
-if($_POST['usuario_login']){
+if($_POST['user_login']){
 
-    $user=$_POST['usuario_login'];
+    $user=$_POST['user_login'];
     $password=$_POST['password_login'];
 
     require_once '../Model/classes/autoload.php';
@@ -14,10 +14,11 @@ if($_POST['usuario_login']){
         if(password_verify($password, $user_db['password'])){
             session_start();
             $_SESSION['id']=$user_db['id'];
+            $_SESSION['role']=((int)$user_db['role']);
             $_SESSION['user']=$user_db['user'];
             $_SESSION['name']=$user_db['name'];
-
-            header('Location:../View/form_company.php');
+                                           
+            header('Location:../View/dashboard.php');
 
         }else{
             echo '<script type="text/javascript">';

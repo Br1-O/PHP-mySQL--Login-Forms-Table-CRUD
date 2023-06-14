@@ -2,258 +2,648 @@
 
 class Company{
 
-    private $conn;
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Private_Variables ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
-    public function __construct($conn,$name,$services,$responsable,$phone,$website,$comments,$OpeningDate,$ClosingDate){
-        $this->name=$name;
-        $this->services=$services;
-        $this->responsable=$responsable;
-        $this->phone=$phone;
-        $this->website=$website;
-        $this->comments=$comments;
-        $this->OpeningDate=$OpeningDate;
-        $this->ClosingDate=$ClosingDate;
-        $this->$fila;
-        $this->conn=$conn;
-    }
+        private $conn;
+        private $name;
+        private $status;
+        private $opportunityLevel;
+        private $nextAction;
+        private $industry;
+        private $services;
+        private $phone;
+        private $email;
+        private $website;
+        private $socialMedia;
+        private $responsable;
+        private $phoneResponsable;
+        private $emailResponsable;
+        private $extraInfoResponsable;
+        private $extraInfoCompany;
+        private $address;
+        private $city;
+        private $country;
+        private $commentsSales1;
+        private $commentsSales2;
+        private $openingDate;
+        private $lastCheckDate;
+        private $closingDate;
+        private $nextDateForContact;
+        private $nextDateForClosing;
+        private $isInterested;
+        private $salesState;
+        private $isClient;
+        private $salesmanContacter;
+        private $salesmanCloser;
+        private $typeOfContract;
+        private $companyFiles;
 
-
-    public function insert(){
-
-        // Consulta INSERT
-        $sql = "INSERT INTO empresas (nombre, servicios, responsable, telefono, pagina, comentarios, fecha_inicio, fecha_cierre) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-        // Prepare la consulta
-        $prep = $this->conn->prepare($sql);
-
-        // Bind los parámetros
-        $prep->bind_param("ssssssss",$this->name,$this->services,$this->responsable,$this->phone,$this->website,$this->comments,$this->OpeningDate,$this->ClosingDate);
-
-        // Ejecutar la consulta
-        if ($prep->execute()) {
-            echo '<script type="text/javascript">';
-            echo 'alert("' ."Registro insertado correctamente.". '");';
-            echo 'setTimeout(function() {';
-            echo '  window.location.href = "../View/form_company.php";';
-            echo '}, 500);';  
-            echo '</script>';
-            exit;
-        } else {
-            echo "Error al insertar el registro: " . $prep->error;
-        }
-        // Cerrar la conexión
-        $prep->close();
-        $this->conn->close();
-
-    }
-
-    public static function delete($conn){
-        
-        if($_GET){
-
-        $id=$_GET['idborrar'];
-
-        // Consulta INSERT
-        $sql = "delete from empresas WHERE id=$id";
-
-        // Prepare la consulta
-        $prep = $conn->prepare($sql);
-
-        // Ejecutar la consulta
-        if ($prep->execute()) {
-            echo '<script type="text/javascript">';
-            echo 'alert("' ."Registro borrado exitosamente.". '");';
-            echo 'setTimeout(function() {';
-            echo '  window.location.href = "../View/show_companies.php";';
-            echo '}, 500);';  
-            echo '</script>';
-            exit;
-        } else {
-            echo "Error al borrar el registro: " . $prep->error;
-        }
-        // Cerrar la conexión
-        $prep->close();
-        $conn->close();} else{
-            echo '<script type="text/javascript">';
-            echo 'alert("' ."Error. No pudo seleccionarse el registro deseado para ser borrado, intentelo nuevamente.". '");';
-            echo 'setTimeout(function() {';
-            echo '  window.location.href = "../View/show_companies.php";';
-            echo '}, 500);';  
-            echo '</script>';
-            exit;
-        }
-    }
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    Constructor    ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
 
-    public static function showData($conn){
+        public function __construct(
+            $conn,
+            $name,
+            $status='No iniciado',
+            $opportunityLevel='Desconocido',
+            $nextAction='Primer contacto',
+            $industry,
+            $services='N/A',
+            $phone,
+            $email,
+            $website='N/A',
+            $socialMedia=array(),
+            $responsable='N/A',
+            $phoneResponsable='N/A',
+            $emailResponsable='N/A',
+            $extraInfoResponsable='N/A',
+            $extraInfoCompany='N/A',
+            $address='N/A',
+            $city,
+            $country,
+            $commentsSales1='N/A',
+            $commentsSales2='N/A',
+            $openingDate='0000-00-00',
+            $lastCheckDate='0000-00-00',
+            $closingDate='0000-00-00',
+            $nextDateForContact='0000-00-00',
+            $nextDateForClosing='0000-00-00',
+            $isInterested=1,
+            $salesState='No contactado',
+            $isClient=0,
+            $salesmanContacter='N/A',
+            $salesmanCloser='N/A',
+            $typeOfContract='N/A',
+            $companyFiles=array()
 
-        $sql="SELECT * FROM empresas";
-        $resultado = $conn->query($sql);
+        ) {
+            $this->conn = $conn;
+            $this->name = $name;
+            $this->status = $status;
+            $this->opportunityLevel = $opportunityLevel;
+            $this->nextAction = $nextAction;
+            $this->industry = $industry;
+            $this->services = $services;
+            $this->phone = $phone;
+            $this->email = $email;
+            $this->website = $website;
+            $this->socialMedia = $socialMedia;
+            $this->responsable = $responsable;
+            $this->phoneResponsable = $phoneResponsable;
+            $this->emailResponsable = $emailResponsable;
+            $this->extraInfoResponsable = $extraInfoResponsable;
+            $this->extraInfoCompany = $extraInfoCompany;
+            $this->address = $address;
+            $this->city = $city;
+            $this->country = $country;
+            $this->commentsSales1 = $commentsSales1;
+            $this->commentsSales2 = $commentsSales2;
 
-        $conn->error();  
-        
-        $conn->close();
-
-        return $resultado;
-
-    }
-
-    public static function searchById($conn, $Id){
-
-        $resultado=Company::showData($conn);
-        while($fila=$resultado->fetch_assoc()){
-            if ($fila['id']==$Id){
-               return $fila;
-            }       
-        }
-        if (empty($fila)){
-            echo '<script type="text/javascript">';
-                echo 'alert("' ."Error. No pudo encontrarse el registro que desea editar.". '");';
-                echo 'setTimeout(function() {';
-                echo '  window.location.href = "../View/show_companies.php";';
-                echo '}, 500);';  
-                echo '</script>';
-                exit;
-        }
-    }
-
-    public static function searchByName($conn, $name){
-
-        $resultado=Company::showData($conn);
-        $stack=array();
-        while($fila=$resultado->fetch_assoc()){
-            if ($fila['nombre']==$name){
-                array_push($stack, $fila);
-            }       
-        } 
-        if (empty($stack)){
-            echo '<script type="text/javascript">';
-                echo 'alert("' ."Error. No pudo encontrarse el registro.". '");';
-                echo 'setTimeout(function() {';
-                echo '  window.location.href = "../View/show_companies.php";';
-                echo '}, 500);';  
-                echo '</script>';
-                exit;
-        }
-       
-        return $stack;
-
-    }
-
-    public static function search($conn, $field, $value){
-
-        $resultado=Company::showData($conn);
-        $stack=array();
-        while($fila=$resultado->fetch_assoc()){
-            if ($fila["$field"]==$value){
-                array_push($stack, $fila);
-            }       
-        } 
-        if (empty($stack)){
-            echo '<script type="text/javascript">';
-                echo 'alert("' ."Error. No pudo encontrarse el registro.". '");';
-                echo 'setTimeout(function() {';
-                echo '  window.location.href = "../View/show_companies.php";';
-                echo '}, 500);';  
-                echo '</script>';
-                exit;
-        }
-       
-        return $stack;
-
-    }
-
-    public static function searchLetter($conn, $field, $value){
-
-        $resultado=Company::showData($conn);
-
-        $stack=array();
-
-        // Consulta INSERT
-        $sql = "INSERT INTO empresas (nombre, servicios, responsable, telefono, pagina, comentarios, fecha_inicio, fecha_cierre) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-        // Prepare la consulta
-        $prep = $conn->prepare($sql);
-
-        // Bind los parámetros
-        $prep->bind_param("ssssssss",$this->name,$this->services,$this->responsable,$this->phone,$this->website,$this->comments,$this->OpeningDate,$this->ClosingDate);
-
-        // Ejecutar la consulta
-        if ($prep->execute()) {
-            echo '<script type="text/javascript">';
-            echo 'alert("' ."Registro insertado correctamente.". '");';
-            echo 'setTimeout(function() {';
-            echo '  window.location.href = "../View/form_company.php";';
-            echo '}, 500);';  
-            echo '</script>';
-            exit;
-        } else {
-            echo "Error al insertar el registro: " . $prep->error;
-        }
-        // Cerrar la conexión
-        $prep->close();
-        $conn->close();
-
-
-
-
-        while($fila=$resultado->fetch_assoc()){
-            if ($fila["$field"]==$value){
-                array_push($stack, $fila);
-            }       
-        } 
-        if (empty($stack)){
-            echo '<script type="text/javascript">';
-                echo 'alert("' ."Error. No pudo encontrarse el registro.". '");';
-                echo 'setTimeout(function() {';
-                echo '  window.location.href = "../View/show_companies.php";';
-                echo '}, 500);';  
-                echo '</script>';
-                exit;
-        }
-       
-        return $stack;
-
-    }
-
-    public function edit($Id){
-
-        // Consulta INSERT
-        $sql = "UPDATE empresas set nombre=?, servicios=?, responsable=?, telefono=?, pagina=?, comentarios=?, fecha_inicio=?, fecha_cierre=? WHERE id=?";
-
-        // Prepare la consulta
-        $prep = $this->conn->prepare($sql);
-
-        // Bind los parámetros
-        $prep->bind_param("sssssssss",$this->name,$this->services,$this->responsable,$this->phone,$this->website,$this->comments,$this->OpeningDate,$this->ClosingDate,$Id);
-
-        // Ejecutar la consulta
-        if ($prep->execute()) {
-            echo '<script type="text/javascript">';
-            echo 'alert("' ."Registro editado exitosamente.". '");';
-            echo 'setTimeout(function() {';
-            echo '  window.location.href = "../View/show_companies.php";';
-            echo '}, 500);';  
-            echo '</script>';
-            exit;
-        } else {
-            echo "Error al editar el registro: " . $prep->error;
+            if ($openingDate=='0000-00-00'){
+                $this->openingDate=date('Y-m-d');
+            }else{
+                $this->openingDate = $openingDate;}
             
-            echo '<script type="text/javascript">';
-            echo 'alert("' ."Error. No pudo editarse el registro, intentelo nuevamente.". '");';
-            echo 'setTimeout(function() {';
-            echo '  window.location.href = "../View/show_companies.php";';
-            echo '}, 500);';  
-            echo '</script>';
-            exit;
+            $this->lastCheckDate = $lastCheckDate;
+            $this->closingDate = $closingDate;
+            $this->nextDateForContact = $nextDateForContact;
+            $this->nextDateForClosing = $nextDateForClosing;
+            $this->isInterested = $isInterested;
+            $this->salesState = $salesState;
+            $this->isClient = $isClient;
+            $this->salesmanContacter = $salesmanContacter;
+            $this->salesmanCloser = $salesmanCloser;
+            $this->typeOfContract = $typeOfContract;
+            $this->companyFiles = $companyFiles;
+        }
+    
+    
+
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■      Getters      ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+
+
+        public function getName() {
+            return $this->name;
         }
 
-        // Cerrar la conexión
-        $prep->close();
-        $this->conn->close();
-    }
+        public function getStatus() {
+            return $this->status;
+        }
+
+        public function getOpportunityLevel() {
+            return $this->opportunityLevel;
+        }
+
+        public function getNextAction() {
+            return $this->nextAction;
+        }
+
+        public function getIndustry() {
+            return $this->industry;
+        }
+
+        public function getServices() {
+            return $this->services;
+        }
+
+        public function getPhone() {
+            return $this->phone;
+        }
+
+        public function getEmail() {
+            return $this->email;
+        }
+
+        public function getWebsite() {
+            return $this->website;
+        }
+
+        public function getSocialMedia() {
+            return $this->socialMedia;
+        }
+
+        public function getResponsable() {
+            return $this->responsable;
+        }
+
+        public function getPhoneResponsable() {
+            return $this->phoneResponsable;
+        }
+
+        public function getEmailResponsable() {
+            return $this->emailResponsable;
+        }
+
+        public function getExtraInfoResponsable() {
+            return $this->extraInfoResponsable;
+        }
+
+        public function getExtraInfoCompany() {
+            return $this->extraInfoCompany;
+        }
+        
+        public function getAddress() {
+            return $this->address;
+        }
+
+        public function getCity() {
+            return $this->city;
+        }
+
+        public function getCountry() {
+            return $this->country;
+        }
+
+        public function getCommentsSales1() {
+            return $this->commentsSales1;
+        }
+
+        public function getCommentsSales2() {
+            return $this->commentsSales2;
+        }
+
+        public function getOpeningDate() {
+            return $this->openingDate;
+        }
+
+        public function getLastCheckDate() {
+            return $this->lastCheckDate;
+        }
+
+        public function getClosingDate() {
+            return $this->closingDate;
+        }
+
+        public function getNextDateForContact() {
+            return $this->nextDateForContact;
+        }
+
+        public function getNextDateForClosing() {
+            return $this->nextDateForClosing;
+        }
+
+        public function getIsInterested() {
+            return $this->isInterested;
+        }
+
+        public function getSalesState() {
+            return $this->salesState;
+        }
+
+        public function getIsClient() {
+            return $this->isClient;
+        }
+
+        public function getSalesmanContacter() {
+            return $this->salesmanContacter;
+        }
+
+        public function getSalesmanCloser() {
+            return $this->salesmanCloser;
+        }
+
+        public function getTypeOfContract() {
+            return $this->typeOfContract;
+        }
+
+        public function getCompanyFiles() {
+            return $this->companyFiles;;
+        }
+
+
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■      Setters      ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+
+
+        public function setName($name) {
+            $this->name = $name;
+        }
+
+        public function setStatus($status) {
+            $this->status = $status;
+        }
+
+        public function setOpportunityLevel($opportunityLevel) {
+            $this->opportunityLevel = $opportunityLevel;
+        }
+
+        public function setNextAction($nextAction) {
+            $this->nextAction = $nextAction;
+        }
+
+        public function setIndustry($industry) {
+            $this->industry = $industry;
+        }
+
+        public function setServices($services) {
+            $this->services = $services;
+        }
+
+        public function setPhone($phone) {
+            $this->phone = $phone;
+        }
+
+        public function setEmail($email) {
+            $this->email = $email;
+        }
+
+        public function setWebsite($website) {
+            $this->website = $website;
+        }
+
+        public function setSocialMedia($socialMedia) {
+            $this->socialMedia = $socialMedia;
+        }
+
+        public function setResponsable($responsable) {
+            $this->responsable = $responsable;
+        }
+
+        public function setPhoneResponsable($phoneResponsable) {
+            $this->phoneResponsable = $phoneResponsable;
+        }
+
+        public function setEmailResponsable($emailResponsable) {
+            $this->emailResponsable = $emailResponsable;
+        }
+
+        public function setExtraInfoResponsable($extraInfoResponsable) {
+            $this->extraInfoResponsable = $extraInfoResponsable;
+        }
+
+        public function setExtraInfoCompany($extraInfoCompany) {
+            $this->extraInfoCompany = $extraInfoCompany;
+        }
+
+        public function setAddress($address) {
+            $this->address = $address;
+        }
+
+        public function setCity($city) {
+            $this->city = $city;
+        }
+
+        public function setCountry($country) {
+            $this->country = $country;
+        }
+
+        public function setCommentsSales1($commentsSales1) {
+            $this->commentsSales1 = $commentsSales1;
+        }
+
+        public function setCommentsSales2($commentsSales2) {
+            $this->commentsSales2 = $commentsSales2;
+        }
+
+        public function setOpeningDate($openingDate) {
+            $this->openingDate = $openingDate;
+        }
+
+        public function setLastCheckDate($lastCheckDate) {
+            $this->lastCheckDate = $lastCheckDate;
+        }
+
+        public function setClosingDate($closingDate) {
+            $this->closingDate = $closingDate;
+        }
+
+        public function setNextDateForContact($nextDateForContact) {
+            $this->nextDateForContact = $nextDateForContact;
+        }
+
+        public function setNextDateForClosing($nextDateForClosing) {
+            $this->nextDateForClosing = $nextDateForClosing;
+        }
+
+        public function setIsInterested($isInterested) {
+            $this->isInterested = $isInterested;
+        }
+
+        public function setSalesState($salesState) {
+            $this->salesState = $salesState;
+        }
+
+        public function setIsClient($isClient) {
+            $this->isClient = $isClient;
+        }
+
+        public function setSalesmanContacter($salesmanContacter) {
+            $this->salesmanContacter = $salesmanContacter;
+        }
+
+        public function setSalesmanCloser($salesmanCloser) {
+            $this->salesmanCloser = $salesmanCloser;
+        }
+
+        public function setTypeOfContract($typeOfContract) {
+            $this->typeOfContract = $typeOfContract;
+        }
+
+        public function setCompanyFiles($companyFiles) {
+            $this->companyFiles = $companyFiles;
+        }
+        
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  Dinamic Methods  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+        
+
+        public function insert(){
+
+            // Consulta INSERT
+            $sql = "INSERT INTO companies (`name`, `status`, opportunityLevel, 
+            nextAction,industry,services,
+            phone,email,website,socialMedia,
+            responsable,phoneResponsable,emailResponsable,extraInfoResponsable,
+            extraInfoCompany,`address`,city,country,
+            commentsSales1,commentsSales2,
+            openingDate,lastCheckDate,closingDate,nextDateForContact,nextDateForClosing,
+            isInterested,salesState,isClient,
+            salesmanContacter,salesmanCloser,typeOfContract,companyFiles) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            // Prepare la consulta
+            $prep = $this->conn->prepare($sql);
+
+            // Bind los parámetros
+            $prep->bind_param("sssssssssssssssssssssssssisissss",
+            $this->name,
+            $this->status,
+            $this->opportunityLevel,
+            $this->nextAction,
+            $this->industry,
+            $this->services,
+            $this->phone,
+            $this->email,
+            $this->website,
+            $this->socialMedia,
+            $this->responsable,
+            $this->phoneResponsable,
+            $this->emailResponsable,
+            $this->extraInfoResponsable,
+            $this->extraInfoCompany,
+            $this->address,
+            $this->city,
+            $this->country,
+            $this->commentsSales1,
+            $this->commentsSales2,
+            $this->openingDate,
+            $this->lastCheckDate,
+            $this->closingDate,
+            $this->nextDateForContact,
+            $this->nextDateForClosing,
+            $this->isInterested,
+            $this->salesState,
+            $this->isClient,
+            $this->salesmanContacter,
+            $this->salesmanCloser,
+            $this->typeOfContract,
+            $this->companyFiles);
+
+            // Ejecutar la consulta
+            try {
+
+                if ($prep->execute()) {
+
+                    echo json_encode(["success"=>true,"message"=>"¡Compañia agregada satisfactoriamente!"]);
+                } else {
+                    echo json_encode(["success"=>false,"message"=>"Problema con el servidor."]);
+                }
+
+            } catch (error) {
+                echo json_encode(["success"=>false,"message"=>$prep->error]);            
+            }
+              finally{
+                // Cerrar la conexión
+                $prep->close();
+                $this->conn->close();
+            }    
+        }
+
+        public function edit($Id){
+
+            $sql = "UPDATE companies SET `name` = ?, `status` = ?, opportunityLevel = ?,
+            nextAction = ?, industry = ?, services = ?, 
+            phone = ?, email = ?, website = ?, socialMedia = ?,
+            responsable = ?, phoneResponsable = ?, emailResponsable = ?,
+            extraInfoResponsable = ?, extraInfoCompany = ?,
+            `address` = ?, city = ?, country = ?,
+            commentsSales1 = ?, commentsSales2 = ?,
+            openingDate = ?, lastCheckDate = ?, closingDate = ?,
+            nextDateForContact = ?, nextDateForClosing = ?,
+            isInterested = ?, salesState = ?, isClient = ?,
+            salesmanContacter = ?, salesmanCloser = ?, typeOfContract = ?, companyFiles = ?  
+            WHERE id = ?";
+
+            $prep = $this->conn->prepare($sql);
+
+            $prep->bind_param("sssssssssssssssssssssssssisissssi",
+                $this->name,
+                $this->status,
+                $this->opportunityLevel,
+                $this->nextAction,
+                $this->industry,
+                $this->services,
+                $this->phone,
+                $this->email,
+                $this->website,
+                $this->socialMedia,
+                $this->responsable,
+                $this->phoneResponsable,
+                $this->emailResponsable,
+                $this->extraInfoResponsable,
+                $this->extraInfoCompany,
+                $this->address,
+                $this->city,
+                $this->country,
+                $this->commentsSales1,
+                $this->commentsSales2,
+                $this->openingDate,
+                $this->lastCheckDate,
+                $this->closingDate,
+                $this->nextDateForContact,
+                $this->nextDateForClosing,
+                $this->isInterested,
+                $this->salesState,
+                $this->isClient,
+                $this->salesmanContacter,
+                $this->salesmanCloser,
+                $this->typeOfContract,
+                $this->companyFiles,
+                $Id
+            );
+
+            // Ejecutar la consulta
+            if ($prep->execute()) {
+                echo '<script type="text/javascript">';
+                echo 'alert("' ."Registro editado exitosamente.". '");';
+                echo 'setTimeout(function() {';
+                echo '  window.location.href = "../View/show_companies.php";';
+                echo '}, 500);';  
+                echo '</script>';
+                exit;
+            } else {
+                echo "Error al editar el registro: " . $prep->error;
+                
+                echo '<script type="text/javascript">';
+                echo 'alert("' ."Error. No pudo editarse el registro, intentelo nuevamente.". '");';
+                echo 'setTimeout(function() {';
+                echo '  window.location.href = "../View/show_companies.php";';
+                echo '}, 500);';  
+                echo '</script>';
+                exit;
+            }
+
+            // Cerrar la conexión
+            $prep->close();
+            $this->conn->close();
+        }
+
+    //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  Static Methods   ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
+
+
+        public static function delete($conn){
+            
+            if($_GET){
+
+            $id=$_GET['idborrar'];
+
+            // Consulta INSERT
+            $sql = "delete from companies WHERE id=$id";
+
+            // Prepare la consulta
+            $prep = $conn->prepare($sql);
+
+            // Ejecutar la consulta
+            if ($prep->execute()) {
+                echo '<script type="text/javascript">';
+                echo 'alert("' ."Registro borrado exitosamente.". '");';
+                echo 'setTimeout(function() {';
+                echo '  window.location.href = "../View/show_companies.php";';
+                echo '}, 500);';  
+                echo '</script>';
+                exit;
+            } else {
+                echo "Error al borrar el registro: " . $prep->error;
+            }
+            // Cerrar la conexión
+            $prep->close();
+            $conn->close();} else{
+                echo '<script type="text/javascript">';
+                echo 'alert("' ."Error. No pudo seleccionarse el registro deseado para ser borrado, intentelo nuevamente.". '");';
+                echo 'setTimeout(function() {';
+                echo '  window.location.href = "../View/show_companies.php";';
+                echo '}, 500);';  
+                echo '</script>';
+                exit;
+            }
+        }
+
+        public static function showData($conn){
+
+            $sql="SELECT * FROM companies";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $json = array();
+            
+                while ($row=$result->fetch_assoc()){
+                
+                    $json[]= $row;
+                }
+
+            }else{
+                $json['empty']='empty';
+            }
+
+            $jsonString=json_encode($json);
+
+            echo $jsonString;
+                
+            $conn->close();
+
+            return $row;
+
+        }
+
+        public static function searchById($conn, $Id){
+
+            $result=Company::showData($conn);
+            while($row=$result->fetch_assoc()){
+                if ($row['id']==$Id){
+                $json=json_encode($row);
+                }       
+            }
+            if (empty($row)){
+                $json=json_encode($row['empty']='empty');
+            }
+            echo $json;
+        }
+
+        public static function search($conn, $field, $value){
+
+            $sql="SELECT * FROM companies WHERE $field LIKE '%$value%'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $json = array();
+            
+                while ($row=$result->fetch_assoc()){
+                
+                    $json[]= $row;
+                }
+
+            }else{
+                $json['empty']='empty';
+            }
+
+            $jsonString=json_encode($json);
+
+            echo $jsonString;
+                
+            $conn->close();
+
+            return $row;
+
+        }
+
 
 }
 
