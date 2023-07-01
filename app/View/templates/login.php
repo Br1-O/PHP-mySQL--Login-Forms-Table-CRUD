@@ -1,15 +1,15 @@
 <?php 
-// require_once '../Model/classes/autoload.php';
+require_once '../../Model/classes/autoload.php';
 // $conn->createUsersTable();
 // $conn->createCompaniesTable();
-// ?>
+?>
 
 <html>
 <body>
   <div class="container">
     <div class="form-container">
 
-      <form id="login-form" class="visible" action="../Controller/login.php" method="POST">
+      <form id="login-form" class="visible form" action="../Controller/login.php" method="POST">
         <h2>· Ingrese a su cuenta <?= htmlspecialchars($name, ENT_QUOTES); ?> ·</h2>
         <label for="user_login">» Usuario:</label>
         <input type="text" name="user_login" placeholder="Ingrese su Usuario" required>
@@ -23,7 +23,7 @@
       </form>
         
 
-      <form id="register-form" action="../../Controller/insert_user.php" method="POST">
+      <form id="register-form" class='form' action="../../Controller/insert_user.php" method="POST">
 
         <h2>· Cree su cuenta · </h2>
 

@@ -1,5 +1,5 @@
 <?php
-require '../Controller/session_validation.php';
+require '../../Controller/session_validation.php';
 require 'headLoader.php';
 
 switch (true) {
@@ -152,6 +152,7 @@ switch (true) {
 
             </body>
             </html>
+
         <?php                               
         break;
                                                     
@@ -161,3 +162,8 @@ switch (true) {
         break;
 }
 ?>
+
+<html>
+    <script type="text/javascript" src="../../../public/js/functions.js"></script>
+    <script type="text/javascript" src="../../../public/js/login.js"></script>
+</html>

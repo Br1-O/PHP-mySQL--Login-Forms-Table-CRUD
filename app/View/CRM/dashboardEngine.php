@@ -1,6 +1,6 @@
 <?php
 
-require '../Controller/session_validation.php';
+require '../../Controller/session_validation.php';
 require_once 'templates/autoload.php';
 
 //LOADING THE MULTIPLE DASHBOARDS INTO VARIABLES
@@ -198,7 +198,7 @@ $templateEngine->renderForRole($roleDashboard);
 <html lang="en">
 
 <body>
-<script type="text/javascript" src="../../public/js/functions.js"></script>
-<script type="text/javascript" src="../../public/js/login.js"></script>
+<script type="text/javascript" src="../../../public/js/functions.js"></script>
+<script type="text/javascript" src="../../../public/js/login.js"></script>
 </body>
 </html>

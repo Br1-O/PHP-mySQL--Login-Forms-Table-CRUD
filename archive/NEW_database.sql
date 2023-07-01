@@ -68,9 +68,9 @@ isActive,
 activationToken, 
 resetPasswordToken)
 values
-('br1',
-'br1',
-1,
+('admin',
+'admin',
+999,
 'Bruno',
 'Ortuño',
 '1990-09-20',

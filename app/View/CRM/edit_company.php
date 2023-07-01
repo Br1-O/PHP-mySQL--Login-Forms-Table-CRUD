@@ -1,6 +1,6 @@
 <?php
-require '../Controller/session_validation.php';
-require_once '../Model/classes/autoload.php';
+require '../../Controller/session_validation.php';
+require_once '../../Model/classes/autoload.php';
 
 $fila=array();
 
@@ -25,7 +25,7 @@ if($_GET){
 
         <h1> · Modifique los datos que desea cambiar · </h1></div>
 
-        <form method="POST" action="../Controller/edit_company.php">
+        <form method="POST" action="../../Controller/edit_company.php">
 
             <label for="empresa">» Empresa:</label>
             <input type="text" name="nombre" id="Ingrese el nombre de la Empresa" placeholder="Ingrese el nombre de la Empresa" value="<?php  echo $fila['nombre'];?>" required><br>

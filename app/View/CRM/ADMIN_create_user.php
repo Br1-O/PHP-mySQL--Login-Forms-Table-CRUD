@@ -1,6 +1,6 @@
 
 <?php
-require '../Controller/session_validation.php';
+require '../../Controller/session_validation.php';
 ?>
 
 
@@ -13,7 +13,7 @@ require '../Controller/session_validation.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../../public/css/styles.css">
-    <script type="text/javascript" src="../../public/js/functions.js"></script>
+    <script type="text/javascript" src="../../../public/js/functions.js"></script>
     <title> Login </title>
 
 </head>
@@ -23,7 +23,7 @@ require '../Controller/session_validation.php';
     <div class="form-container">
     
 
-    <form id="register-form" action="../Controller/insert_user.php" method="POST">
+    <form id="register-form" action="../../Controller/insert_user.php" method="POST">
 
       <h2>· Cree su cuenta · </h2>
 

@@ -11,7 +11,7 @@ $html=$templateEngine->render();
 <html lang="en">
 
 <body>
-<script type="text/javascript" src="../../public/js/functions.js"></script>
-<script type="text/javascript" src="../../public/js/login.js"></script>
+<script type="text/javascript" src="../../../public/js/functions.js"></script>
+<script type="text/javascript" src="../../../public/js/login.js"></script>
 </body>
 </html>

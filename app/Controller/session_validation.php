@@ -5,12 +5,12 @@
 session_start();
 
 if(!$_SESSION['id']){
-    header('Location:login.php');
+    header('Location:loginNT.php');
 }
 
 if($_GET['logout']==true){
     session_destroy();
-    header('Location:login.php');
+    header('Location:loginNT.php');
 }
 
 ?>
