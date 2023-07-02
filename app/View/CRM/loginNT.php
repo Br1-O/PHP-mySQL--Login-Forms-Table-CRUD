@@ -1,8 +1,8 @@
 <?php 
 require_once '../../Model/classes/autoload.php';
 include_once 'headLoader.php';
-// $conn->createUsersTable();
-$conn->createCompaniesTable();
+include_once '../templates/headLoader.php';
+$conn->createUsersTable();
 ?>
 
 
@@ -65,6 +65,9 @@ $conn->createCompaniesTable();
         </form>  
       </div>
     </div>
+ 
+  <?php
+    include_once '../templates/footerLoader.php';
+  ?>
 
-  </body>
 </html>

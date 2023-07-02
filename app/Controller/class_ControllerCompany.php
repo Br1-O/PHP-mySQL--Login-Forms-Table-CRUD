@@ -136,7 +136,8 @@ class ControllerCompany{
     }
 
     public function deleteCompany($conn){
-        Company::delete($conn);
+        // Company::delete($conn);
+        return '';
     }
 
     public function filterCompany($conn){
@@ -203,10 +204,9 @@ class ControllerCompany{
 }
 
 if ($_GET){
-
     $q=$_GET['q'];    
     $controllerCompany=new ControllerCompany($conn, $q);
-
 }
+
 
 ?>

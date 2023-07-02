@@ -539,41 +539,31 @@ class Company{
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  Static Methods   ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
 
-        public static function delete($conn){
+        public static function delete($conn, $id){
             
-            if($_GET){
-
-            $id=$_GET['idborrar'];
-
             // Consulta INSERT
-            $sql = "delete from companies WHERE id=$id";
+            $sql = "delete from companies WHERE id=?";
 
             // Prepare la consulta
             $prep = $conn->prepare($sql);
 
+            $prep->bind_param("i",$id);
+
             // Ejecutar la consulta
-            if ($prep->execute()) {
-                echo '<script type="text/javascript">';
-                echo 'alert("' ."Registro borrado exitosamente.". '");';
-                echo 'setTimeout(function() {';
-                echo '  window.location.href = "../View/show_companies.php";';
-                echo '}, 500);';  
-                echo '</script>';
-                exit;
-            } else {
-                echo "Error al borrar el registro: " . $prep->error;
+            try{
+                if ($prep->execute()) {
+                    echo json_encode(["success"=>true,"message"=>"¡Compañia borrada exitosamente!"]);
+                } else {
+                    echo json_encode(["success"=>false,"message"=>"Problema con el servidor."]);
+                }
+            }catch (error) {
+                echo json_encode(["success"=>false,"message"=>$prep->error]);            
             }
-            // Cerrar la conexión
-            $prep->close();
-            $conn->close();} else{
-                echo '<script type="text/javascript">';
-                echo 'alert("' ."Error. No pudo seleccionarse el registro deseado para ser borrado, intentelo nuevamente.". '");';
-                echo 'setTimeout(function() {';
-                echo '  window.location.href = "../View/show_companies.php";';
-                echo '}, 500);';  
-                echo '</script>';
-                exit;
-            }
+            finally{
+                // Cerrar la conexión
+                $prep->close();
+                $conn->close();
+            }    
         }
 
         public static function showData($conn){
@@ -603,19 +593,19 @@ class Company{
 
         }
 
-        public static function searchById($conn, $Id){
+        // public static function searchById($conn, $Id){
 
-            $result=Company::showData($conn);
-            while($row=$result->fetch_assoc()){
-                if ($row['id']==$Id){
-                $json=json_encode($row);
-                }       
-            }
-            if (empty($row)){
-                $json=json_encode($row['empty']='empty');
-            }
-            echo $json;
-        }
+        //     $result=Company::showData($conn);
+        //     while($row=$result->fetch_assoc()){
+        //         if ($row['id']==$Id){
+        //         $json=json_encode($row);
+        //         }       
+        //     }
+        //     if (empty($row)){
+        //         $json=json_encode($row['empty']='empty');
+        //     }
+        //     echo $json;
+        // }
 
         public static function search($conn, $field, $value){
 
@@ -639,8 +629,9 @@ class Company{
             echo $jsonString;
                 
             $conn->close();
-
-            return $row;
+            if (isset($row)) {
+                return $row;
+            }
 
         }
 

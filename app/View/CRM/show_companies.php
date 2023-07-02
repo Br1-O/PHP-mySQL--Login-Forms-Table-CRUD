@@ -77,7 +77,10 @@ require '../../Controller/session_validation.php';
                 <h1 class='titulo-modal'> · Ingrese los datos de la Empresa, <?php echo $_SESSION['name']; ?>. · </h1>
             </div>
 
-                <form id='formInsertCompany' class= 'form'>
+            <form id='formInsertCompany' class= 'form evenColumns'>
+
+                <div class='formColumn'>
+            
                     <!-- Name -->
                     <label for="name">Nombre:</label>
                     <input type="text" id="name" name="name" value="PLACEHOLDER" onfocus="this.value=''" required placeholder="Por favor, ingrese el nombre">
@@ -101,7 +104,10 @@ require '../../Controller/session_validation.php';
                     <!-- Services -->
                     <label for="services">Servicios:</label>
                     <input type="text" id="services" name="services" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese los servicios">
-                    
+                <div>
+
+                <div class='formColumn'>
+
                     <!-- Phone -->
                     <label for="phone">Teléfono:</label>
                     <input type="tel" id="phone" name="phone" pattern="[0-9+-()]" onfocus="this.value=''" required placeholder="Por favor, ingrese el teléfono">
@@ -129,7 +135,10 @@ require '../../Controller/session_validation.php';
                     <!-- Email Responsible -->
                     <label for="emailResponsable">Correo Electrónico del Responsable:</label>
                     <input type="email" id="emailResponsable" name="emailResponsable" value="PLACE@HOLDER.com"  onfocus="this.value=''" placeholder="Por favor, ingrese el correo electrónico del responsable">
-                    
+                </div>
+
+                <div class='formColumn'>
+
                     <!-- Extra Info (Responsable) -->
                     <label for="extraInfoResponsable">Información Adicional (Responsable):</label>
                     <textarea id="extraInfoResponsable" name="extraInfoResponsable" value="N/A" placeholder="Por favor, ingrese información adicional del responsable"></textarea>
@@ -137,7 +146,7 @@ require '../../Controller/session_validation.php';
                     <!-- Extra Info (Company) -->
                     <label for="extraInfoCompany">Información Adicional (Empresa):</label>
                     <textarea id="extraInfoCompany" name="extraInfoCompany" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese información adicional de la empresa"></textarea>
-                    
+                        
                     <!-- Address -->
                     <label for="address">Dirección:</label>
                     <input type="text" id="address" name="address" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese la dirección">
@@ -157,7 +166,10 @@ require '../../Controller/session_validation.php';
                     <!-- Comments Sales 2 -->
                     <label for="commentsSales2">Comentarios de Ventas 2:</label>
                     <textarea id="commentsSales2" name="commentsSales2" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese los comentarios de ventas 2"></textarea>
+                </div> 
                     
+                <div class='formColumn'>
+
                     <!-- Opening Date -->
                     <label for="openingDate">Fecha de Apertura:</label>
                     <input type="date" id="openingDate" name="openingDate" value="<?php echo date('Y-m-d'); ?>" />>
@@ -181,6 +193,10 @@ require '../../Controller/session_validation.php';
                     <!-- Is Interested -->
                     <label for="isInterested">¿Está Interesado?:</label>
                     <input type="checkbox" id="isInterested" name="isInterested" value="1" checked>
+                    
+                </div>
+
+                <div class='formColumn'>
                     
                     <!-- Sales State -->
                     <label for="salesState">Estado de Ventas:</label>
@@ -208,9 +224,8 @@ require '../../Controller/session_validation.php';
                     
                     <!-- Submit Button -->
                     <button id='btnInsertCompany' type="submit">Cargar registro</button>
-                
-                </form>
-            </div>
+                <div>
+            </form>
 
         </dialog>
 
@@ -237,19 +252,17 @@ require '../../Controller/session_validation.php';
         <script>
         ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Show Companies ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
+            const table= document.querySelector('.table-companies')
 
             const query = 'showCompanies';
 
             let urlShowCompanies= `../../Controller/class_ControllerCompany.php?q=${query}`;
 
-            
             const showCompanies = async (url) => {
+
+                let body='';
                 
                 try{
-                    const table= document.querySelector('.table-companies')
-
-                    let body='';
-
                     const res= await fetch(url, {
                         method: 'GET',
                         headers: {
@@ -261,7 +274,14 @@ require '../../Controller/session_validation.php';
                     
                     if(output.empty==='empty'){
 
-                        body+='<Tr><Td colspan="2"> No se encontró ninguna compañia. </Td></Tr>';
+                        dangerAlert.style.display = "block";
+                        dangerAlert.innerText = 'No se encontró ninguna compañia.';
+                        setTimeout(() => {
+                        dangerAlert.style.display = "none";
+                        dangerAlert.innerText = "";
+                        }, 1000)
+
+                        // body+='<Tr><Td colspan="2"> No se encontró ninguna compañia. </Td></Tr>';
                     }else{
                         for (var i in output) {
                             console.log(output);
@@ -300,7 +320,7 @@ require '../../Controller/session_validation.php';
                                 <Tr id='tr-last' class='trIntern'>
                                     <Th id='th-last' colspan ='2' >
                                         <a href=# onclick="editCompany(event, ${output[i].id})" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
-                                        <a href=# href=# onclick="deleteCompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                        <a href=# onclick="deleteCompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
                                         <a href= # onclick="PDFcompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
                                         <a href=# onclick="EXCELcompany(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
                                     </Th>
@@ -310,16 +330,21 @@ require '../../Controller/session_validation.php';
                                 /////■■■■■■■■■ Modify for future feature of number of records per row /////■■■■■■■■■
                                 if ((parseInt(i) + 1) % 3 === 0) {
                                     body += '<tr></tr>';
-                                }
-
-
-                             
+                                }              
                         }
 
                         table.innerHTML=`<tr class='tr-interTable'>${body}</tr>`;
                     }  
                 }catch(error){
-                    console.log("error " + error)
+
+                    dangerAlert.style.display = "block";
+                    dangerAlert.innerText = 'No se pudo conectar con el servidor.';
+                    setTimeout(() => {
+                    dangerAlert.style.display = "none";
+                    dangerAlert.innerText = "";
+                    }, 1000)
+
+                    console.log("Error: " + error)
                 }
             }
 
@@ -351,11 +376,9 @@ require '../../Controller/session_validation.php';
                     console.log(output.empty); //FOR DEBUG
 
                     if(output.empty==='empty'){
-                        console.log(output.empty);
-                        body+='<Tr><Td colspan="2"> No se encontró ninguna compañia. </Td></Tr>';
+                        body+='<Tr><Td colspan="2"><Th> No se encontró ninguna compañia.<Th></Td></Tr>';
                     }else{
                         for (var i in output) {
-                            console.log(output);
                             search+=` 
                                 <td id='td-outside'>
                                 <table>
@@ -408,7 +431,8 @@ require '../../Controller/session_validation.php';
                         table.innerHTML=`<tr class='tr-interTable'>${search}</tr>`;
                         }  
                 }catch(error){
-                        console.log("error " + error)
+                        table.innerHTML=`<tr class='tr-interTable'><Th> No se encontraron resultados. </Th></tr>`;
+                        console.log("Error: " + error);
                 }
             }
                 
@@ -425,8 +449,33 @@ require '../../Controller/session_validation.php';
                 console.log(texto);
             });
 
-    
+        ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Search by ID ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
+                            /*API fetch return all data from company by Id request */
+
+                            const searchById = async (url, id) => {
+
+                                url=`${url}?id=${id}`;
+
+                                try{
+                                    const res= await fetch(url, {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        }
+                                    });
+
+                                    const output = await res.json();
+                                    
+                                    if (output.empty==='empty') {
+                                        console.log('No se encontró el registro.');
+                                    } else {
+                                        return output;
+                                    }
+                                } catch(error){
+                                    console.log('Error: ' + error);
+                                }
+                            }
         
         ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Insert Companies ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
@@ -547,6 +596,16 @@ require '../../Controller/session_validation.php';
                             }, 1000);
 
                     } else {
+
+                        console.log(output.message)
+
+                        Swal.fire({
+                        icon: 'error',
+                        title: '¡No pudo insertarse la compañia!',
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+
                         dangerAlert.style.display = "block";
                         dangerAlert.innerText = output.message;
                         setTimeout(() => {
@@ -555,13 +614,23 @@ require '../../Controller/session_validation.php';
 
                         }, 1000)
                     }
-                } catch (error) {
+
+                }catch (error) {
+
+                    console.log("Error: " + error)
+
+                    Swal.fire({
+                    icon: 'error',
+                    title: '¡Error comunicandose con el servidor!',
+                    showConfirmButton: false,
+                    timer: 1500
+                    });
+
                     dangerAlert.style.display = "block";
                     dangerAlert.innerText = error.message;
                     setTimeout(() => {
-                        dangerAlert.style.display = "none";
-                        dangerAlert.innerText = "";
-
+                    dangerAlert.style.display = "none";
+                    dangerAlert.innerText = "";
                     }, 1000)
                 }
             });
@@ -571,33 +640,225 @@ require '../../Controller/session_validation.php';
         
         ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Edit Company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
-        const editCompany= async (event, companyId) => {
-            event.preventDefault();
-            openModal(insertCompany);
-            document.querySelector('#titulo').innerHTML= "<h1 class='titulo-modal'> · Modifique los datos de la Empresa: </h1>";
+            const editCompany = async (event, idE) => {
+
+                /*Temporary changing of the modal Insert into Update modal, and inserting the existing values into it*/
+
+                event.preventDefault();
+                openModal(insertCompany);
+                    
+                const id = idE;
+                let urlFilterCompanies=`../../Controller/filter_company.php`;
+
+                searchById(urlFilterCompanies,id);
+
+            }
+
+                
+            //     document.querySelector('#titulo').innerHTML= "<h1 class='titulo-modal'> · Modifique los datos de la Empresa: </h1>";
 
 
+            //     /*API fetch PUT request */
+                    
+            //     const id = idE;
+            //     let urlDeleteCompany= `../../Controller/delete_company.php?id=${id}`;
 
-        }
+            //     try{
 
+            //         const res= await fetch(urlDeleteCompany, {
+            //             method: 'PUT',
+            //             headers: {
+            //                 'Content-Type': 'application/json'
+            //             },
+            //             body: JSON.stringify(updatedData)
+            //         });
 
+            //         const output = await res.json();
+
+            //         console.log(output);
+
+            //         if (output.success) {
+
+            //             Swal.fire({
+            //             icon: 'success',
+            //             title: '¡Compañia borrada con éxito!',
+            //             showConfirmButton: false,
+            //             timer: 1500
+            //             });
+            //             showCompanies(urlShowCompanies);
+
+            //             successAlert.style.display = "block";
+            //             successAlert.innerText = output.message;
+            //             setTimeout(() => {
+            //                 successAlert.style.display = "none";
+            //                 successAlert.innerText = "";
+            //             }, 1000);
+
+            //         } else {
+
+            //             console.log(output.message)
+
+            //             Swal.fire({
+            //             icon: 'error',
+            //             title: '¡No se pudo borrar la compañia!',
+            //             showConfirmButton: false,
+            //             timer: 1500
+            //             });
+
+            //             dangerAlert.style.display = "block";
+            //             dangerAlert.innerText = output.message;
+            //             setTimeout(() => {
+            //             dangerAlert.style.display = "none";
+            //             dangerAlert.innerText = "";
+
+            //         }, 1000)
+            //         }
+            //     } catch (error) {
+
+            //         console.log("Error: " + error)
+
+            //         Swal.fire({
+            //         icon: 'error',
+            //         title: '¡Error comunicandose con el servidor!',
+            //         showConfirmButton: false,
+            //         timer: 1500
+            //         });
+
+            //         dangerAlert.style.display = "block";
+            //         dangerAlert.innerText = error.message;
+            //         setTimeout(() => {
+            //         dangerAlert.style.display = "none";
+            //         dangerAlert.innerText = "";
+            //     }, 1000)
+            //         }        
+
+            // }
+
+        ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Delete Company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+
+                
+                const deleteCompany = async (event, idEdit) => {
+
+                    event.preventDefault();
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                    title: '¿Está seguro que desea borrar este registro?',
+                    text: "¡Este cambio no podrá ser revertido!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, borrar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                    }).then( async (result) => {
+                        if (result.isConfirmed) {
+
+                            //■■■■■■ Delete Company API fetch request ■■■■■■//                                
+                            const id = idEdit;
+                            let urlDeleteCompany= `../../Controller/delete_company.php?id=${id}`;
+
+                            try{
+                                const res= await fetch(urlDeleteCompany, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+
+                                const output = await res.json();
+
+                                console.log(output);
+
+                                if (output.success) {
+
+                                    Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Compañia borrada con éxito!',
+                                    text: 'La compañia ha sido borrada del registro.',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    });
+                                    showCompanies(urlShowCompanies);
+
+                                    successAlert.style.display = "block";
+                                    successAlert.innerText = output.message;
+                                    setTimeout(() => {
+                                        successAlert.style.display = "none";
+                                        successAlert.innerText = "";
+                                    }, 1000);
+
+                                } else {
+
+                                    console.log(output.message)
+
+                                    Swal.fire({
+                                    icon: 'error',
+                                    title: '¡No se pudo borrar la compañia!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    });
+
+                                    dangerAlert.style.display = "block";
+                                    dangerAlert.innerText = output.message;
+                                    setTimeout(() => {
+                                    dangerAlert.style.display = "none";
+                                    dangerAlert.innerText = "";
+
+                                }, 1000)
+                                }
+                            } catch (error) {
+
+                                console.log("Error: " + error)
+
+                                Swal.fire({
+                                icon: 'error',
+                                title: '¡Error comunicandose con el servidor!',
+                                showConfirmButton: false,
+                                timer: 1500
+                                });
+
+                                dangerAlert.style.display = "block";
+                                dangerAlert.innerText = error.message;
+                                setTimeout(() => {
+                                dangerAlert.style.display = "none";
+                                dangerAlert.innerText = "";
+                                }, 1000)
+                            };
+
+                           
+                        } else if (result.dismiss === Swal.DismissReason.cancel){
+                            swalWithBootstrapButtons.fire(
+                            'Cancelado.',
+                            'El proceso de borrado se ha cancelado.',
+                            'error'
+                            )
+                        }
+                    })
+                }
 
 
         /////■■■■■■■■■■■■■■■■■■   Open Dialog with single company full info  ■■■■■■■■■■■■■■■■■/////
 
         
-            var fullCompany=document.getElementById('modalCompany');
+            // var fullCompany=document.getElementById('modalCompany');
 
-            var openCompany=document.getElementById('openCompany');
-            openCompany.addEventListener('click', function(event) {
-                event.preventDefault();
-                openModal(fullCompany);
-            });
+            // var openCompany=document.getElementById('openCompany');
+            // openCompany.addEventListener('click', function(event) {
+            //     event.preventDefault();
+            //     openModal(fullCompany);
+            // });
 
-            var closeCompany=document.getElementById('closeCompany');
-            closeCompany.addEventListener('click', function() {
-                closeModal(fullCompany);
-            });
+            // var closeCompany=document.getElementById('closeCompany');
+            // closeCompany.addEventListener('click', function() {
+            //     closeModal(fullCompany);
+            // });
                         
         
         
@@ -612,6 +873,8 @@ require '../../Controller/session_validation.php';
 </body>
 
 </html>
+
+
 
 <?php
 

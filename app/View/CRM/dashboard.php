@@ -1,6 +1,8 @@
 <?php
 require '../../Controller/session_validation.php';
 require 'headLoader.php';
+require_once '../../Model/classes/autoload.php';
+$conn->createCompaniesTable();
 
 switch (true) {
     case ($_SESSION['role']===999):
