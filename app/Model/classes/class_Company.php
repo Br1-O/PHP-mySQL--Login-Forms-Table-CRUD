@@ -469,12 +469,12 @@ class Company{
             openingDate = ?, lastCheckDate = ?, closingDate = ?,
             nextDateForContact = ?, nextDateForClosing = ?,
             isInterested = ?, salesState = ?, isClient = ?,
-            salesmanContacter = ?, salesmanCloser = ?, typeOfContract = ?, companyFiles = ?  
+            salesmanContacter = ?, salesmanCloser = ?, typeOfContract = ?
             WHERE id = ?";
 
             $prep = $this->conn->prepare($sql);
 
-            $prep->bind_param("sssssssssssssssssssssssssisissssi",
+            $prep->bind_param("sssssssssssssssssssssssssisisssi",
                 $this->name,
                 $this->status,
                 $this->opportunityLevel,
@@ -506,34 +506,23 @@ class Company{
                 $this->salesmanContacter,
                 $this->salesmanCloser,
                 $this->typeOfContract,
-                $this->companyFiles,
                 $Id
             );
 
-            // Ejecutar la consulta
-            if ($prep->execute()) {
-                echo '<script type="text/javascript">';
-                echo 'alert("' ."Registro editado exitosamente.". '");';
-                echo 'setTimeout(function() {';
-                echo '  window.location.href = "../View/show_companies.php";';
-                echo '}, 500);';  
-                echo '</script>';
-                exit;
-            } else {
-                echo "Error al editar el registro: " . $prep->error;
-                
-                echo '<script type="text/javascript">';
-                echo 'alert("' ."Error. No pudo editarse el registro, intentelo nuevamente.". '");';
-                echo 'setTimeout(function() {';
-                echo '  window.location.href = "../View/show_companies.php";';
-                echo '}, 500);';  
-                echo '</script>';
-                exit;
+            try{
+                if ($prep->execute()) {
+                    echo json_encode(["success"=>true,"message"=>"¡Editado exitosamente!"]);
+                } else {
+                    echo json_encode(["success"=>false,"message"=>"Problema con el servidor."]);
+                }
+            }catch (error) {
+                echo json_encode(["success"=>false,"message"=>$prep->error]);            
             }
-
-            // Cerrar la conexión
-            $prep->close();
-            $this->conn->close();
+            finally{
+                // Cerrar la conexión
+                $prep->close();
+                $this->conn->close();
+            }    
         }
 
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  Static Methods   ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//

@@ -17,7 +17,7 @@ class User{
         private $phone;
         private $country;
         private $city;
-        private $socialMedia;
+        // private $socialMedia;
         private $picture;
         private $validatedEmail;
         private $registrationDate;
@@ -32,7 +32,7 @@ class User{
         
         public function __construct($conn,$user,$password,$role=1,$name,$lastN,$company="Batch",
         $email,$phone,$city,$country,$birthDate,$gender,
-        $socialMedia=[],$picture="",$validatedEmail=0,
+        $picture="",$validatedEmail=0,
         $registrationDate='0000-00-00',$lastLogin="0000-00-00",$isActive=0,
         $activationToken="",$resetPasswordToken="")
         {
@@ -55,7 +55,6 @@ class User{
             $this->birthDate=$birthDate;
             $this->gender=$gender;
 
-            $this->socialMedia=$socialMedia;
             $this->picture=$picture;
             $this->validatedEmail=$validatedEmail;
 
@@ -130,9 +129,9 @@ class User{
         public function getResetPasswordToken(){
             return $this->resetPasswordToken;
         }
-        public function getSocialMedia(){
-            return $this->socialMedia;
-        }
+        // public function getSocialMedia(){
+        //     return $this->socialMedia;
+        // }
         public function getConn(){
             return $this->conn;
         }
@@ -197,9 +196,9 @@ class User{
         public function setResetPasswordToken($resetPasswordToken){
             $this->resetPasswordToken=$resetPasswordToken;
         }
-        public function setSocialMedia($index, $socialMedia){
-            $this->socialMedia[$index]=$socialMedia;
-        }
+        // public function setSocialMedia($index, $socialMedia){
+        //     $this->socialMedia[$index]=$socialMedia;
+        // }
         public function setConn($conn){
             $this->conn=$conn;
         }
@@ -212,13 +211,13 @@ class User{
             $sql = "INSERT INTO users 
             (user, `password`, `role`, `name`, lastName, 
             birthDate, gender, company, email, phone, 
-            country, city, socialMedia, picture, validatedEmail, 
+            country, city, picture, validatedEmail, 
             registrationDate, lastLogin, isActive, activationToken, resetPasswordToken)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $prep = $this->conn->prepare($sql);
 
-            $prep->bind_param("ssisssssssssssississ",
+            $prep->bind_param("ssissssssssssississ",
             $this->user,
             $this->password,
             $this->role,
@@ -231,7 +230,6 @@ class User{
             $this->phone,
             $this->country,
             $this->city,
-            $this->socialMedia,
             $this->picture,
             $this->validatedEmail,
             $this->registrationDate,
@@ -241,36 +239,149 @@ class User{
             $this->resetPasswordToken);
 
             // Ejecutar la consulta
-            if ($prep->execute()) {
+            try {
 
-                echo '<script type="text/javascript">';
-                echo 'alert("' ."Usuario creado correctamente.". '");';
-                echo 'setTimeout(function() {';
-                echo '  window.location.href = "../View/login.php";';
-                echo '}, 500);';  
-                echo '</script>';
-                exit;
-            } else {
-                echo "Error al insertar el registro: " . $prep->error;
-            } 
-            $prep->close();
-            $this->conn->close();
+                if ($prep->execute()) {
+
+                    echo json_encode(["success"=>true,"message"=>"¡Usuario creado satisfactoriamente!"]);
+                } else {
+                    echo json_encode(["success"=>false,"message"=>"Problema con el servidor."]);
+                }
+
+            } catch (error) {
+                echo json_encode(["success"=>false,"message"=>$prep->error]);            
+            }
+              finally{
+                // Cerrar la conexión
+                $prep->close();
+                $this->conn->close();
+            }    
+        }
+
+        public function edit($id){
+
+            $sql = "UPDATE users SET user = ?, `password` = ?, `role` = ?,
+            `name` = ?, lastName = ?, birthDate = ?, 
+            gender = ?, company = ?, email = ?, phone = ?,
+            country = ?, city = ?, validatedEmail = ?
+            WHERE id = ?";
+
+            $prep = $this->conn->prepare($sql);
+
+            $prep->bind_param("ssisssssssssii",
+            $this->user,
+            $this->password,
+            $this->role,
+            $this->name,
+            $this->lastN,
+            $this->birthDate,
+            $this->gender,
+            $this->company,
+            $this->email,
+            $this->phone,
+            $this->country,
+            $this->city,
+            $this->validatedEmail,
+            $id    
+            );
+
+            try{
+                if ($prep->execute()) {
+                    echo json_encode(["success"=>true,"message"=>"¡Usuario editado exitosamente!"]);
+                } else {
+                    echo json_encode(["success"=>false,"message"=>"Problema con el servidor."]);
+                }
+            }catch (error) {
+                echo json_encode(["success"=>false,"message"=>$prep->error]);            
+            }
+            finally{
+                // Cerrar la conexión
+                $prep->close();
+                $this->conn->close();
+            }    
         }
 
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  Static Methods   ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
         
-
         public static function showData($conn){
 
             $sql="SELECT * FROM users";
             $result = $conn->query($sql);
 
-            $conn->error(); 
+            if ($result->num_rows > 0) {
+                $json = array();
+            
+                while ($row=$result->fetch_assoc()){
+                    $json[]= $row;
+                }
+
+            }else{
+                $json['empty']='empty';
+            }
+
+            $jsonString=json_encode($json);
+
+            echo $jsonString;
+                
             $conn->close();
 
-            return $result;
+            return $json;
         }
 
+        public static function delete($conn, $id){
+            
+            // Consulta INSERT
+            $sql = "DELETE from users WHERE id=?";
+
+            // Prepare la consulta
+            $prep = $conn->prepare($sql);
+
+            $prep->bind_param("i",$id);
+
+            // Ejecutar la consulta
+            try{
+                if ($prep->execute()) {
+                    echo json_encode(["success"=>true,"message"=>"¡Usuario borrado exitosamente!"]);
+                } else {
+                    echo json_encode(["success"=>false,"message"=>"Problema con el servidor."]);
+                }
+            }catch (error) {
+                echo json_encode(["success"=>false,"message"=>$prep->error]);            
+            }
+            finally{
+                // Cerrar la conexión
+                $prep->close();
+                $conn->close();
+            }    
+        }
+
+        public static function search($conn, $field, $value){
+
+            $sql="SELECT * FROM users WHERE $field LIKE '%$value%'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $json = array();
+            
+                while ($row=$result->fetch_assoc()){
+                
+                    $json[]= $row;
+                }
+
+            }else{
+                $json['empty']='empty';
+            }
+
+            $jsonString=json_encode($json);
+
+            echo $jsonString;
+                
+            $conn->close();
+            if (isset($row)) {
+                return $row;
+            }
+        }
+        
         public static function searchById($conn, $Id){
 
             $result=User::showData($conn);
@@ -294,46 +405,23 @@ class User{
         public static function searchByUsername($conn,$Username){
 
             $result=User::showData($conn);
-            while($row=$result->fetch_assoc()){
-                if ($row['user']==$Username){
-                return $row;
-                }       
+            foreach ($result as $user) {
+                if ($user['user']==$Username){
+                    return $user;
+                }   
+            }{
+                   
             }
             if (empty($row)){
                 echo '<script type="text/javascript">';
                     echo 'alert("' ."Error. No pudo encontrarse el usuario.". '");';
                     echo 'setTimeout(function() {';
-                    echo '  window.location.href = "../View/login.php";';
+                    echo '  window.location.href = "../View/CRM/loginNT.php";';
                     echo '}, 500);';  
                     echo '</script>';
                     exit;
             }
         }
-
-        public static function search($conn, $field, $value){
-
-            $result=User::showData($conn);
-            $stack=array();
-            while($row=$result->fetch_assoc()){
-                if ($row["$field"]==$value){
-                    array_push($stack, $row);
-                }       
-            } 
-            if (empty($stack)){
-                echo '<script type="text/javascript">';
-                    echo 'alert("' ."Error. No pudo encontrarse el usuario.". '");';
-                    echo 'setTimeout(function() {';
-                    echo '  window.location.href = "../View/login.php";';
-                    echo '}, 500);';  
-                    echo '</script>';
-                    exit;
-            }
-            return $stack;
-        }
-
-
-
-
 }
 
 ?>

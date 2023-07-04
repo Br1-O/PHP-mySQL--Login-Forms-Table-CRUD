@@ -1,154 +1,911 @@
 <?php
-
 require '../../Controller/session_validation.php';
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/styles.css">
-    <script type="text/javascript" src="../../../public/js/functions.js"></script>
-    <title>Listado de Empresas</title>
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ CSS imports ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
+        <link rel="stylesheet" type="text/css" href="../../../public/css/styles.css">
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   Tittle    ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
+        <title>Listado de Usuarios</title>
 </head>
 
-<body background: "linear-gradient(to bottom, #8d8de3, #a874cd)"  bgcolor="#2C62D4">
+<body>
 
-    <div class="info-bar" style='max-width:55%;'>
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Search | Nav Bar  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
 
-        <button name="btn-open" onclick="openModal()">Aplicar Filtros</button>
+        <div class="info-bar">
 
-        <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar Compañias </button>
+        <!--■■■■■■■■ Search ■■■■■■■■-->
 
-        <button name="form-company" onclick="redirectToPage('form_company.php')"> Insertar Compañia</button>
-
-        <button name="mostrarUsuarios" onclick="redirectToPage('show_users.php')"> Mostrar Todos</button>
-
-        <button><a href='../../Controller/PDF_companies.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
-       
-        <button><a href='../../Controller/PDF_company.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button>
-
-        <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
-            <input type="hidden" name="logout" value="true">
-            <input type="submit" class='link closeSesion' value='Cerrar Sesión'>
-        </form>
- 
-    </div>
-
-
-    <dialog class='modalFilters' id='modalFilters'>
-
-        <div class="div-modal">
-            <button name="btn-close-Modal" onclick="closeModal()">Cerrar</button>
-            <form class="form" action="../Controller/filter_user.php" method="get">
-                <label for="filter-field"> Seleccionar filtro:</label>
-                <select name="filter-field" id="">
+            <form class='search' action="../../Controller/filter_user.php" method="get">
+                <select name="searchField" id='searchField'>
+                    <option value="option" selected disabled>Categoria: </option>
                     <option value="user">Usuario</option>
                     <option value="name">Nombre</option>
-                    <option value="lastN">Apellido</option>
-                    <option value="company">Empresa</option>
-                    <option value="email">Email</option>
+                    <option value="lastName">Apellido</option>
+                    <option value="company">Compañia</option>
                     <option value="phone">Telefono</option>
-                    <option value="city">Localidad</option>
+                    <option value="email">Email</option>
+                    <option value="city">Ciudad</option>
                     <option value="country">País</option>
-                    <option value="gender">Género</option>
+                    <option value="registrationDate">Fecha de Registro</option>
                 </select>
-                <label for="value"> Indique el valor a buscar:</label>
-                <input type="text" name="value" placeholder= "Ingrese un valor" required>
-                <input type="submit" value="Buscar">
+            
+                <input type="text" id='inputSearch' placeholder="Ingrese su busqueda">  
 
-                <!-- <label for="">A por nombre</label>
-                <input type="radio" name="" id="">
-                <label for=""></label>
-                <input type="radio" name="" id="">
-                <label for=""></label>
-                <input type="radio" name="" id="">
-                <label for=""></label>
-                <input type="radio" name="" id="">
-                <label for=""></label>
-                <input type="radio" name="" id=""> -->
             </form>
 
-            <!-- <form class="form" action="filter_company.php" method="get">
-                <label for="campo"> Indique la letras o letras por las que comienza el valor a buscar:</label>
-                <input type="text" name="letra" placeholder= "Ingrese un valor" required>
-                <input type="submit" value="Buscar">
-            </form> -->
-        
+
+        <!-- ■■■■■■■■ Nav Bar ■■■■■■■■-->
+            <div id='optionsNav'>
+
+                <button name="mostrarDatos" onclick="redirectToPage('show_users.php')"> Mostrar todos </button>
+
+                <button name="form-user" id='openInsertUser'> Insertar Usuario </button>
+
+                <button name="mostrarUsuarios" onclick="redirectToPage('show_companies.php')"> Mostrar Compañias</button>
+
+                <button><a href='../../Controller/PDF_users.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
+            
+                <button><a href='../../Controller/PDF_user.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button>
+
+                <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
+                    <input type="hidden" name="logout" value="true">
+                    <input type="submit" class='link closeSesion' value='Cerrar Sesión'>
+                </form>
+
+            </div>
         </div>
 
-    </dialog>
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Modals | Insert User · Show Full User ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
+       
+        <!--·■■■ Insert Modal ■■■-->
+
+            <dialog class='modal' id='modalInsertUser'>
+
+                <div class="div-modal">
+                <button name="btn-close-Modal" id='closeInsertUser'>Cerrar</button>
+                
+                <div id="titulo">
+                    <h1 class='titulo-modal'> · Ingrese los datos del Usuario, <?php echo $_SESSION['name']; ?>. · </h1>
+                </div>
+
+                <form id='formInsertUser' class= 'form evenColumns'>
+
+                    <div class='formColumn'>
+
+                        <!-- User -->
+                        <label for="user">Usuario:</label>
+                        <input type="text" id="user" name="user" required placeholder="Por favor, ingrese el usuario">
+                
+                        <!-- Password -->
+                        <label for="password">Password:</label>
+                        <input type="text" id="password" name="password" required placeholder="Por favor, ingrese la contraseña">
+                        
+                        <!-- role -->
+                        <label for="role"> Rol:</label>
+                        <select name="role" id='role'>
+                            <option value="option" selected disabled>Selecciona el Rol: </option>
+                            <option value=999>Admin</option>
+                            <option value=0>Cliente</option>
+                            <option value=1>Scrum Master</option>
+                            <option value=2>First Contact</option>
+                            <option value=3>Vendedor</option>
+                        </select>
+
+                        <!-- name -->
+                        <label for="name">Nombre:</label>
+                        <input type="text" id="name" name="name" placeholder="Por favor, ingrese el nombre">
+                        
+                        <!-- Industry -->
+                        <label for="lastN">Apellido:</label>
+                        <input type="text" id="lastN" name="lastN" placeholder="Por favor, ingrese el apellido">
+                        
+                        <!-- Services -->
+                        <label for="birthDate">Fecha de Nacimiento:</label>
+                        <input type="date" id="birthDate" name="birthDate" placeholder="Por favor, ingrese la fecha de nacimiento">
+                    <div>
+
+                    <div class='formColumn'>
+
+                        <!-- Gender -->
+                        <label for="gender">Genero:</label>
+                        <input type="text" id="gender" name="gender"  placeholder="Por favor, ingrese el genero">
+
+                        <!-- Company -->
+                        <label for="company">Compañia:</label>
+                        <input type="text" id="company" name="company" placeholder="Por favor, ingrese la compañia">
+
+                        <!-- Email -->
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" id="email" name="email" placeholder="Por favor, ingrese el correo electrónico">
+
+                        <!-- Phone -->
+                        <label for="phone">Teléfono:</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Por favor, ingrese el teléfono">
+                        
+                        <!-- Country -->
+                        <label for="country">País:</label>
+                        <input type="text" id="country" name="country" placeholder="Por favor, ingrese el país">
+                        
+                        <!-- City -->
+                        <label for="city">Ciudad:</label>
+                        <input type="text" id="city" name="city" placeholder="Por favor, ingrese la ciudad">
+
+                        <!-- Submit Button -->
+                        <button id='btnInsertUser' type="submit">Cargar usuario</button>
+
+                    </div>
+
+                </form>
+            </dialog>
+
+        <!--·■■■ PUT Modal ■■■-->
+
+            <dialog class='modal' id='modalEditUser'>
+
+                <div class="div-modal">
+                <button name="btn-close-Modal" id='closeEditUser'>Cerrar</button>
+
+                <div id="titulo">
+                    <h1 class='titulo-modal'> · Modifique los datos del Usuario, <?php echo $_SESSION['name']; ?>. · </h1>
+                </div>
+
+                <form id='formEditUser' class= 'form evenColumns'>
+
+                    <div class='formColumn'>
+
+                        <!-- User -->
+                        <label for="user">Usuario:</label>
+                        <input type="text" id="userEdit" name="user" required placeholder="Por favor, ingrese el usuario">
+
+                        <!-- Password -->
+                        <label for="password">Password:</label>
+                        <input type="text" id="passwordEdit" name="password" required placeholder="Por favor, ingrese la contraseña">
+                        
+                        <!-- role -->
+                        <label for="role"> Rol:</label>
+                        <select name="role" id='roleEdit'>
+                            <option value="option" selected disabled>Selecciona el nuevo Rol: </option>
+                            <option value=999>Admin</option>
+                            <option value=0>Cliente</option>
+                            <option value=1>Scrum Master</option>
+                            <option value=2>First Contact</option>
+                            <option value=3>Vendedor</option>
+                        </select>
+
+                        <!-- name -->
+                        <label for="name">Nombre:</label>
+                        <input type="text" id="nameEdit" name="name" placeholder="Por favor, ingrese el nombre">
+                        
+                        <!-- Industry -->
+                        <label for="lastN">Apellido:</label>
+                        <input type="text" id="lastNEdit" name="lastN" placeholder="Por favor, ingrese el apellido">
+                        
+                        <!-- Services -->
+                        <label for="birthDate">Fecha de Nacimiento:</label>
+                        <input type="date" id="birthDateEdit" name="birthDate" placeholder="Por favor, ingrese la fecha de nacimiento">
+                    <div>
+
+                    <div class='formColumn'>
+
+                        <!-- Gender -->
+                        <label for="gender">Genero:</label>
+                        <input type="text" id="genderEdit" name="gender"  placeholder="Por favor, ingrese el genero">
+
+                        <!-- Company -->
+                        <label for="company">Compañia:</label>
+                        <input type="text" id="companyEdit" name="company" placeholder="Por favor, ingrese la compañia">
+
+                        <!-- Email -->
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" id="emailEdit" name="email" placeholder="Por favor, ingrese el correo electrónico">
+
+                        <!-- Phone -->
+                        <label for="phone">Teléfono:</label>
+                        <input type="tel" id="phoneEdit" name="phone" placeholder="Por favor, ingrese el teléfono">
+                        
+                        <!-- Country -->
+                        <label for="country">País:</label>
+                        <input type="text" id="countryEdit" name="country" placeholder="Por favor, ingrese el país">
+                        
+                        <!-- City -->
+                        <label for="city">Ciudad:</label>
+                        <input type="text" id="cityEdit" name="city" placeholder="Por favor, ingrese la ciudad">
+
+                        <!-- City -->
+                        <label for="photo">Foto:</label>
+                        <input type="text" id="photo" name="photo" placeholder="Por favor, ingrese la foto del usuario">
+
+                        <!-- City -->
+                        <label for="validatedEmail">Email Validado:</label>
+                        <input type="checkbox" id="validatedEmailEdit" name="validatedEmail" value=1 placeholder="Por favor, ingrese si el email está validado">
+
+                        <!-- Submit Button -->
+                        <button id='btnEditUser' type="submit">Cargar usuario</button>
+
+                    </div>
+
+                </form>
+                </dialog>
+
+
+
+        <!--·■■■ Full data Modal ■■■-->
+
+            <dialog class='modal' id='modalCompany'>
+                <div class="div-modal">
+                    <button name="btn-close-Modal" id='closeCompany' >Cerrar</button>
+                </div>
+            </dialog>
+
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Alerts in page | Table of Users ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
+
+        <div class="container" id="alerts-container">
+            <div class="alerts">
+                <div class="alert alert-success" style='display:none;'> Success! </div>
+                <div class="alert alert-danger" style='display:none;'> Failed. </div>
+            </div>
+        </div>
+
+        <table class='table-users'> 
+        </table>
+
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Funciones API Fetch ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->   
+
         <script>
-            var modal=document.getElementById('modalFilters');
+        ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Show Users ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
-            function openModal(){modal.showModal();}
+            let successAlert= document.querySelector('.alert-success');
 
-            function closeModal(){modal.close();}
-        </script>
-</body>
-</html>
+            let dangerAlert= document.querySelector('.alert-danger');
 
-<?php
-error_reporting(0);
-if($_GET['data_user']){
+            const table= document.querySelector('.table-users')
 
-    $results=$_GET['data_user'];
+            let urlShowUsers= `../../Controller/show_users.php`;
 
-    echo "<table class='table-companies'>";
+            const showUsers = async (url) => {
 
-    foreach ($results as $fila){
-        //imprimir datos en cada fila
+                let body='';
+                
+                try{
+                    const res= await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const output = await res.json();
+                    
+                    if(output.empty==='empty'){
+
+                        dangerAlert.style.display = "block";
+                        dangerAlert.innerText = 'No se encontró ningun usuario.';
+                        setTimeout(() => {
+                        dangerAlert.style.display = "none";
+                        dangerAlert.innerText = "";
+                        }, 1000)
+
+                        // body+='<Tr><Td colspan="2"> No se encontró ninguna compañia. </Td></Tr>';
+
+                    }else{
+                        for (var i in output) {
+                            body+=` 
+                                <td id='td-outside'>
+                                <table>
+                                <Tr class='trIntern'>
+                                    <Th rowspan ='10'id='th-1'>
+                                        <a href='#' id='openCompany' onclick=openFullUser(${output[i].id})>${output[i].user}</a>
+                                    </Th>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <th>Nombre</Th> <Td id='td-1'> ${output[i].name} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Apellido</Th> <Td> ${output[i].lastName} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Compañia</Th><Td> ${output[i].company} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Telefono</Th><Td> ${output[i].phone} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Email</Th><Td> ${output[i].email} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Ciudad</Th><Td> ${output[i].city} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>País</Th><Td> ${output[i].country} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Fecha de registro</Th><Td> ${output[i].registrationDate} </Td>
+                                </Tr>
+                                <Tr id='tr-last' class='trIntern'>
+                                    <Th id='th-last' colspan ='2' >
+                                        <a href=# onclick="editUser(event, ${output[i].id})" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
+                                        <a href=# onclick="deleteUser(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                        <a href= # onclick="PDFuser(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                        <a href=# onclick="EXCELuser(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                    </Th>
+                                </Tr>
+                                </table>
+                                </td>`;
+                                /////■■■■■■■■■ Modify for future feature of number of records per row /////■■■■■■■■■
+                                if ((parseInt(i) + 1) % 3 === 0) {
+                                    body += '<tr></tr>';
+                                }              
+                        }
+
+                        table.innerHTML=`<tr class='tr-interTable'>${body}</tr>`;
+                    }  
+                }catch(error){
+
+                    dangerAlert.style.display = "block";
+                    dangerAlert.innerText = 'No se pudo conectar con el servidor.';
+                    setTimeout(() => {
+                    dangerAlert.style.display = "none";
+                    dangerAlert.innerText = "";
+                    }, 1000)
+
+                    console.log("Error: " + error)
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", showUsers(urlShowUsers));
+
+
+        ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Search Users ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+        
+            const inputSearch = document.querySelector('#inputSearch');
+            const searchFieldSelect= document.querySelector('#searchField');
+
+            const searchUsers = async (url) => {
+                
+                try{
+                    const table= document.querySelector('.table-users')
+
+                    let search='';
+
+                    const res= await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const output = await res.json();
+
+                    if(output.empty==='empty'){
+                        body+='<Tr><Td colspan="2"><Th> No se encontró ningun usuario.<Th></Td></Tr>';
+                    }else{
+                        for (var i in output) {
+
+                            search+=` 
+                                <td id='td-outside'>
+                                <table>
+                                <Tr class='trIntern'>
+                                    <Th rowspan ='10'id='th-1'>
+                                        <a href='#' id='openCompany' onclick=openFullUser(${output[i].id})>${output[i].user}</a>
+                                    </Th>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <th>Nombre</Th> <Td id='td-1'> ${output[i].name} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Apellido</Th> <Td> ${output[i].lastName} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Compañia</Th><Td> ${output[i].company} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Telefono</Th><Td> ${output[i].phone} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Email</Th><Td> ${output[i].email} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Ciudad</Th><Td> ${output[i].city} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>País</Th><Td> ${output[i].country} </Td>
+                                </Tr>
+                                <Tr class='trIntern'>
+                                    <Th>Fecha de registro</Th><Td> ${output[i].registrationDate} </Td>
+                                </Tr>
+                                <Tr id='tr-last' class='trIntern'>
+                                    <Th id='th-last' colspan ='2' >
+                                        <a href=# onclick="editCompany(event, ${output[i].id})" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
+                                        <a href=# onclick="deleteCompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                        <a href= # onclick="PDFcompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                        <a href=# onclick="EXCELcompany(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                    </Th>
+                                </Tr>
+                                </table>
+                                </td>`;
+
+                                     /////■■■■■■■■■ Modify for future feature of number of records per row /////■■■■■■■■■
+                                if ((parseInt(i) + 1) % 3 === 0) {
+                                    search += '<tr></tr>';
+                                }
+                            }
+
+                        table.innerHTML=`<tr class='tr-interTable'>${search}</tr>`;
+                        }  
+                }catch(error){
+                        table.innerHTML=`<tr class='tr-interTable'><Th> No se encontraron resultados. </Th></tr>`;
+                        console.log("Error: " + error);
+                }
+            }
+                
+            inputSearch.addEventListener('keyup', async (event)=>{
+                
+                let searchField= searchFieldSelect.value;
+                let value= inputSearch.value;
+
+                let urlFilterUsers=`../../Controller/filter_user.php?searchField=${searchField}&value=${value}`;
+
+                let texto= event.target.value;
+
+                await searchUsers(urlFilterUsers);
+                console.log(texto);
+            });
+
+        ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Search by ID ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+
+            /*API fetch return all data from user by Id request */
+
+            const searchById = async (url, id) => {
+
+                url=`${url}?id=${id}`;
+
+                try{
+                    const res= await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const output = await res.json();
+                    
+                    if (output.empty==='empty') {
+                        console.log('No se encontró el registro.');
+                    } else {
+                        return output;
+                    }
+                } catch(error){
+                    console.log('Error: ' + error);
+                }
+            }
+
+        ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Insert Users ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+
+
+            let btnInsertUser= document.getElementById('btnInsertUser');
+
+            btnInsertUser.addEventListener('click', async (event) =>{
+
+                event.preventDefault();
+
+                try {
+                    let user= document.getElementById('user').value;
+                    let password= document.getElementById('password').value;
+                    let role= document.getElementById('role').value;
+                    let name= document.getElementById('name').value;
+                    let lastN= document.getElementById('lastN').value;
+                    let birthDate= document.getElementById('birthDate').value;
+                    let gender= document.getElementById('gender').value;
+                    let company= document.getElementById('company').value;
+                    let phone= document.getElementById('phone').value;
+                    let email= document.getElementById('email').value;
+                    let country= document.getElementById('country').value;
+                    let city= document.getElementById('city').value;
+
+                    //■■■■■■ API fetch POST to Insert ■■■■■//
+
+                    let urlInsert= '../../Controller/insert_user.php';
+
+                    const res= await fetch(urlInsert, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                "user": user,
+                                "password": password,
+                                "role": role,
+                                "name": name,
+                                "lastN": lastN,
+                                "birthDate": birthDate,
+                                "gender": gender,
+                                "company": company,
+                                "phone": phone,
+                                "email": email,
+                                "country": country,
+                                "city": city,
+                                }),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+
+                        })
+                        console.log(res);
+                        const output= await res.json();
+                        console.log(output);
+
+                        if (output.success) {
+
+                            Swal.fire({
+                            icon: 'success',
+                            title: output.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                            });
+
+                            successAlert.style.display = "block";
+                            successAlert.innerText = output.message;
+
+                            let form=document.querySelector('#formInsertUser');
+                            form.reset();
+                            closeModal(insertUser);
+                            showUsers(urlShowUsers);
+                            setTimeout(() => {
+                                successAlert.style.display = "none";
+                                successAlert.innerText = "";
+
+                            }, 1000);
+
+                    } else {
+
+                        console.log(output.message)
+
+                        Swal.fire({
+                        icon: 'error',
+                        title: '¡No pudo crearse el usuario!',
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+
+                        dangerAlert.style.display = "block";
+                        dangerAlert.innerText = output.message;
+                        setTimeout(() => {
+                            dangerAlert.style.display = "none";
+                            dangerAlert.innerText = "";
+
+                        }, 1000)
+                    }
+
+                }catch (error) {
+
+                    console.log("Error: " + error)
+
+                    Swal.fire({
+                    icon: 'error',
+                    title: '¡Error comunicandose con el servidor!',
+                    showConfirmButton: false,
+                    timer: 1500
+                    });
+
+                    dangerAlert.style.display = "block";
+                    dangerAlert.innerText = error.message;
+                    setTimeout(() => {
+                    dangerAlert.style.display = "none";
+                    dangerAlert.innerText = "";
+                    }, 1000)
+                }
+            });
+
+            // let urlInsert= `../Controller/class_ControllerCompany.php?q=${q}`;
+
+        
+        ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Edit User ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+
+            var modalEditUser=document.getElementById('modalEditUser');
+
+            var closeEditUser=document.getElementById('closeEditUser');
+            closeEditUser.addEventListener('click', function() {
+                closeModal(modalEditUser);
+            });
+            
+            const editUser = async (event, idE) => {
+
+                event.preventDefault();
+
+                openModal(modalEditUser);
+           
+                console.log(idE); /*for DEBUG*/
+
+                let urlFilterUser=`../../Controller/filter_user.php`;
+
+                /*Getting the values of the user via its ID*/
+
+                var user= await searchById(urlFilterUser,idE);
+                
+                /*changing the default values of the form into the data from db*/
+
+                document.getElementById('userEdit').value = user[0].user;
+                document.getElementById('passwordEdit').value = user[0].password;
+                document.getElementById('roleEdit').value = user[0].role;
+                document.getElementById('nameEdit').value = user[0].name;
+                document.getElementById('lastNEdit').value = user[0].lastName;
+                document.getElementById('birthDateEdit').value = user[0].birthDate;
+                document.getElementById('genderEdit').value = user[0].gender;
+                document.getElementById('companyEdit').value = user[0].company;
+                document.getElementById('emailEdit').value = user[0].email;
+                document.getElementById('phoneEdit').value = user[0].phone;
+                document.getElementById('countryEdit').value = user[0].country;
+                document.getElementById('cityEdit').value = user[0].city;
+                
+                //checkbox value handler
+                    let checkbox= document.getElementById('validatedEmailEdit');
+
+                    checkbox.checked = (user[0].validatedEmail == 1);
+
+                //■■■■■■ API fetch PUT request to Edit Data ■■■■■//
+
+                let btnEdit=document.getElementById('btnEditUser');
+
+                let urlEdit= '../../Controller/edit_user.php';
+
+                btnEdit.addEventListener('click', async (event) =>{
+
+                    event.preventDefault();
+
+                    var checkboxValue = checkbox.checked ? 1 : 0;
      
-        echo "<Tr><Th rowspan ='9'id='th-1'><a href='show_company.php?id=".$fila['id']."'>".$fila["usuario"]."</a></Th></Tr>";
-        echo "<Tr><th>Nombre</Th><Td id='td-1'>".$fila["nombre"]."</Td></Tr>";
-        echo "<Tr><Th>Apellido</Th><Td>".$fila["apellido"]."</Td></Tr>";
-        echo "<Tr><Th>Empresa</Th><Td>".$fila["empresa"]."</Td></Tr>";
-        echo "<Tr><Th>Email</Th><Td>".$fila["email"]."</Td></Tr>";
-        echo "<Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
-        echo "<Tr><Th>Localidad</Th><Td>".$fila["localidad"]."</Td></Tr>";
-        echo "<Tr><Th>País</Th><Td>".$fila["pais"]."</Td></Tr>";
-        echo "<Tr id='tr-last' ><Th id='th-last' colspan ='2' >
-        <a title='Editar' class='tableIcon' href='edit_company.php?assoc=".$fila['id']."' ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
-        <a title='Borrar' href='../../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        <a title='Exportar PDF' href='../../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        <a title='Exportar Excel' href='../../Controller/EXCEL_company.php?id=".$fila['id']."'><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        </Th></Tr>";
+                    let user= document.getElementById('userEdit').value;
+                    let password= document.getElementById('passwordEdit').value;
+                    let role= document.getElementById('roleEdit').value;
+                    let name= document.getElementById('nameEdit').value;
+                    let lastName= document.getElementById('lastNEdit').value;
+                    let birthDate= document.getElementById('birthDateEdit').value;
+                    let gender= document.getElementById('genderEdit').value;
+                    let company= document.getElementById('companyEdit').value;
+                    let email= document.getElementById('emailEdit').value;
+                    let phone= document.getElementById('phoneEdit').value;
+                    let country= document.getElementById('countryEdit').value;
+                    let city= document.getElementById('cityEdit').value;
+                    let validatedEmail= checkboxValue;
+                                        
+                    try {
+                        let url= `${urlEdit}`;
+                        const res= await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                "id":idE,
+                                "user": user,
+                                "password": password,
+                                "role": role,
+                                "name": name,
+                                "lastN": lastName,
+                                "birthDate": birthDate,
+                                "gender": gender,
+                                "company": company,
+                                "email": email,
+                                "phone": phone,
+                                "country": country,
+                                "city": city,
+                                "validatedEmail": validatedEmail,
+                                })
+                        })
 
-    }
-    echo "</table>";
+                        const output= await res.json();
+
+                        //displaying the updated users list*//
+
+                        showUsers(urlShowUsers);
+
+                        if (output.success) {
+
+                            Swal.fire({
+                            icon: 'success',
+                            title: `${output.message}`,
+                            showConfirmButton: false,
+                            timer: 1500
+                            });
+
+                            successAlert.style.display = "block";
+                            successAlert.innerText = output.message;
+
+                            /*reseting the form, and closing the modal*/
+
+                            let form=document.getElementById('formEditUser');
+
+                            form.reset();
+
+                            closeModal(modalEditUser);
+
+                            setTimeout(() => {
+                                successAlert.style.display = "none";
+                                successAlert.innerText = "";
+
+                            }, 1000);
+
+                        } else {
+
+                            console.log(output.message)
+
+                            Swal.fire({
+                            icon: 'error',
+                            title: '¡No pudo editarse el usuario!',
+                            showConfirmButton: false,
+                            timer: 1500
+                            });
+
+                            dangerAlert.style.display = "block";
+                            dangerAlert.innerText = output.message;
+                            setTimeout(() => {
+                                dangerAlert.style.display = "none";
+                                dangerAlert.innerText = "";
+
+                            }, 1000)
+                        }
+
+                    }catch (error) {
+
+                        console.log("Error: " + error)
+
+                        Swal.fire({
+                        icon: 'error',
+                        title: '¡Error comunicandose con el servidor!',
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+
+                        dangerAlert.style.display = "block";
+                        dangerAlert.innerText = error.message;
+                        setTimeout(() => {
+                        dangerAlert.style.display = "none";
+                        dangerAlert.innerText = "";
+                        }, 1000)
+                    }
+                });
+            }
+
+        ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Delete User ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+
+                
+                const deleteUser = async (event, idEdit) => {
+
+                    event.preventDefault();
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                    title: '¿Está seguro que desea borrar este usuario?',
+                    text: "¡Este cambio no podrá ser revertido!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, borrar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                    }).then( async (result) => {
+                        if (result.isConfirmed) {
+
+                            //■■■■■■ Delete Company API fetch request ■■■■■■//                                
+                            const id = idEdit;
+                            let urlDeleteUser= `../../Controller/delete_user.php?id=${id}`;
+
+                            try{
+                                const res= await fetch(urlDeleteUser, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+
+                                const output = await res.json();
+
+                                if (output.success) {
+
+                                    Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Usuario borrado con éxito!',
+                                    text: 'El usuario ha sido borrado del registro.',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    });
+
+                                    showUsers(urlShowUsers);
+
+                                    successAlert.style.display = "block";
+                                    successAlert.innerText = output.message;
+                                    setTimeout(() => {
+                                        successAlert.style.display = "none";
+                                        successAlert.innerText = "";
+                                    }, 1000);
+
+                                } else {
+
+                                    console.log(output.message)
+
+                                    Swal.fire({
+                                    icon: 'error',
+                                    title: '¡No se pudo borrar al usuario!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    });
+
+                                    dangerAlert.style.display = "block";
+                                    dangerAlert.innerText = output.message;
+                                    setTimeout(() => {
+                                    dangerAlert.style.display = "none";
+                                    dangerAlert.innerText = "";
+
+                                }, 1000)
+                                }
+                            } catch (error) {
+
+                                console.log("Error: " + error)
+
+                                Swal.fire({
+                                icon: 'error',
+                                title: '¡Error comunicandose con el servidor!',
+                                showConfirmButton: false,
+                                timer: 1500
+                                });
+
+                                dangerAlert.style.display = "block";
+                                dangerAlert.innerText = error.message;
+                                setTimeout(() => {
+                                dangerAlert.style.display = "none";
+                                dangerAlert.innerText = "";
+                                }, 1000)
+                            };
+
+                           
+                        } else if (result.dismiss === Swal.DismissReason.cancel){
+                            swalWithBootstrapButtons.fire(
+                            'Cancelado.',
+                            'El proceso de borrado se ha cancelado.',
+                            'error'
+                            )
+                        }
+                    })
+                }
 
 
-}else{
+        /////■■■■■■■■■■■■■■■■■■   Open Dialog with single company full info  ■■■■■■■■■■■■■■■■■/////
 
-    require_once '../../Model/classes/autoload.php';
+        
+            // var fullCompany=document.getElementById('modalCompany');
+
+            // var openCompany=document.getElementById('openCompany');
+            // openCompany.addEventListener('click', function(event) {
+            //     event.preventDefault();
+            //     openModal(fullCompany);
+            // });
+
+            // var closeCompany=document.getElementById('closeCompany');
+            // closeCompany.addEventListener('click', function() {
+            //     closeModal(fullCompany);
+            // });
+                        
+        
+        
     
-    $fil=User::showData($conn);
+        </script>
 
-    echo "<table class='table-companies'>";
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Includes Js Functions & External CDNs ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->   
+                
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript" src="../../../public/js/functionsUsers.js"></script>
 
-    while($fila=$fil->fetch_assoc()){
-        //imprimir datos en cada fila
-    
-        echo "<Tr><Th rowspan ='9'id='th-1'><a href='show_company.php?id=".$fila['id']."'>".$fila["usuario"]."</a></Th></Tr>";
-        echo "<Tr><th>Nombre</Th><Td id='td-1'>".$fila["nombre"]."</Td></Tr>";
-        echo "<Tr><Th>Apellido</Th><Td>".$fila["apellido"]."</Td></Tr>";
-        echo "<Tr><Th>Empresa</Th><Td>".$fila["empresa"]."</Td></Tr>";
-        echo "<Tr><Th>Email</Th><Td>".$fila["email"]."</Td></Tr>";
-        echo "<Tr><Th>Telefono</Th><Td>".$fila["telefono"]."</Td></Tr>";
-        echo "<Tr><Th>Localidad</Th><Td>".$fila["localidad"]."</Td></Tr>";
-        echo "<Tr><Th>País</Th><Td>".$fila["pais"]."</Td></Tr>";
-        echo "<Tr id='tr-last' ><Th id='th-last' colspan ='2' >
-        <a title='Editar' class='tableIcon' href='edit_company.php?assoc=".$fila['id']."' ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
-        <a title='Borrar' href='../../Controller/delete_company.php?idborrar=".$fila['id']."'><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        <a title='Exportar PDF' href='../../Controller/PDF_company.php?id=".$fila['id']."'><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        <a title='Exportar Excel' href='../../Controller/EXCEL_company.php?id=".$fila['id']."'><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-        </Th></Tr>";
-    }
+</body>
 
-    echo "</table>";    
-}
-
-?>
+</html>

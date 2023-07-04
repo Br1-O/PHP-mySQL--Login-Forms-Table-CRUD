@@ -63,7 +63,7 @@ if($_POST['user_login']){
     }
 
 }else{
-    header('Location:../View/CRM/login.php');
+    header('Location:../View/CRM/loginNT.php');
 }
 
 ?>

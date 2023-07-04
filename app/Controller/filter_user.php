@@ -2,10 +2,10 @@
 
 require_once '../Model/classes/autoload.php';
 
-if($_GET['filter-field']){
-    $results= User::search($conn, $_GET['filter-field'], $_GET['value']);
-    $query=http_build_query(array('data_user'=>$results));
-    header("Location: ../View/show_users.php?$query");
+if (isset($_GET['searchField'])) {
+    User::search($conn, $_GET['searchField'], $_GET['value']);
+} else if(!isset($_GET['searchField']) && isset($_GET['id'])){
+    User::search($conn, 'id', $_GET['id']);
 }
 
 ?>

@@ -1,23 +1,95 @@
 <?php
 require_once '../Model/classes/autoload.php';
+require_once 'session_validation.php';
 
-if($_POST){
- 
-    $name=$_POST["nombre"];
-    $services=$_POST["servicios"];
-    $responsable=$_POST["responsable"];
-    $phone=$_POST["telefono"];
-    $website=$_POST["pagina"];
-    $comments=$_POST["comentarios"];
-    $OpeningDate=$_POST["fecha_inicio"];
-    $ClosingDate=$_POST["fecha_cierre"];
-    $Id=$_POST["id"];
 
-    $company= new Company($conn,$name,$services,$responsable,$phone,$website,$comments,$OpeningDate,$ClosingDate);
-    $company->edit($Id);
+// Get the raw PUT data
+$putData = file_get_contents('php://input');
 
+if ($putData) {
+
+    try{
+
+        $data = json_decode($putData, true);
+
+        $id = $data['id'];
+        $name = $data['name'];
+        $status = $data['status'];
+        $opportunityLevel = $data['opportunityLevel'];
+        $nextAction = $data['nextAction'];
+        $industry = $data['industry'];
+        $services = $data['services'];
+        $phone = $data['phone'];
+        $email = $data['email'];
+        $website = $data['website'];
+        $socialMedia = $data['socialMedia'];
+        $responsable = $data['responsable'];
+        $phoneResponsable = $data['phoneResponsable'];
+        $emailResponsable = $data['emailResponsable'];
+        $extraInfoResponsable = $data['extraInfoResponsable'];
+        $extraInfoCompany = $data['extraInfoCompany'];
+        $address = $data['address'];
+        $city = $data['city'];
+        $country = $data['country'];
+        $commentsSales1 = $data['commentsSales1'];
+        $commentsSales2 = $data['commentsSales2'];
+        $openingDate = $data['openingDate'];
+        $lastCheckDate = $data['lastCheckDate'];
+        $closingDate = $data['closingDate'];
+        $nextDateForContact = $data['nextDateForContact'];
+        $nextDateForClosing = $data['nextDateForClosing'];
+        $isInterested = $data['isInterested'];
+        $salesState = $data['salesState'];
+        $isClient = $data['isClient'];
+        $salesmanContacter = $data['salesmanContacter'];
+        $salesmanCloser = $data['salesmanCloser'];
+        $typeOfContract = $data['typeOfContract'];
+
+        $company = new Company(
+            $conn,
+            $name,
+            $status,
+            $opportunityLevel,
+            $nextAction,
+            $industry,
+            $services,
+            $phone,
+            $email,
+            $website,
+            $socialMedia,
+            $responsable,
+            $phoneResponsable,
+            $emailResponsable,
+            $extraInfoResponsable,
+            $extraInfoCompany,
+            $address,
+            $city,
+            $country,
+            $commentsSales1,
+            $commentsSales2,
+            $openingDate,
+            $lastCheckDate,
+            $closingDate,
+            $nextDateForContact,
+            $nextDateForClosing,
+            $isInterested,
+            $salesState,
+            $isClient,
+            $salesmanContacter,
+            $salesmanCloser,
+            $typeOfContract
+        );
+        
+        $company->edit($id);
+
+        unset($company,$putData,$data);
+
+    }catch(Exception $e){
+        echo '¡Error! Error: ',  $e->getMessage(), "\n";
+    }
+    
 }else{
-    header('Location:../View/show_companies.php');
+    echo 'Error. Se necesita el id de la empresa y los datos a modificarse. Intente nuevamente.';
 }
 
 ?>

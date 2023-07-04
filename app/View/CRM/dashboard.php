@@ -160,7 +160,7 @@ switch (true) {
                                                     
     default:
         session_destroy();
-        header('Location:../View/login.php');           
+        header('Location:../View/CRM/loginNT.php');           
         break;
 }
 ?>
