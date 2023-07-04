@@ -30,6 +30,10 @@ if(!empty($input)){
 $user= new User($conn,$userName,$hashed_password,$role,$name,$lastN,$company,$email,$phone,$city,$country,$birthDate,$gender);
 $user->insert();
 
+if(!$_SESSION['id']){
+    header('Location:../View/CRM/loginNT.php?userCreate=success');
+}
+
 //////////////////////////////////////PHPMailer///////////////////////////////////////////////
 
 // if(empty(trim($name))) $name = 'anonimo';

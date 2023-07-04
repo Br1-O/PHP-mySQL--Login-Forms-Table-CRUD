@@ -1,6 +1,6 @@
 <?php
   $tittle= "Batch · Nuestros servicios";
-  require '../templates/headLoader.php';
+  require '../templates/headLoaderBatch.php';
 ?>
 
 <html>

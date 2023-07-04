@@ -23,7 +23,7 @@ if($_POST['user_login']){
         }else{
             ?>
             
-            <html>
+            <!-- <html>
                 <head>
                     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
                 </head>
@@ -37,29 +37,27 @@ if($_POST['user_login']){
                     });
                 </script>
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-            </html>   
+            </html>    -->
 
             <?php
 
-            // echo '<script type="text/javascript">';
-            // echo 'setTimeout(function() {';
-            // echo '  window.location.href = "../View/loginNT.php";';
-            // echo '}, 500);';  
-            // echo '</script>';
-            // exit;
+            echo '<script type="text/javascript">';
+            echo 'alert("' ."Contraseña incorrecta.". '");';
+            echo 'setTimeout(function() {';
+            echo '  window.location.href = "../View/loginNT.php";';
+            echo '}, 500);';  
+            echo '</script>';
+            exit;
         }
 
     }else{
-        // <html>
-        // echo '<script type="text/javascript">';
-        // echo 'alert("' ."El usuario no existe.". '");';
-        // echo 'setTimeout(function() {';
-        // echo '  window.location.href = "../View/login.php";';
-        // echo '}, 500);';  
-        // echo '</script>';
-        // <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        // </html>
-        // exit;
+        echo '<script type="text/javascript">';
+        echo 'alert("' ."El usuario no existe.". '");';
+        echo 'setTimeout(function() {';
+        echo '  window.location.href = "../View/login.php";';
+        echo '}, 500);';  
+        echo '</script>';
+        exit;
     }
 
 }else{

@@ -1,10 +1,12 @@
 <?php
 require '../../Controller/session_validation.php';
-require 'headLoader.php';
 require_once '../../Model/classes/autoload.php';
+$title='Dashboard';
+require '../templates/headLoaderCRM.php';
 $conn->createCompaniesTable();
 
 switch (true) {
+    
     case ($_SESSION['role']===999):
         
         ?>
@@ -14,11 +16,11 @@ switch (true) {
 
             <button name="mostrarUsuarios" onclick="redirectToPage('show_users.php')"> Mostrar Usuarios</button>
 
-            <button name="form-company" onclick="redirectToPage('ADMIN_create_user.php')"> Insertar Usuario</button>
+            <button name="form-company" onclick="redirectToPage('show_users.php?action=insert')"> Insertar Usuario</button>
 
             <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar Compañias </button>
 
-            <button name="form-company" onclick="redirectToPage('form_company.php')"> Insertar Compañia</button>
+            <button name="form-company" onclick="redirectToPage('show_companies.php?action=insert')"> Insertar Compañia</button>
 
             <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
                 <input type="hidden" name="logout" value="true">
@@ -52,7 +54,7 @@ switch (true) {
 
             <button name="mostrarDatos" onclick="redirectToPage('.php')"> Atención al cliente </button>
 
-            <button name="form-company" onclick="redirectToPage('form_company.php')"> Insertar Compañia</button>
+            <button name="form-company" onclick="redirectToPage('show_companies.php?action=insert')"> Insertar Compañia</button>
 
             <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
                 <input type="hidden" name="logout" value="true">
@@ -82,8 +84,6 @@ switch (true) {
 
             <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar Compañias </button>
 
-            <button name="form-company" onclick="redirectToPage('form_company.php')"> Insertar Compañia</button>
-
             <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
                 <input type="hidden" name="logout" value="true">
                 <input type="submit" class='link closeSesion' value='Cerrar Sesión'>
@@ -110,7 +110,7 @@ switch (true) {
 
             <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar Compañias </button>
 
-            <button name="form-company" onclick="redirectToPage('form_company.php')"> Insertar Compañia</button>
+            <button name="form-company" onclick="redirectToPage('show_companies.php?action=insert')"> Insertar Compañia</button>
 
             <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
                 <input type="hidden" name="logout" value="true">
@@ -160,7 +160,7 @@ switch (true) {
                                                     
     default:
         session_destroy();
-        header('Location:../View/CRM/loginNT.php');           
+        header('Location:loginNT.php');           
         break;
 }
 ?>

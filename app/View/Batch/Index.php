@@ -1,6 +1,6 @@
 <?php
   $tittle= "Batch · Trámites y Procesos";
-  require '../templates/headLoader.php';
+  require '../templates/headLoaderBatch.php';
 ?>
 
 <html>

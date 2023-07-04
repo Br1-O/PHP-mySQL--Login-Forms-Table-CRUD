@@ -1,7 +1,8 @@
 <?php 
 require_once '../../Model/classes/autoload.php';
-include_once 'headLoader.php';
-include_once '../templates/headLoader.php';
+include_once '../templates/headLoaderBatch.php';
+$title='Login';
+require '../templates/headLoaderCRM.php';
 $conn->createUsersTable();
 ?>
 
@@ -45,7 +46,7 @@ $conn->createUsersTable();
           <label for="email">» Email:</label>
           <input type="text" name="email" maxlength="100"  placeholder="Ingrese su email" required>
           <label for="email">» Repita su email:</label>
-          <input type="text" name="email" maxlength="100" placeholder="Repita su email" required>
+          <input type="text" name="email2" maxlength="100" placeholder="Repita su email" required>
           <label for="phone">» Telefono:</label>
           <input type="text" name="phone"  pattern="[0-9+-]+" maxlength="20" placeholder="Ingrese su telefono" required>
           <label for="city">» Localidad:</label>

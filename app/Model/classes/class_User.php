@@ -324,6 +324,25 @@ class User{
             echo $jsonString;
                 
             $conn->close();
+        }
+
+        public static function returnData($conn){
+
+            $sql="SELECT * FROM users";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $json = array();
+            
+                while ($row=$result->fetch_assoc()){
+                    $json[]= $row;
+                }
+
+            }else{
+                $json['empty']='empty';
+            }
+          
+            $conn->close();
 
             return $json;
         }
@@ -384,9 +403,9 @@ class User{
         
         public static function searchById($conn, $Id){
 
-            $result=User::showData($conn);
+            $result=User::returnData($conn);
 
-            while($row=$result->fetch_assoc()){
+            foreach ($result as $row) {
                 if ($row['id']==$Id){
                 return $row;
                 }       
@@ -404,7 +423,7 @@ class User{
 
         public static function searchByUsername($conn,$Username){
 
-            $result=User::showData($conn);
+            $result=User::returnData($conn);
             foreach ($result as $user) {
                 if ($user['user']==$Username){
                     return $user;

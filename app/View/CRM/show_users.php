@@ -1,67 +1,14 @@
 <?php
 require '../../Controller/session_validation.php';
+$title='Listado de Usuarios';
+require '../templates/headLoaderCRM.php';
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ CSS imports ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
-        <link rel="stylesheet" type="text/css" href="../../../public/css/styles.css">
-    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   Tittle    ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
-        <title>Listado de Usuarios</title>
-</head>
 
 <body>
 
-    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Search | Nav Bar  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
-
-        <div class="info-bar">
-
-        <!--■■■■■■■■ Search ■■■■■■■■-->
-
-            <form class='search' action="../../Controller/filter_user.php" method="get">
-                <select name="searchField" id='searchField'>
-                    <option value="option" selected disabled>Categoria: </option>
-                    <option value="user">Usuario</option>
-                    <option value="name">Nombre</option>
-                    <option value="lastName">Apellido</option>
-                    <option value="company">Compañia</option>
-                    <option value="phone">Telefono</option>
-                    <option value="email">Email</option>
-                    <option value="city">Ciudad</option>
-                    <option value="country">País</option>
-                    <option value="registrationDate">Fecha de Registro</option>
-                </select>
-            
-                <input type="text" id='inputSearch' placeholder="Ingrese su busqueda">  
-
-            </form>
-
-
-        <!-- ■■■■■■■■ Nav Bar ■■■■■■■■-->
-            <div id='optionsNav'>
-
-                <button name="mostrarDatos" onclick="redirectToPage('show_users.php')"> Mostrar todos </button>
-
-                <button name="form-user" id='openInsertUser'> Insertar Usuario </button>
-
-                <button name="mostrarUsuarios" onclick="redirectToPage('show_companies.php')"> Mostrar Compañias</button>
-
-                <button><a href='../../Controller/PDF_users.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
-            
-                <button><a href='../../Controller/PDF_user.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button>
-
-                <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
-                    <input type="hidden" name="logout" value="true">
-                    <input type="submit" class='link closeSesion' value='Cerrar Sesión'>
-                </form>
-
-            </div>
-        </div>
+    <?php
+        require_once "../templates/navBarCRM.php";
+    ?>
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Modals | Insert User · Show Full User ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
        
@@ -245,7 +192,7 @@ require '../../Controller/session_validation.php';
                 </div>
             </dialog>
 
-    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Alerts in page | Table of Users ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Alerts in page | Table of Users | Check for GET actions ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
 
         <div class="container" id="alerts-container">
             <div class="alerts">
@@ -256,6 +203,20 @@ require '../../Controller/session_validation.php';
 
         <table class='table-users'> 
         </table>
+
+        <!--Check for GET actions-->
+    
+            <?php
+
+                if(isset($_GET['action']) && $_GET['action']=='insert'){
+                    ?>
+                        <script>
+                            let modalInsertUser=document.getElementById('modalInsertUser');
+                            openModal(modalInsertUser);
+                        </script>
+                    <?php
+                }
+            ?>
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Funciones API Fetch ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->   
 
