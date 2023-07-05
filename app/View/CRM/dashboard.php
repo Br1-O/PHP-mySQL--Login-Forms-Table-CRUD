@@ -1,7 +1,7 @@
 <?php
-require '../../Controller/session_validation.php';
+require_once '../../Controller/session_validation.php';
 require_once '../../Model/classes/autoload.php';
-$title='Dashboard';
+$tittle='Dashboard';
 require '../templates/headLoaderCRM.php';
 $conn->createCompaniesTable();
 

@@ -1,6 +1,6 @@
 <?php
-require '../../Controller/session_validation.php';
-$title='Listado de Usuarios';
+require_once '../../Controller/session_validation.php';
+$tittle='Listado de Usuarios';
 require '../templates/headLoaderCRM.php';
 ?>
 

@@ -1,7 +1,7 @@
 <?php 
 require_once '../../Model/classes/autoload.php';
-include_once '../templates/headLoaderBatch.php';
-$title='Login';
+$tittle='Batch · Login';
+require_once '../templates/headLoaderBatch.php';
 require '../templates/headLoaderCRM.php';
 $conn->createUsersTable();
 ?>
@@ -14,7 +14,7 @@ $conn->createUsersTable();
       <div class="form-container">
 
         <form id="login-form" class="visible form" action="../../Controller/login.php" method="POST">
-          <h2>· Ingrese a su cuenta <?= $_SESSION['name'] ?> ·</h2>
+          <h2>· Ingrese a su cuenta ·</h2>
           <label for="user_login">» Usuario:</label>
           <input type="text" name="user_login" placeholder="Ingrese su Usuario" required>
           <label for="password_login">» Contraseña:</label>

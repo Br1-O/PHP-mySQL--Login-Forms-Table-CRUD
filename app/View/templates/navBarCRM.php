@@ -1,8 +1,4 @@
-<?php
-require '../../Controller/session_validation.php';
-require_once '../../Model/classes/autoload.php';
 
-?>
 <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Search Bar  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
 
     <?php

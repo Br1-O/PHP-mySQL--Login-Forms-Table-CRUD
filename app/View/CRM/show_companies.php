@@ -1,6 +1,6 @@
 <?php
-require '../../Controller/session_validation.php';
-$title='Listado de Empresas';
+require_once '../../Controller/session_validation.php';
+$tittle='Listado de Empresas';
 require '../templates/headLoaderCRM.php';
 ?>
 
@@ -341,6 +341,8 @@ require '../templates/headLoaderCRM.php';
                 <div class="div-modal">
                     <button name="btn-close-Modal" id='closeCompany' >Cerrar</button>
                 </div>
+
+                
             </dialog>
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Alerts in page | Table of Companies | Check for Get Actions ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
@@ -1082,19 +1084,21 @@ require '../templates/headLoaderCRM.php';
 
         /////■■■■■■■■■■■■■■■■■■   Open Dialog with single company full info  ■■■■■■■■■■■■■■■■■/////
 
-        
-            // var fullCompany=document.getElementById('modalCompany');
+            var fullCompany=document.getElementById('modalCompany');
 
-            // var openCompany=document.getElementById('openCompany');
-            // openCompany.addEventListener('click', function(event) {
-            //     event.preventDefault();
-            //     openModal(fullCompany);
-            // });
+            var openCompany=document.getElementById('openCompany');
+            openCompany.addEventListener('click', function(event) {
+                event.preventDefault();
+                openModal(fullCompany);
+            });
 
-            // var closeCompany=document.getElementById('closeCompany');
-            // closeCompany.addEventListener('click', function() {
-            //     closeModal(fullCompany);
-            // });
+            var closeCompany=document.getElementById('closeCompany');
+            closeCompany.addEventListener('click', function() {
+                closeModal(fullCompany);
+            });
+
+            openFullCompany(id)
+
                         
         
         
