@@ -54,7 +54,7 @@ switch (true) {
 
             <button name="mostrarDatos" onclick="redirectToPage('.php')"> Atención al cliente </button>
 
-            <button name="form-company" onclick="redirectToPage('show_companies.php?action=insert')"> Insertar Compañia</button>
+            <button name="form-company" onclick="redirectToPage('#')"> Insertar Compañia</button>
 
             <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
                 <input type="hidden" name="logout" value="true">
@@ -166,6 +166,5 @@ switch (true) {
 ?>
 
 <html>
-    <script type="text/javascript" src="../../../public/js/functions.js"></script>
-    <script type="text/javascript" src="../../../public/js/login.js"></script>
+    <script type="text/javascript" src="../../../public/js/dashboard.js"></script>
 </html>

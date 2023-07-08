@@ -30,7 +30,7 @@ class User{
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    Constructor    ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
         
-        public function __construct($conn,$user,$password,$role=1,$name,$lastN,$company="Batch",
+        public function __construct($conn,$user,$password,$role=0,$name,$lastN,$company="Batch",
         $email,$phone,$city,$country,$birthDate,$gender,
         $picture="",$validatedEmail=0,
         $registrationDate='0000-00-00',$lastLogin="0000-00-00",$isActive=0,
@@ -41,7 +41,7 @@ class User{
             $this->password=$password;
 
             if ($role==null){
-                $this->role=1;
+                $this->role=0;
             }else{
             $this->role=$role;}
 

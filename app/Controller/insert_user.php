@@ -1,6 +1,7 @@
 <?php
 
 require_once '../Model/classes/autoload.php';
+// require_once '../Controller/session_validation.php';
 
 $input=file_get_contents("php://input");
 
@@ -11,7 +12,7 @@ if(!empty($input)){
     $userName=$decode["user"];
     $password=$decode["password"];
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $role=intval($decode["role"]);
+    isset($decode["role"])?$role=intval($decode["role"]) : $role=0;
     $name=$decode["name"];
     $lastN=$decode["lastN"];
     $company=$decode["company"];
@@ -30,9 +31,9 @@ if(!empty($input)){
 $user= new User($conn,$userName,$hashed_password,$role,$name,$lastN,$company,$email,$phone,$city,$country,$birthDate,$gender);
 $user->insert();
 
-if(!$_SESSION['id']){
-    header('Location:../View/CRM/loginNT.php?userCreate=success');
-}
+// if(!isset($_SESSION['id'])){
+//     header('Location:../View/CRM/loginNT.php?userCreate=success');
+// }
 
 //////////////////////////////////////PHPMailer///////////////////////////////////////////////
 

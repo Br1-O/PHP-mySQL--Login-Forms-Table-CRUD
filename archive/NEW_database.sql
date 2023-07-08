@@ -66,7 +66,7 @@
         companyFiles VARCHAR(255)
     )
 
--- ■■■■■■■■■■■■■■■■■■■■■■■■■ INSERT NEW REGISTER INTO USERS TABLE FOR ADAN ADMIN ■■■■■■■■■■■■■■■■■■■■■■■■ --
+-- ■■■■■■■■■■■■■■■■■■■■■■■■■ INSERT NEW REGISTER INTO USERS TABLE FOR ADAM ADMIN ■■■■■■■■■■■■■■■■■■■■■■■■ --
 
     insert into users (
         user, 
@@ -122,14 +122,80 @@ WHERE user_id=1;
 
 
 SELECT *
-FROM contacts
+FROM users
 ORDER BY birth_date DESC;
 
 SELECT *
-FROM contacts
+FROM users
 ORDER BY birth_date ASC;
 
 (works with numbers or letters)
+
+
+-- table to record activity of users 
+
+    create table user_activity(
+        id int auto_increment PRIMARY KEY, 
+        user_id VARCHAR(20), 
+        `action` int(10), 
+        company_id int(20), 
+        receving_user_id int(20), 
+        `date` datetime default current_timestamp(), 
+        FOREIGN KEY (user_id) REFERENCES users(id), 
+        FOREIGN KEY (company_id) REFERENCES companies(id), 
+        FOREIGN KEY (receiving_user_id) REFERENCES users(id)
+    );
+
+-- table to switch action id to actual action
+
+create table actions(
+    id int auto_increment PRIMARY KEY, action VARCHAR(50)
+;)
+
+INSERT INTO actions(action) VALUES 
+('insert'),
+('edit'),
+('delete'),
+('write_PM'),
+('read_PM'),
+('edit_PM'),
+('delete_PM')
+;
+
+create table company_actions(
+    id int auto_increment PRIMARY KEY, 
+
+
+)
+
+--table to register relationship between users and companies
+
+    create table correlation_user_company(
+        id int auto_increment PRIMARY KEY, 
+        company_id int(10),
+        user_id int(10),
+        relation int(10),
+        `date` datetime default current_timestamp(), 
+        FOREIGN KEY (company_id) REFERENCES companies(id),
+        FOREIGN KEY (user_id) REFERENCES users(id),
+    );
+
+    (relation:
+    0_employee of that company,
+    1_assigned for adding/added by,
+    2_assigned for 1st contact to,
+    3_closed 1st contact by,
+    4_assigned for sales to,
+    5_closed sale by
+    )
+
+
+
+CREATE 
+
+
+
+
 
 
 

@@ -232,10 +232,3 @@
             break;
     }
     ?>
-<!--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Js Imports ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■-->
-
-<html>
-    <script type="text/javascript" src="../../../public/js/functions.js"></script>
-    <script type="text/javascript" src="../../../public/js/functionsUSERs.js"></script>
-    <script type="text/javascript" src="../../../public/js/login.js"></script>
-</html>
