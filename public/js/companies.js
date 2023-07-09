@@ -1,21 +1,3 @@
-//applying opening and closing to the buttons of the modal of insert company
-
-    if(document.getElementById('openInsertCompany')){
-
-        let insertCompany=document.getElementById('modalInsertCompany');
-
-        let openInsertCompany=document.getElementById('openInsertCompany');
-
-            openInsertCompany.addEventListener('click', function() {
-                openModal(insertCompany);
-            });
-
-        let closeInsertCompany=document.getElementById('closeInsertCompany');
-        
-            closeInsertCompany.addEventListener('click', function() {
-                closeModal(insertCompany);
-            });
-    }
 
 // ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Funciones API Fetch ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 
@@ -28,13 +10,7 @@
 
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Edit Company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
-        var modalEditCompany=document.getElementById('modalEditCompany');
-
-            var closeEditCompany=document.getElementById('closeEditCompany');
-            
-                closeEditCompany.addEventListener('click', function() {
-                    closeModal(modalEditCompany);
-                });
+        let modalEditCompany=document.getElementById('modalEditCompany');
 
         //URL edit data
 
@@ -62,7 +38,7 @@
                         <table>
                         <Tr class='trIntern'>
                             <Th rowspan ='10'id='th-1'>
-                                <a href='#' id='openCompany' onclick=openFullCompany(${output[i].id})>${output[i].name}</a>
+                                <a href="#" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].name}</a>
                             </Th>
                         </Tr>
                         <Tr class='trIntern'>
@@ -91,7 +67,7 @@
                         </Tr>
                         <Tr id='tr-last' class='trIntern'>
                             <Th id='th-last' colspan ='2' >
-                                <a href=# onclick="editCompany(event, ${output[i].id}, modalEditCompany, urlFilterCompanies, urlEdit)" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
+                                <a href=# onclick="editCompany(event, ${output[i].id}, urlFilterCompanies, urlEdit)" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
                                 <a href=# onclick="deleteCompany(event, ${output[i].id}, urlDeleteCompany)" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
                                 <a href= # onclick="PDFcompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
                                 <a href=# onclick="EXCELcompany(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
@@ -140,7 +116,9 @@
 
         let urlInsert= '../../Controller/insert_company.php';
 
-        
+        let insertCompany=document.getElementById('modalInsertCompany');
+
+
         btnInsertCompany.addEventListener('click', function() {
 
             let name= document.getElementById('name').value;
@@ -212,6 +190,35 @@
     
             inserCompany(urlInsert,requestBody);
         });
+
+    ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ MODAL · Display Full Info of Company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+
+            
+    let tableContact=document.getElementById('tableFullCompanyTab1');
+    let fullCompanyTittle=document.getElementById('fullCompanyLabel');
+
+
+    async function openFullCompany(event, id) {
+
+        event.preventDefault();
+
+        $('#modalFullCompany').modal('show');
+        
+        let fullCompany= await searchById(urlFilterCompanies, id);
+
+        console.log(fullCompany[0]);
+        
+        let body='';
+
+        Object.keys(fullCompany[0]).forEach(key => {
+            const value = fullCompany[0][key];
+
+            body+=`<tr><th><strong>${key}</strong></th><td>${value}</td></tr>`;
+        });
+
+        tableContact.innerHTML=`${body}`;
+        fullCompanyTittle.innerHTML=`Datos de la empresa: <strong>${fullCompany[0].name}</strong>`;
+    };
 
 
 

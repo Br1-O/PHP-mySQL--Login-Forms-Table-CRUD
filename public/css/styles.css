@@ -1,12 +1,56 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section { display: block;}
+body { line-height: 1;}
+ol,ul { list-style: none;}
+blockquote,q { quotes: none;}
+blockquote:before,blockquote:after,q:before,q:after { content: ''; content: none;}
+table { border-collapse: collapse; border-spacing: 0;}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;700&family=Roboto+Flex&family=Roboto:wght@400;700&display=swap');
+
+* { 
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+     box-sizing: border-box; 
+}
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ VARIABLES ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+:root {
+
+/* colors: */
+    --blue:#00329D;
+    --white:#F6F6F6;
+    --lightblue: #007EA79a;
+    --hover-blue:#1453db;
+    --gradient-main:linear-gradient(to bottom right, var(--blue), var(--white));
+
+    --legacy-color-main:#4c2a85;
+    --legacy-color-hover:#693bb2;
+    --legacy-color-th:#9ccbdc;
+    --legacy-color-td:rgb(142, 171, 222);
+    --legacy-color-border: rgb(71, 127, 226);
+    --legacy-color-navbar: #cd97ea70;
+    --legacy-color-form: linear-gradient(to bottom, rgb(141, 141, 227,0.9), rgb(168, 116, 205,0.9));
+
+/* fonts: */
+    --tittle-font: 'Montserrat', sans-serif;
+    --p-font: 'Roboto Flex', sans-serif;
+}
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+
+
 body {
-    background: linear-gradient(to bottom right, #4568dc,  #b06ab3);
-    font-family: Arial, sans-serif;
+    /* background: linear-gradient(to bottom right, #4568dc,  #b06ab3); */
+    background: linear-gradient(to bottom right, var(--blue), var(--white));
+    font-family: var(--p-front);
 }
 
 h1 {
     margin:auto;
-    color: #ffffff;
-
+    color: var(--white);
 
 }
 
@@ -77,17 +121,17 @@ input[type="submit"]:hover {
 }
 
 button {
-    background-color: #4c2a85;
-    color: #ffffff;
+    background-color: var(--legacy-color-main);
+    color: var(--white);
     padding: 10px 20px;
     border: none;
-    border-radius: 3px;
+    border-radius: 15px;
     cursor: pointer;
     display: inline;
 }
 
 button:hover {
-    background-color: #693bb2;
+    background-color: var(--lightblue);
 }
 
 
@@ -115,6 +159,8 @@ button:hover {
 .link:hover {
     background-color: #693bb2;
 }
+
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■ TABLAS COMPANIES - USERS ■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 th{
     background-color:#9ccbdc;
@@ -185,6 +231,8 @@ td {
     background-color: rgba(0, 0, 0, 0);
 }
 
+/* FORMULARIOS */
+
 
 .form{
     max-width: 100%;
@@ -209,23 +257,9 @@ td {
     max-width: 100%;
 }
 
-.info-bar{
-    max-width: 32%;
-    position: sticky;
-    top: 1%;
-    margin-top: 20%;
-    margin: 20px auto;
-    background-color: #cd97ea70;
-    padding: 10px;
-    align-items: center;
-    border-radius: 15px;
-    border-color: rgba(76, 42, 133,0.5);
-    border-style: solid;
-}
 
-.info-bar button {
-    display: inline-block;
-}
+
+/* MODAL */
 
 .modal {
 
@@ -234,7 +268,6 @@ td {
     border-color: #4c2a85;
     border-radius: 15px;
     border-style: solid;
-    display: flexbox;
 }
 
 .div-modal {
@@ -268,6 +301,26 @@ a:hover {
 }
 
 .tableIcon:hover + .tableText {
+    display: inline-block;
+}
+
+/*NAV BAR CRM*/
+
+.info-bar{
+    max-width: 32%;
+    position: sticky;
+    top: 1%;
+    margin-top: 20%;
+    margin: 20px auto;
+    background-color: #cd97ea70;
+    padding: 10px;
+    align-items: center;
+    border-radius: 15px;
+    border-color: rgba(76, 42, 133,0.5);
+    border-style: solid;
+}
+
+.info-bar button {
     display: inline-block;
 }
 
@@ -311,4 +364,10 @@ a:hover {
     grid-template-columns: repeat(3, 1fr); /* Specify 3 columns with equal width */    
     grid-gap: 10px; 
     align-items: center;
+}
+
+/* POST BOOTSTRAP*/
+
+.modalCompany{
+
 }

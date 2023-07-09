@@ -4,12 +4,7 @@
         window.location.href = destination;
         }
 
-//general opening and closing modal functions
 
-    function openModal(modal){modal.showModal();}
-
-    function closeModal(modal){modal.close();}
-        
 // ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Funciones API Fetch ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Show Companies ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
@@ -29,6 +24,7 @@
                     }
                 });
 
+                console.log(res);
                 const output = await res.json();
                 console.log(output);
 
@@ -78,6 +74,7 @@
                 });
 
                 const output = await res.json();
+                
 
                 if(output.empty==='empty'){
                     body+='<Tr><Td colspan="2"><Th> No se encontró ninguna compañia.<Th></Td></Tr>';
@@ -153,7 +150,7 @@
 
                             let form=document.querySelector('#formInsertCompany');
                             form.reset();
-                            closeModal(insertCompany);
+                            document.getElementById('closeModalInsertCompany').click();
                             showCompanies(urlShowCompanies, body);
                             setTimeout(() => {
                                 successAlert.style.display = "none";
@@ -246,7 +243,7 @@
 
                         form.reset();
 
-                        closeModal(modalEditCompany);
+                        document.getElementById('closeModalEditCompany').click();
 
                         setTimeout(() => {
                             successAlert.style.display = "none";
@@ -257,6 +254,8 @@
                     } else {
 
                         console.log(output.message)
+
+                        document.getElementById('closeModalEditCompany').click();
 
                         Swal.fire({
                         icon: 'error',
@@ -278,6 +277,8 @@
 
                     console.log("Error: " + error)
 
+                    document.getElementById('closeModalEditCompany').click();
+
                     Swal.fire({
                     icon: 'error',
                     title: '¡Error comunicandose con el servidor!',
@@ -297,11 +298,11 @@
 
         //Function asigned to the button edit
         
-        const editCompany = async (event, idE, modal, urlFilter, urlEdit) => {
+        const editCompany = async (event, idE, urlFilter, urlEdit) => {
 
             event.preventDefault();
 
-            openModal(modal);
+            $('#modalEditCompany').modal('show');
         
             console.log(idE); /*for DEBUG*/
 
@@ -550,24 +551,10 @@
             }
 
 
-    /////■■■■■■■■■■■■■■■■■■   Open Dialog with single company full info  ■■■■■■■■■■■■■■■■■/////
 
-        // var fullCompany=document.getElementById('modalCompany');
 
-        // var openCompany=document.getElementById('openCompany');
-        // openCompany.addEventListener('click', function(event) {
-        //     event.preventDefault();
-        //     openModal(fullCompany);
-        // });
 
-        // var closeCompany=document.getElementById('closeCompany');
-        // closeCompany.addEventListener('click', function() {
-        //     closeModal(fullCompany);
-        // });
-
-        // openFullCompany(id)
-
-                    
+            
     
     
 

@@ -4,30 +4,6 @@
         window.location.href = destination;
         }
 
-//general opening and closing modal functions
-
-    function openModal(modal){modal.showModal();}
-
-    function closeModal(modal){modal.close();}
-
-//applying opening and closing to the buttons of the modal of insert company
-    if(document.getElementById('openInsertUser')){
-
-        var insertUser=document.getElementById('modalInsertUser');
-
-            var openInsertUser=document.getElementById('openInsertUser');
-            
-                openInsertUser.addEventListener('click', function() {
-                    openModal(insertUser);
-                });
-
-            var closeInsertUser=document.getElementById('closeInsertUser');
-            
-                closeInsertUser.addEventListener('click', function() {
-                    closeModal(insertUser);
-                });
-    }
-
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Funciones API Fetch ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
 
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Show Users ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
@@ -72,7 +48,7 @@
                             <table>
                             <Tr class='trIntern'>
                                 <Th rowspan ='10'id='th-1'>
-                                    <a href='#' id='openCompany' onclick=openFullUser(${output[i].id})>${output[i].user}</a>
+                                    <a href='#' id='openFullUser' class="btn btn-primary" onclick="openFullUser(event, ${output[i].id})">${output[i].user}</a>
                                 </Th>
                             </Tr>
                             <Tr class='trIntern'>
@@ -164,7 +140,7 @@
                             <table>
                             <Tr class='trIntern'>
                                 <Th rowspan ='10'id='th-1'>
-                                    <a href='#' id='openCompany' onclick=openFullUser(${output[i].id})>${output[i].user}</a>
+                                    <a href='#' id='openFullUser' class="btn btn-primary" onclick="openFullUser(event, ${output[i].id})">${output[i].user}</a>
                                 </Th>
                             </Tr>
                             <Tr class='trIntern'>
@@ -193,10 +169,10 @@
                             </Tr>
                             <Tr id='tr-last' class='trIntern'>
                                 <Th id='th-last' colspan ='2' >
-                                    <a href=# onclick="editCompany(event, ${output[i].id})" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
-                                    <a href=# onclick="deleteCompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-                                    <a href= # onclick="PDFcompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-                                    <a href=# onclick="EXCELcompany(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                    <a href=# onclick="editUser(event, ${output[i].id})" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
+                                    <a href=# onclick="deleteUser(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                    <a href= # onclick="PDFUser(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                    <a href=# onclick="EXCELUser(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
                                 </Th>
                             </Tr>
                             </table>
@@ -323,7 +299,9 @@
 
                         let form=document.querySelector('#formInsertUser');
                         form.reset();
-                        closeModal(insertUser);
+
+                        document.getElementById('closeModalInsertUser').click();
+                        
                         showUsers(urlShowUsers);
                         setTimeout(() => {
                             successAlert.style.display = "none";
@@ -335,7 +313,7 @@
 
                     console.log(output.message)
 
-                    closeModal(insertUser);
+                    document.getElementById('closeModalInsertUser').click();
 
                     Swal.fire({
                     icon: 'error',
@@ -357,7 +335,7 @@
 
                 console.log("Error: " + error)
 
-                closeModal(insertUser);
+                document.getElementById('closeModalInsertUser').click();
 
                 Swal.fire({
                 icon: 'error',
@@ -381,17 +359,12 @@
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Edit User ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
         var modalEditUser=document.getElementById('modalEditUser');
-
-        var closeEditUser=document.getElementById('closeEditUser');
-        closeEditUser.addEventListener('click', function() {
-            closeModal(modalEditUser);
-        });
         
         const editUser = async (event, idE) => {
 
             event.preventDefault();
 
-            openModal(modalEditUser);
+            $('#modalEditUser').modal('show');
         
             console.log(idE); /*for DEBUG*/
 
@@ -496,7 +469,7 @@
 
                         form.reset();
 
-                        closeModal(modalEditUser);
+                        document.getElementById('closeModalEditUser').click();
 
                         setTimeout(() => {
                             successAlert.style.display = "none";
@@ -507,6 +480,8 @@
                     } else {
 
                         console.log(output.message)
+
+                        document.getElementById('closeModalEditUser').click();
 
                         Swal.fire({
                         icon: 'error',
@@ -527,6 +502,8 @@
                 }catch (error) {
 
                     console.log("Error: " + error)
+
+                    document.getElementById('closeModalEditUser').click();
 
                     Swal.fire({
                     icon: 'error',
@@ -653,19 +630,34 @@
                 })
             }
 
+    ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ MODAL · Display Full Info of Company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
-    /////■■■■■■■■■■■■■■■■■■   Open Dialog with single company full info  ■■■■■■■■■■■■■■■■■/////
+            
+    let tableContact=document.getElementById('tableFullUserTab1');
+    let fullUserTittle=document.getElementById('fullUserLabel');
 
-    
-        // var fullCompany=document.getElementById('modalCompany');
 
-        // var openCompany=document.getElementById('openCompany');
-        // openCompany.addEventListener('click', function(event) {
-        //     event.preventDefault();
-        //     openModal(fullCompany);
-        // });
+    async function openFullUser(event, id) {
 
-        // var closeCompany=document.getElementById('closeCompany');
-        // closeCompany.addEventListener('click', function() {
-        //     closeModal(fullCompany);
-        // });
+        event.preventDefault();
+
+        $('#modalFullUser').modal('show');
+
+        let urlFilterUser=`../../Controller/filter_user.php`;
+        
+        let fullUser= await searchById(urlFilterUser, id);
+
+        console.log(fullUser[0]);
+        
+        let body='';
+
+        Object.keys(fullUser[0]).forEach(key => {
+            const value = fullUser[0][key];
+
+            body+=`<tr><th><strong>${key}</strong></th><td>${value}</td></tr>`;
+        });
+
+        tableContact.innerHTML=`${body}`;
+        fullUserTittle.innerHTML=`Datos del usuario: <strong>${fullUser[0].user}</strong>`;
+
+    };

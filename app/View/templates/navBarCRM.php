@@ -78,7 +78,7 @@
 
                                 <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar todos </button>
 
-                                <button name="form-company" id='openInsertCompany'> Insertar Compañia</button>
+                                <button type="button" class="btn btn-primary" id='btnOpenInsertCompany' data-bs-toggle="modal" data-bs-target="#modalInsertCompany">Insertar Compañia</button>
 
                                 <button name="mostrarUsuarios" onclick="redirectToPage('show_users.php')"> Mostrar Usuarios</button>
 
@@ -102,7 +102,7 @@
 
                                 <button name="mostrarDatos" onclick="redirectToPage('show_users.php')"> Mostrar todos </button>
 
-                                <button name="form-user" id='openInsertUser'> Insertar Usuario </button>
+                                <button type="button" class="btn btn-primary" id='btnOpenInsertUser' data-bs-toggle="modal" data-bs-target="#modalInsertUser">Insertar usuario</button>
 
                                 <button name="mostrarUsuarios" onclick="redirectToPage('show_companies.php')"> Mostrar Compañias</button>
 
@@ -187,7 +187,7 @@
 
                             <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar todos </button>
 
-                            <button name="form-company" id='openInsertCompany'> Insertar Compañia</button>
+                            <button type="button" class="btn btn-primary" id='btnOpenInsertCompany' data-bs-toggle="modal" data-bs-target="#modalInsertCompany">Insertar Compañia</button>
 
                             <button><a href='../../Controller/PDF_companies.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
                         
@@ -232,3 +232,7 @@
             break;
     }
     ?>
+
+    <html>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    </html>
