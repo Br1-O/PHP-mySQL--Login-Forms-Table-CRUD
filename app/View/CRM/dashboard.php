@@ -2,6 +2,7 @@
 require_once '../../Controller/session_validation.php';
 require_once '../../Model/classes/autoload.php';
 $tittle='Dashboard';
+$favicon='../../../public/images/icon_edit.png';
 require '../templates/headLoaderCRM.php';
 $conn->createCompaniesTable();
 

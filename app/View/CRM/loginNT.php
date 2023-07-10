@@ -1,6 +1,7 @@
 <?php 
 require_once '../../Model/classes/autoload.php';
 $tittle='Batch · Login';
+$favicon='../../../public/images/Batch/Logotipo solo.jpg';
 require_once '../templates/headLoaderBatch.php';
 require '../templates/headLoaderCRM.php';
 $conn->createUsersTable();

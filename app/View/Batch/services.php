@@ -1,5 +1,6 @@
 <?php
-  $tittle= "Batch · Nuestros servicios";
+  $tittle= 'Batch · Nuestros servicios';
+  $favicon='../../../public/images/Batch/Logotipo solo.jpg';
   require '../templates/headLoaderBatch.php';
 ?>
 

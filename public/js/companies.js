@@ -18,72 +18,167 @@
 
             let urlEdit= '../../Controller/edit_company.php';
 
-    ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Show Companies ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+    ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Advance search offcanvas ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
-        const table= document.querySelector('.table-companies');
+        /*switch function for full info and resume info table of show companies*/
 
-        const query = 'showCompanies';
+        let checkSwitchView=document.querySelector(".switchView");
 
-        let urlShowCompanies= `../../Controller/class_ControllerCompany.php?q=${query}`;
+        checkSwitchView.addEventListener('change', ()=>{
+            console.log(checkSwitchView.value);
+        })
+        
+        let resumeTable=document.querySelector('.table-companies');
+        let fullTable=document.querySelector('.table-companies-full');
 
-        //■■■■■■■■■ body function to show the inner table formated for Company ■■■■■■■■■//
+        function switchView() {
 
-            let body = (output) => {
+            if (checkSwitchView.matches(':checked')) {
+                resumeTable.style.display='none';
+                fullTable.style.display='block';
 
-                let body= '';
+                showCompanies(urlShowCompanies, fullBody, fullTable);
 
-                for (var i in output) {
-                    body+=` 
-                        <td id='td-outside'>
-                        <table>
-                        <Tr class='trIntern'>
-                            <Th rowspan ='10'id='th-1'>
-                                <a href="#" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].name}</a>
-                            </Th>
-                        </Tr>
-                        <Tr class='trIntern'>
-                            <th>Industria</Th> <Td id='td-1'> ${output[i].industry} </Td>
-                        </Tr>
-                        <Tr class='trIntern'>
-                            <Th>Responsable</Th> <Td> ${output[i].responsable} </Td>
-                        </Tr>
-                        <Tr class='trIntern'>
-                            <Th>Telefono Resp.</Th><Td> ${output[i].phone} </Td>
-                        </Tr>
-                        <Tr class='trIntern'>
-                            <Th>Email Resp.</Th><Td> ${output[i].emailResponsable} </Td>
-                        </Tr>
-                        <Tr class='trIntern'>
-                            <Th>Telefono Comp.</Th><Td> ${output[i].phone} </Td>
-                        </Tr>
-                        <Tr class='trIntern'>
-                            <Th>Email Comp.</Th><Td> ${output[i].email} </Td>
-                        </Tr>
-                        <Tr class='trIntern'>
-                            <Th>Fecha de Inicio</Th><Td> ${output[i].openingDate} </Td>
-                        </Tr>
-                        <Tr class='trIntern'>
-                            <Th>Fecha último checkeo</Th><Td> ${output[i].lastCheckDate} </Td>
-                        </Tr>
-                        <Tr id='tr-last' class='trIntern'>
-                            <Th id='th-last' colspan ='2' >
-                                <a href=# onclick="editCompany(event, ${output[i].id}, urlFilterCompanies, urlEdit)" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
-                                <a href=# onclick="deleteCompany(event, ${output[i].id}, urlDeleteCompany)" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-                                <a href= # onclick="PDFcompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-                                <a href=# onclick="EXCELcompany(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-                            </Th>
-                        </Tr>
-                        </table>
-                        </td>`;
-                        /////■■■■■■■■■ Modify for future feature of number of records per row /////■■■■■■■■■
-                        if ((parseInt(i) + 1) % 3 === 0) {
-                            body += '<tr></tr>';
-                        }              
-                }
-                return body;
+            } else {
+                resumeTable.style.display='block';
+                fullTable.style.display='none';
             }
+        }
 
-        document.addEventListener("DOMContentLoaded", showCompanies(urlShowCompanies, body));
+        checkSwitchView.addEventListener('click', switchView());
+                            
+                    let fullBody = (output) => {
+
+                        let body= '';
+                        let flag=0;
+
+                        //okay, this one is a lil wild, gonna admit, but is the best I could think to avoid hard coding. Will try to comment it the best I can for future me.
+                    
+                        for (let i in output) {
+                            
+                            //basically we will print all the keys first
+                            if(flag==0){
+                                    for (const key of Object.keys(output[i])){
+                                        //here I want to avoid printing some keys, just because I personally think it is best those doesn't show in table
+                                        if(key!='id'&&key!='commentsSales1'&&key!='commentsSales2'&&key!='isInterested'&&key!='socialMedia'&&key!='companyFiles'&&key!='extraInfoResponsable'&&key!='extraInfoCompany'&&key!='isClient'&&key!='address'){
+
+                                            body+=`
+                                            <td>${key}</td>
+                                            `;
+                                        }
+                                    }
+                                body+=`
+                                <td colspan=2>Options</td>
+                                <tr></tr>
+                                `;
+                            
+                                flag++;  //will iterate only once, so the keys are printed in the head and then the values
+
+                            }else{
+                                //will be the full table's body
+                                body+=` <tr>
+                                <td><a href="#" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].name}</a></td>
+                                <td>${output[i].status}</td>
+                                <td>${output[i].opportunityLevel}</td>
+                                <td>${output[i].nextAction}</td>
+                                <td>${output[i].industry}</td>
+                                <td>${output[i].services}</td>
+                                <td>${output[i].phone}</td>
+                                <td>${output[i].email}</td>
+                                <td>${output[i].website}</td>
+                                <td>${output[i].responsable}</td>
+                                <td>${output[i].phoneResponsable}</td>
+                                <td>${output[i].emailResponsable}</td>
+                                <td>${output[i].city}</td>
+                                <td>${output[i].country}</td>
+                                <td>${output[i].openingDate}</td>
+                                <td>${output[i].lastCheckDate}</td>
+                                <td>${output[i].closingDate}</td>
+                                <td>${output[i].nextDateForContact}</td>
+                                <td>${output[i].nextDateForClosing}</td>
+                                <td>${output[i].salesState}</td>
+                                <td>${output[i].salesmanContacter}</td>
+                                <td>${output[i].salesmanCloser}</td>
+                                <td>${output[i].typeOfContract}</td>
+                                <td><a href=# onclick="editCompany(event, ${output[i].id}, urlFilterCompanies, urlEdit)" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a></td>
+                                <td><a href=# onclick="deleteCompany(event, ${output[i].id}, urlDeleteCompany)" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a></td>
+                                </tr>
+                                `;
+                            }   
+                        }
+                        return body;
+                    }
+
+        ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Show Companies ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+
+            const query = 'showCompanies';
+
+            let urlShowCompanies= `../../Controller/class_ControllerCompany.php?q=${query}`;
+
+
+            //■■■■■■■■■ body function to show the inner table formated for Company ■■■■■■■■■//
+
+                let body = (output) => {
+
+                    let body= '';
+
+                    for (var i in output) {
+                        body+=` 
+                            <td id='td-outside'>
+                            <table>
+                            <Tr class='trIntern'>
+                                <Th rowspan ='10'id='th-1'>
+                                    <a href="#" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].name}</a>
+                                </Th>
+                            </Tr>
+                            <Tr class='trIntern'>
+                                <th>Industria</Th> <Td id='td-1'> ${output[i].industry} </Td>
+                            </Tr>
+                            <Tr class='trIntern'>
+                                <Th>Responsable</Th> <Td> ${output[i].responsable} </Td>
+                            </Tr>
+                            <Tr class='trIntern'>
+                                <Th>Telefono Resp.</Th><Td> ${output[i].phone} </Td>
+                            </Tr>
+                            <Tr class='trIntern'>
+                                <Th>Email Resp.</Th><Td> ${output[i].emailResponsable} </Td>
+                            </Tr>
+                            <Tr class='trIntern'>
+                                <Th>Telefono Comp.</Th><Td> ${output[i].phone} </Td>
+                            </Tr>
+                            <Tr class='trIntern'>
+                                <Th>Email Comp.</Th><Td> ${output[i].email} </Td>
+                            </Tr>
+                            <Tr class='trIntern'>
+                                <Th>Fecha de Inicio</Th><Td> ${output[i].openingDate} </Td>
+                            </Tr>
+                            <Tr class='trIntern'>
+                                <Th>Fecha último checkeo</Th><Td> ${output[i].lastCheckDate} </Td>
+                            </Tr>
+                            <Tr id='tr-last' class='trIntern'>
+                                <Th id='th-last' colspan ='2' >
+                                    <a href=# onclick="editCompany(event, ${output[i].id}, urlFilterCompanies, urlEdit)" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
+                                    <a href=# onclick="deleteCompany(event, ${output[i].id}, urlDeleteCompany)" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                    <a href= # onclick="PDFcompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                    <a href=# onclick="EXCELcompany(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                </Th>
+                            </Tr>
+                            </table>
+                            </td>`;
+                            /////■■■■■■■■■ Modify for future feature of number of records per row /////■■■■■■■■■
+                            if ((parseInt(i) + 1) % 3 === 0) {
+                                body += '<tr></tr>';
+                            }              
+                    }
+                    return body;
+                }
+
+                if (checkSwitchView.matches(':checked')) {
+                    document.addEventListener("DOMContentLoaded", showCompanies(urlShowCompanies, fullBody, fullTable));
+                } else {
+                    document.addEventListener("DOMContentLoaded", showCompanies(urlShowCompanies, body, resumeTable));
+                }
+
 
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Search Companies ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
     
@@ -101,8 +196,13 @@
 
                 let texto= event.target.value;
 
-                await searchCompanies(urlFilterCompanies, body);
+                if(checkSwitchView.matches(':checked')){
+                    await searchCompanies(urlFilterCompanies, fullBody, fullTable);
+                    console.log(texto);
+                }else{
+                await searchCompanies(urlFilterCompanies, body, resumeTable);
                 console.log(texto);
+                };
             });
     
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Insert Companies ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
@@ -189,6 +289,7 @@
                 "companyFiles": companyFiles});
     
             inserCompany(urlInsert,requestBody);
+            
         });
 
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ MODAL · Display Full Info of Company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
@@ -220,6 +321,9 @@
         fullCompanyTittle.innerHTML=`Datos de la empresa: <strong>${fullCompany[0].name}</strong>`;
     };
 
+
+
+            
 
 
 

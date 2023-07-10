@@ -14,7 +14,7 @@
         //inside each index of the array in the output json)
 
 
-        const showCompanies = async (url, body) => {
+        const showCompanies = async (url, body, innerTable) => {
             
             try{
                 const res= await fetch(url, {
@@ -42,7 +42,7 @@
                 }else{
                     body=body(output);
 
-                    table.innerHTML=`<tr class='tr-interTable'>${body}</tr>`;
+                    innerTable.innerHTML=`<tr class='tr-interTable'>${body}</tr>`;
                 }  
             }catch(error){
 
@@ -61,11 +61,9 @@
 
         //function searchCompanies
 
-        const searchCompanies = async (url, searchBody) => {
+        const searchCompanies = async (url, searchBody, table) => {
             
             try{
-                const table= document.querySelector('.table-companies')
-
                 const res= await fetch(url, {
                     method: 'GET',
                     headers: {
@@ -151,7 +149,14 @@
                             let form=document.querySelector('#formInsertCompany');
                             form.reset();
                             document.getElementById('closeModalInsertCompany').click();
-                            showCompanies(urlShowCompanies, body);
+                            
+                            //if fullTable is checked it shows that one, otherwise just the resume one
+                            if (checkSwitchView.matches(':checked')) {
+                                showCompanies(urlShowCompanies, fullBody, fullTable);
+                            } else {
+                                showCompanies(urlShowCompanies, body, resumeTable);
+                            }
+
                             setTimeout(() => {
                                 successAlert.style.display = "none";
                                 successAlert.innerText = "";
@@ -222,8 +227,12 @@
                     console.log(output);
 
                     //displaying the updated companies list*//
-
-                    showCompanies(urlShowCompanies, body);
+                    //if fullTable is checked it shows that one, otherwise just the resume one
+                    if (checkSwitchView.matches(':checked')) {
+                        showCompanies(urlShowCompanies, fullBody, fullTable);
+                    } else {
+                        showCompanies(urlShowCompanies, body, resumeTable);
+                    }
 
                     if (output.success) {
 
@@ -309,19 +318,6 @@
             /*Getting the values of the company via its ID*/
 
             var company= await searchById(urlFilter,idE);
-            
-            /*changing the default values of the form into the data from db*/
-
-            // Select the inputs (example using querySelectorAll)
-                // const inputs = document.querySelectorAll('.inputEdit');
-
-            // Assign values to inputs
-            
-                // jsonData.values.forEach((value, index) => {
-                // if (index < inputs.length) {
-                //     inputs[index].value = value;
-                // }
-                // });
 
             document.getElementById('nameEdit').value = company[0].name;
             document.getElementById('statusEdit').value = company[0].status;
@@ -463,7 +459,13 @@
                             showConfirmButton: false,
                             timer: 1500
                             });
-                            showCompanies(urlShowCompanies, body);
+
+                            //if fullTable is checked it shows that one, otherwise just the resume one
+                            if (checkSwitchView.matches(':checked')) {
+                                showCompanies(urlShowCompanies, fullBody, fullTable);
+                            } else {
+                                showCompanies(urlShowCompanies, body, resumeTable);
+                            }
 
                             successAlert.style.display = "block";
                             successAlert.innerText = output.message;

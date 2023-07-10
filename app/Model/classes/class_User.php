@@ -441,6 +441,6 @@ class User{
                     exit;
             }
         }
-}
+    }
 
 ?>

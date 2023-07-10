@@ -1,6 +1,7 @@
 <?php
 require_once '../../Controller/session_validation.php';
 $tittle='Listado de Empresas';
+$favicon='../../../public/images/icon_edit.png';
 require '../templates/headLoaderCRM.php';
 ?>
 
@@ -545,8 +546,31 @@ require '../templates/headLoaderCRM.php';
                 </div>
 
 
+    
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Alerts in page | Table of Companies | Check for Get Actions ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
 
+        <!-- offcanvas for advance filter & search options -->
+
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasScrollingLabel"> Seleccione los parametros de la busqueda: </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    
+                    <li>
+                        <span class="resume">Vista resumida</span>
+                        <input type="checkbox" class="switchView" value='true' onclick='switchView()'>
+                        <span class="full">Vista Completa</span>
+                    </li>
+
+                </div>
+
+            </div>
+    
+    
         <!--Optional in window alerts (will change display property based on events)-->
 
             <div class="container" id="alerts-container">
@@ -559,6 +583,9 @@ require '../templates/headLoaderCRM.php';
         <!--main table where all the registers will be appended-->
 
             <table class='table-companies'> 
+            </table>
+
+            <table class='table-companies-full table table-success table-striped table-hover'> 
             </table>
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Includes Js Functions & External CDNs ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->   

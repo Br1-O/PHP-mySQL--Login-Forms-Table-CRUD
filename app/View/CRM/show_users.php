@@ -1,6 +1,7 @@
 <?php
 require_once '../../Controller/session_validation.php';
 $tittle='Listado de Usuarios';
+$favicon='../../../public/images/icon_edit.png';
 require '../templates/headLoaderCRM.php';
 ?>
 

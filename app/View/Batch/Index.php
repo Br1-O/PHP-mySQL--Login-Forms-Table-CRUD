@@ -1,5 +1,6 @@
 <?php
   $tittle= "Batch · Trámites y Procesos";
+  $favicon='../../../public/images/Batch/Logotipo solo.jpg';
   require '../templates/headLoaderBatch.php';
 ?>
 

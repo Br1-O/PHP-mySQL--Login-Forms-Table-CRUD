@@ -577,14 +577,32 @@ class Company{
             echo $jsonString;
                 
             $conn->close();
+        }
 
-            return $row;
+        public static function returnData($conn){
 
+            $sql="SELECT * FROM companies";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $json = array();
+            
+                while ($row=$result->fetch_assoc()){
+                    $json[]= $row;
+                }
+
+            }else{
+                $json['empty']='empty';
+            }
+          
+            $conn->close();
+
+            return $json;
         }
 
         // public static function searchById($conn, $Id){
 
-        //     $result=Company::showData($conn);
+        //     $result=Company::returnData($conn);
         //     while($row=$result->fetch_assoc()){
         //         if ($row['id']==$Id){
         //         $json=json_encode($row);

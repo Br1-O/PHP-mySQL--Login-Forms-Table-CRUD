@@ -83,8 +83,10 @@
                                 <button name="mostrarUsuarios" onclick="redirectToPage('show_users.php')"> Mostrar Usuarios</button>
 
                                 <button><a href='../../Controller/PDF_companies.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
+
+                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Busqueda Avanzada</button>
                             
-                                <button><a href='../../Controller/PDF_company.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button>
+                                <!-- <button><a href='../../Controller/PDF_company.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button> -->
 
                                 <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
                                     <input type="hidden" name="logout" value="true">
@@ -189,6 +191,8 @@
 
                             <button type="button" class="btn btn-primary" id='btnOpenInsertCompany' data-bs-toggle="modal" data-bs-target="#modalInsertCompany">Insertar Compañia</button>
 
+                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Busqueda Avanzada</button>
+
                             <button><a href='../../Controller/PDF_companies.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
                         
                             <button><a href='../../Controller/PDF_company.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button>
@@ -206,11 +210,13 @@
         case ($_SESSION['role']===3):
         
             ?>
-                <!-- ■■■■■■■■ Nav Bar COMPANIES for first Contact role ■■■■■■■■-->
+                <!-- ■■■■■■■■ Nav Bar COMPANIES for sales role ■■■■■■■■-->
 
                         <div id='optionsNav'>
 
                             <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar todos </button>
+
+                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Busqueda Avanzada</button>
 
                             <button><a href='../../Controller/PDF_companies.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
                         
