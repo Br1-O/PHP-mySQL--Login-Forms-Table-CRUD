@@ -242,7 +242,7 @@ td {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(to bottom, rgb(141, 141, 227,0.9), rgb(168, 116, 205,0.9));
+    background: var(--gradient-main);
     font-family: Arial, sans-serif;
     border-radius: 15px;
     overflow: hidden;
@@ -369,6 +369,15 @@ a:hover {
 
 /* ■■■■■■■■■■ POST BOOTSTRAP ■■■■■■■■■*/
 
+    /* offcanvas- advance search */
+
+    .offcanvas{
+        background-image: url('../images/Batch/background_blueprint.png');
+        background-color: #F6F6F6;
+        background-position: 100% 20%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
     /* checkbox multi-idioma */
 
         .resume {

@@ -27,12 +27,14 @@ class Company{
         private $commentsSales2;
         private $openingDate;
         private $lastCheckDate;
+        private $closingContactDate;
         private $closingDate;
         private $nextDateForContact;
         private $nextDateForClosing;
         private $isInterested;
         private $salesState;
         private $isClient;
+        private $salesmanAdder;
         private $salesmanContacter;
         private $salesmanCloser;
         private $typeOfContract;
@@ -65,14 +67,16 @@ class Company{
             $commentsSales2='N/A',
             $openingDate='0000-00-00',
             $lastCheckDate='0000-00-00',
+            $closingContactDate='0000-00-00',
             $closingDate='0000-00-00',
             $nextDateForContact='0000-00-00',
             $nextDateForClosing='0000-00-00',
             $isInterested=1,
             $salesState='No contactado',
             $isClient=0,
-            $salesmanContacter='N/A',
-            $salesmanCloser='N/A',
+            $salesmanAdder=0,
+            $salesmanContacter=0,
+            $salesmanCloser=0,
             $typeOfContract='N/A',
             $companyFiles=array()
 
@@ -105,12 +109,19 @@ class Company{
                 $this->openingDate = $openingDate;}
             
             $this->lastCheckDate = $lastCheckDate;
+            $this->closingContactDate=$closingContactDate;
             $this->closingDate = $closingDate;
             $this->nextDateForContact = $nextDateForContact;
             $this->nextDateForClosing = $nextDateForClosing;
             $this->isInterested = $isInterested;
             $this->salesState = $salesState;
             $this->isClient = $isClient;
+
+            if ($salesmanAdder==null){
+                $this->salesmanAdder=0;
+            }else{
+                $this->salesmanAdder = $salesmanAdder;}
+
             $this->salesmanContacter = $salesmanContacter;
             $this->salesmanCloser = $salesmanCloser;
             $this->typeOfContract = $typeOfContract;
@@ -209,6 +220,10 @@ class Company{
         public function getLastCheckDate() {
             return $this->lastCheckDate;
         }
+        
+        public function closingContactDate() {
+            return $this->closingContactDate;
+        }
 
         public function getClosingDate() {
             return $this->closingDate;
@@ -232,6 +247,10 @@ class Company{
 
         public function getIsClient() {
             return $this->isClient;
+        }
+
+        public function getSalesmanAdder() {
+            return $this->salesmanAdder;
         }
 
         public function getSalesmanContacter() {
@@ -342,6 +361,10 @@ class Company{
             $this->lastCheckDate = $lastCheckDate;
         }
 
+        public function setClosingContactDate($closingContactDate) {
+            $this->closingContactDate = $closingContactDate;
+        }
+
         public function setClosingDate($closingDate) {
             $this->closingDate = $closingDate;
         }
@@ -364,6 +387,10 @@ class Company{
 
         public function setIsClient($isClient) {
             $this->isClient = $isClient;
+        }
+
+        public function setSalesmanAdder($salesmanAdder) {
+            $this->salesmanAdder=$salesmanAdder;
         }
 
         public function setSalesmanContacter($salesmanContacter) {
@@ -394,16 +421,16 @@ class Company{
             responsable,phoneResponsable,emailResponsable,extraInfoResponsable,
             extraInfoCompany,`address`,city,country,
             commentsSales1,commentsSales2,
-            openingDate,lastCheckDate,closingDate,nextDateForContact,nextDateForClosing,
+            openingDate,lastCheckDate,closingContactDate,closingDate,nextDateForContact,nextDateForClosing,
             isInterested,salesState,isClient,
-            salesmanContacter,salesmanCloser,typeOfContract,companyFiles) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            salesmanAdder,salesmanContacter,salesmanCloser,typeOfContract,companyFiles) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             // Prepare la consulta
             $prep = $this->conn->prepare($sql);
 
             // Bind los parámetros
-            $prep->bind_param("sssssssssssssssssssssssssisissss",
+            $prep->bind_param("ssssssssssssssssssssssssssisiiiiss",
             $this->name,
             $this->status,
             $this->opportunityLevel,
@@ -426,12 +453,14 @@ class Company{
             $this->commentsSales2,
             $this->openingDate,
             $this->lastCheckDate,
+            $this->closingContactDate,
             $this->closingDate,
             $this->nextDateForContact,
             $this->nextDateForClosing,
             $this->isInterested,
             $this->salesState,
             $this->isClient,
+            $this->salesmanAdder,
             $this->salesmanContacter,
             $this->salesmanCloser,
             $this->typeOfContract,

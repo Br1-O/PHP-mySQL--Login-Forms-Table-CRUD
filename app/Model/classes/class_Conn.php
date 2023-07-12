@@ -135,14 +135,16 @@ class Conn {
             commentsSales2 VARCHAR(255),
             openingDate DATE,
             lastCheckDate DATE,
+            closingContactDate DATE,
             closingDate DATE,
             nextDateForContact DATE,
             nextDateForClosing DATE,
             isInterested TINYINT(1),
             salesState VARCHAR(50),
             isClient TINYINT(1),
-            salesmanContacter VARCHAR(50),
-            salesmanCloser VARCHAR(50),
+            salesmanAdder int(10),
+            salesmanContacter int(10),
+            salesmanCloser int(10),
             typeOfContract VARCHAR(100),
             companyFiles VARCHAR(255)
             )";

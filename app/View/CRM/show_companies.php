@@ -37,7 +37,12 @@ require '../templates/headLoaderCRM.php';
 
                                     <div class="form-group">
                                     <label for="status">Estado:</label>
-                                    <input type="text" class="form-control" id="status" name="status" placeholder="Por favor, ingrese el estado">
+                                    <select class="form-control" id="status" name="status" placeholder="Por favor, ingrese el estado">
+                                        <option selected value="No iniciado">No iniciado</option>
+                                        <option value="Primer contacto iniciado">Primer contacto iniciado</option>
+                                        <option value="Primer contacto finalizado">Primer contacto finalizado</option>
+                                        <option value="Venta finalizada">Venta finalizada</option>
+                                    </select>
                                     </div>
 
                                     <div class="form-group">
@@ -144,25 +149,31 @@ require '../templates/headLoaderCRM.php';
                                     <!-- Last Check Date -->
                                     <div class="form-group">
                                     <label for="lastCheckDate">Fecha de Última Revisión:</label>
-                                    <input type="date" id="lastCheckDate" name="lastCheckDate">
+                                    <input type="date" class="form-control" id="lastCheckDate" name="lastCheckDate">
+                                    </div>
+
+                                    <!-- Closing Contact Date -->
+                                    <div class="form-group">
+                                    <label for="closingContactDate">Fecha de cierre de 1er contacto (pase a ventas):</label>
+                                    <input type="date" class="form-control" id="closingContactDate" name="closingContactDate">
                                     </div>
 
                                     <!-- Closing Date -->
                                     <div class="form-group">
                                     <label for="closingDate">Fecha de Cierre:</label>
-                                    <input type="date" id="closingDate" name="closingDate">
+                                    <input type="date" class="form-control" id="closingDate" name="closingDate">
                                     </div>
 
                                     <!-- Next Date for Contact -->
                                     <div class="form-group">
                                     <label for="nextDateForContact">Próxima Fecha de Contacto:</label>
-                                    <input type="date" id="nextDateForContact" name="nextDateForContact">
+                                    <input type="date" id="nextDateForContact" class="form-control" name="nextDateForContact">
                                     </div>
 
                                     <!-- Next Date for Closing -->
                                     <div class="form-group">
                                     <label for="nextDateForClosing">Próxima Fecha de Cierre:</label>
-                                    <input type="date" id="nextDateForClosing" name="nextDateForClosing">
+                                    <input type="date" class="form-control" id="nextDateForClosing" name="nextDateForClosing">
                                     </div>
 
                                     <!-- Is Interested -->
@@ -178,7 +189,7 @@ require '../templates/headLoaderCRM.php';
                                     <!-- Sales State -->
                                     <div class="form-group">
                                     <label for="salesState">Estado de Ventas:</label>
-                                    <input type="text" id="salesState" name="salesState" value="No contactado"  onfocus="this.value=''" placeholder="Por favor, ingrese el estado de ventas">
+                                    <input type="text" class="form-control" id="salesState" name="salesState" value="No contactado"  onfocus="this.value=''" placeholder="Por favor, ingrese el estado de ventas">
                                     </div>
 
                                     <!-- Is Client -->
@@ -190,25 +201,25 @@ require '../templates/headLoaderCRM.php';
                                     <!-- Salesman (Contacter) -->
                                     <div class="form-group">
                                     <label for="salesmanContacter">Vendedor (Contacto):</label>
-                                    <input type="text" id="salesmanContacter" name="salesmanContacter" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese el vendedor de contacto">
+                                    <input type="text" class="form-control" id="salesmanContacter" name="salesmanContacter" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese el vendedor de contacto">
                                     </div>
 
                                     <!-- Salesman (Closer) -->
                                     <div class="form-group">
                                     <label for="salesmanCloser">Vendedor (Cierre):</label>
-                                    <input type="text" id="salesmanCloser" name="salesmanCloser" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese el vendedor de cierre">
+                                    <input type="text" class="form-control" id="salesmanCloser" name="salesmanCloser" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese el vendedor de cierre">
                                     </div>
 
                                     <!-- Type of Contract -->
                                     <div class="form-group">
                                     <label for="typeOfContract">Tipo de Contrato:</label>
-                                    <input type="text" id="typeOfContract" name="typeOfContract" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese el tipo de contrato">
+                                    <input type="text" class="form-control" id="typeOfContract" name="typeOfContract" value="N/A" onfocus="this.value=''" placeholder="Por favor, ingrese el tipo de contrato">
                                     </div>
 
                                     <!-- Company Files -->
                                     <div class="form-group">
                                     <label for="companyFiles">Archivos de la Empresa:</label>
-                                    <input type="file" id="companyFiles" name="companyFiles[]" multiple>
+                                    <input type="file" class="form-control" id="companyFiles" name="companyFiles[]" multiple>
                                     </div>
 
                                 </div>
@@ -551,8 +562,7 @@ require '../templates/headLoaderCRM.php';
 
         <!-- offcanvas for advance filter & search options -->
 
-            <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-                
+            <div class="offcanvas offcanvas-bottom" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasScrollingLabel"> Seleccione los parametros de la busqueda: </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -567,7 +577,6 @@ require '../templates/headLoaderCRM.php';
                     </li>
 
                 </div>
-
             </div>
     
     
@@ -581,11 +590,11 @@ require '../templates/headLoaderCRM.php';
             </div>
 
         <!--main table where all the registers will be appended-->
-
+                
             <table class='table-companies'> 
             </table>
 
-            <table class='table-companies-full table table-success table-striped table-hover'> 
+            <table class='table-companies-full table table-primary table-striped table-hover table-bordered'>
             </table>
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Includes Js Functions & External CDNs ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->   

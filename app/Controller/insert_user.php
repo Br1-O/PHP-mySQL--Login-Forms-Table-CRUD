@@ -22,6 +22,7 @@ if(!empty($input)){
     $city=$decode["city"];
     $birthDate=$decode["birthDate"];
     $gender=$decode["gender"];
+    
 }else{
     header('Location:../View/CRM/loginNT.php');
 }

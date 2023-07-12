@@ -1,6 +1,7 @@
 <?php
 
 require_once '../Model/classes/autoload.php';
+require_once 'session_validation.php';
 
 
 $input=file_get_contents("php://input");
@@ -31,12 +32,22 @@ $input=file_get_contents("php://input");
         $commentsSales2=$decode["commentsSales2"];
         $openingDate=$decode["openingDate"];
         $lastCheckDate=$decode["lastCheckDate"];
+
+        //there is a bug here, not sure why it is saying this variable is not define in the array when it should be FIX THIS, FUTURE ME!
+
+        if(isset($decode["closingContactDate"])){
+        $closingContactDate=$decode["closingContactDate"];
+        }else{
+            $closingContactDate='0000-00-00';
+        };
+
         $closingDate=$decode["closingDate"];
         $nextDateForContact=$decode["nextDateForContact"];
         $nextDateForClosing=$decode["nextDateForClosing"];
         $isInterested=$decode["isInterested"];
         $salesState=$decode["salesState"];
         $isClient=$decode["isClient"];
+        $salesmanAdder=$_SESSION['id']; //id of user is passed for trigger inside mySQL after insert
         $salesmanContacter=$decode["salesmanContacter"];
         $salesmanCloser=$decode["salesmanCloser"];
         $typeOfContract=$decode["typeOfContract"];
@@ -68,12 +79,14 @@ $input=file_get_contents("php://input");
             $commentsSales2,
             $openingDate,
             $lastCheckDate,
+            $closingContactDate,
             $closingDate,
             $nextDateForContact,
             $nextDateForClosing,
             $isInterested,
             $salesState,
             $isClient,
+            $salesmanAdder,
             $salesmanContacter,
             $salesmanCloser,
             $typeOfContract,

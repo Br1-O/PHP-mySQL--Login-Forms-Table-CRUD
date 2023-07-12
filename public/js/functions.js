@@ -132,7 +132,9 @@
                             // body: new FormData(formInsertCompany)
                         });
 
+                        console.log(res);
                         const output= await res.json();
+                        console.log(output);
 
                         if (output.success) {
 
