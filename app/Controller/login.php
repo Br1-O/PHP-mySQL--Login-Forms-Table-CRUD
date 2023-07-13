@@ -44,7 +44,7 @@ if($_POST['user_login']){
             echo '<script type="text/javascript">';
             echo 'alert("' ."Contraseña incorrecta.". '");';
             echo 'setTimeout(function() {';
-            echo '  window.location.href = "../View/loginNT.php";';
+            echo '  window.location.href = "../View/Batch/Index.php?auth=false";';
             echo '}, 500);';  
             echo '</script>';
             exit;
@@ -54,14 +54,14 @@ if($_POST['user_login']){
         echo '<script type="text/javascript">';
         echo 'alert("' ."El usuario no existe.". '");';
         echo 'setTimeout(function() {';
-        echo '  window.location.href = "../View/login.php";';
+        echo '  window.location.href = "../View/Batch/Index.php?auth=false";';
         echo '}, 500);';  
         echo '</script>';
         exit;
     }
 
 }else{
-    header('Location:../View/CRM/loginNT.php');
+    header('Location:../View/Batch/Index.php?auth=false');
 }
 
 ?>

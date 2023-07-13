@@ -25,7 +25,8 @@
         lastLogin TIMESTAMP, 
         isActive BOOLEAN, 
         activationToken VARCHAR(100), 
-        resetPasswordToken VARCHAR(100)
+        resetPasswordToken VARCHAR(100),
+        lastUpdatedBy INT(10)
     );
 
 -- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ NEW TABLE COMPANIES ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
@@ -65,7 +66,8 @@
         salesmanContacter int(10),
         salesmanCloser int(10),
         typeOfContract VARCHAR(100),
-        companyFiles VARCHAR(255)
+        companyFiles VARCHAR(255),
+        lastUpdatedBy INT(10)
     )
 
 -- ■■■■■■■■■■■■■■■■■■■■■■■■■ INSERT NEW REGISTER INTO USERS TABLE FOR ADAM ADMIN ■■■■■■■■■■■■■■■■■■■■■■■■ --
@@ -90,7 +92,8 @@
         lastLogin, 
         isActive, 
         activationToken, 
-        resetPasswordToken)
+        resetPasswordToken,
+        lastUpdatedBy)
         values
         ('admin',
         'admin',
@@ -111,17 +114,11 @@
         '0000-00-00',
         0,
         'dsfdfddsf',
-        'dsfsdffdsdfs'
+        'dsfsdffdsdfs',
+        0
     );
 
--- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
-
-    SELECT *
-    FROM activity
-    WHERE user_id=1;
-
-
-
+-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ TO USE WITH ALL FIELDS IN ADVANCE SEARCH OPTIONS ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
 
     SELECT *
     FROM users
@@ -130,8 +127,6 @@
     SELECT *
     FROM users
     ORDER BY `name` ASC;
-
-    (works with numbers or letters)
 
 -- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Activity tables user-company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
 
@@ -191,7 +186,7 @@
         ('Concretó cierre')
         ;
 
--- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Trigger to change user-company correlation & update user activity on action ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
+-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ COMPANY TRIGGERS ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
 
     --on insert company
 
@@ -200,37 +195,28 @@
         AFTER INSERT ON companies
         FOR EACH ROW 
         BEGIN
-
+            --this registers the correlation between the user that added the company and the company
             INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES(
                 NEW.id,NEW.salesmanAdder, 2);
 
-                    INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES(
-                    NEW.id,(SELECT id FROM users WHERE role=2 ORDER BY RAND() LIMIT 1), 3);
+                --this selects randomly one user with 'first contact' role to assign the company for first contact it 
+                INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES(
+                NEW.id,(SELECT id FROM users WHERE role=2 ORDER BY RAND() LIMIT 1), 3);
 
+            --this registers the user activity, which is 1=insert and the company inserted
             INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
                 NEW.salesmanAdder, 1, NEW.id, 1);
 
         END@
 
-    --on insert company (tira error porque la tabla que triggerea no puede ser updateada en ese trigger para evitar loops infinitos)
 
-        DELIMITER @
-        CREATE TRIGGER update_salesmanContacter_on_insert
-        AFTER INSERT ON correlation_user_company
-        FOR EACH ROW 
-        BEGIN
-
-            UPDATE companies SET salesmanContacter = 
-            (SELECT user_id FROM correlation_user_company WHERE id = company_id AND relation = 3) WHERE id = company_id;
-
-        END@
-
-        DELIMITER ;
-
+    -- SET salesmanContacter = 
+    -- (SELECT user_id FROM correlation_user_company WHERE id = company_id AND relation = 3) WHERE id = company_id;
 
 --■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
 
     --on update company
+    
         DELIMITER @
         CREATE TRIGGER update_users_on_update_company
         BEFORE UPDATE ON companies
@@ -247,10 +233,6 @@
 
                     INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES (
                         NEW.id, NEW.salesmanContacter, 4
-                    );
-
-                    INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES (
-                        NEW.id, (SELECT id FROM users WHERE role = 3 ORDER BY RAND() LIMIT 1), 5
                     );
 
                     INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES (
@@ -277,76 +259,59 @@
             SET NEW.lastCheckDate = CURRENT_TIMESTAMP();
 
         END@
+
         DELIMITER ;
 
         --(status: //No iniciado / Primer contacto iniciado / 'Primer contacto finalizado' - Venta iniciada / Venta finalizada)
         --(salesState: // Presentación // Negociación inicial // Negociación avanzada // Fase de cierre // Cerrado )
 
+--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
 
+      --on delete company
+        DELIMITER @
+        CREATE TRIGGER update_users_on_delete_company
+        AFTER DELETE ON companies
+        FOR EACH ROW 
+        BEGIN
+            INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                OLD.lastUpdatedBy, 1, OLD.id, 3);
+        END@
 
+--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ USER TRIGGERS ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
 
-DELIMITER @
-CREATE PROCEDURE ''()
-BEGIN
-    DECLARE `rollback` BOOL DEFAULT 0;
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `rollback` = 1;
-    START TRANSACTION;
+    --on insert user
 
-    INSERT INTO `tablea` (`date`) VALUES (NOW());
-    INSERT INTO `tableb` (`date`) VALUES (NOW());
-    INSERT INTO `tablec` (`date`) VALUES (NOW()); -- FAIL
-    
-    IF `rollback` THEN
-        ROLLBACK;
-    ELSE
-        COMMIT;
-    END IF;
-END@
+        DELIMITER @
+        CREATE TRIGGER update_user_activity_on_insert_users
+        AFTER INSERT ON users
+        FOR EACH ROW 
+        BEGIN
+            INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                NEW.lastUpdatedBy, 1, 1, NEW.id);
+        END@
 
-DELIMITER ;
+--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
 
+    --on delete user
 
-DELIMITER @
-CREATE TRIGGER update_users_on_insert_company
-AFTER INSERT ON companies
-FOR EACH ROW 
-BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        ROLLBACK; -- Rollback on exception
-        RESIGNAL; -- Rethrow the exception
-    END;
+        DELIMITER @
+        CREATE TRIGGER update_user_activity_on_delete_users
+        AFTER DELETE ON users
+        FOR EACH ROW 
+        BEGIN
+            INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                OLD.lastUpdatedBy, 3, 1, OLD.id);
+        END@
 
-    START TRANSACTION;
-    
-    -- Insert into correlation_user_company table
-    INSERT INTO correlation_user_company (company_id, user_id, relation)
-    VALUES (NEW.id, NEW.salesmanAdder, 2);
-    
-    -- Insert into user_activity table
-    INSERT INTO user_activity (user_id, `action`, company_id, receiving_user_id)
-    VALUES (NEW.salesmanAdder, 1, NEW.id, 0);
-    
-    COMMIT; -- Commit the transaction
-END@
-DELIMITER ;
+--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
 
+    --on edit company
 
-
-START TRANSACTION;
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        START TRANSACTION
-            ROLLBACK TO SAVEPOINT my_savepoint;
-            RESIGNAL;
-        END;
-    UPDATE accounts SET balance = 5000 WHERE user_id = 1;
-    UPDATE accounts SET balance = 1000 WHERE user_id = 2;
-    IF (SELECT balance FROM accounts WHERE user_id = 1) < 0 THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient balance';
-    END IF;
-COMMIT;
-
-
-
-
-
+        DELIMITER @
+        CREATE TRIGGER update_user_activity_on_update_users
+        AFTER UPDATE ON users
+        FOR EACH ROW 
+        BEGIN
+            INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                OLD.lastUpdatedBy, 2, 1, OLD.id);
+        END@

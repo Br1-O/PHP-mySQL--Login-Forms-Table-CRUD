@@ -25,6 +25,7 @@ class User{
         private $isActive;
         private $activationToken;
         private $resetPasswordToken;
+        private $lastUpdatedBy;
         private $conn;
 
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    Constructor    ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
@@ -34,7 +35,7 @@ class User{
         $email,$phone,$city,$country,$birthDate,$gender,
         $picture="",$validatedEmail=0,
         $registrationDate='0000-00-00',$lastLogin="0000-00-00",$isActive=0,
-        $activationToken="",$resetPasswordToken="")
+        $activationToken="",$resetPasswordToken="",$lastUpdatedBy=0)
         {
             $this->conn=$conn;
             $this->user=$user;
@@ -67,6 +68,7 @@ class User{
             $this->isActive=$isActive;
             $this->activationToken=$activationToken;
             $this->resetPasswordToken=$resetPasswordToken;
+            $this->lastUpdatedBy = $lastUpdatedBy;
         }     
 
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■      Getters      ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
@@ -129,6 +131,11 @@ class User{
         public function getResetPasswordToken(){
             return $this->resetPasswordToken;
         }
+
+        public function lastUpdatedBy() {
+            return $this->lastUpdatedBy;;
+        }
+
         // public function getSocialMedia(){
         //     return $this->socialMedia;
         // }
@@ -196,6 +203,11 @@ class User{
         public function setResetPasswordToken($resetPasswordToken){
             $this->resetPasswordToken=$resetPasswordToken;
         }
+
+        public function setlastUpdatedBy($lastUpdatedBy) {
+            $this->lastUpdatedBy = $lastUpdatedBy;
+        }
+
         // public function setSocialMedia($index, $socialMedia){
         //     $this->socialMedia[$index]=$socialMedia;
         // }
@@ -212,12 +224,12 @@ class User{
             (user, `password`, `role`, `name`, lastName, 
             birthDate, gender, company, email, phone, 
             country, city, picture, validatedEmail, 
-            registrationDate, lastLogin, isActive, activationToken, resetPasswordToken)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            registrationDate, lastLogin, isActive, activationToken, resetPasswordToken, lastUpdatedBy)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $prep = $this->conn->prepare($sql);
 
-            $prep->bind_param("ssissssssssssississ",
+            $prep->bind_param("ssissssssssssississi",
             $this->user,
             $this->password,
             $this->role,
@@ -236,7 +248,8 @@ class User{
             $this->lastLogin,
             $this->isActive,
             $this->activationToken,
-            $this->resetPasswordToken);
+            $this->resetPasswordToken,
+            $this->lastUpdatedBy);
 
             // Ejecutar la consulta
             try {
@@ -305,6 +318,8 @@ class User{
         
         public static function showData($conn){
 
+            include_once 'UTF8_function.php';
+            
             $sql="SELECT * FROM users";
             $result = $conn->query($sql);
 
@@ -319,7 +334,7 @@ class User{
                 $json['empty']='empty';
             }
 
-            $jsonString=json_encode($json);
+            $jsonString=json_encode(utf8ize($json));
 
             echo $jsonString;
                 

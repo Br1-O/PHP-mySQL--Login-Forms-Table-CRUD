@@ -23,6 +23,29 @@ html,body
     overflow-x: hidden; 
 }
 
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ VARIABLES ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+:root {
+
+  /* colors: */
+      --blue:#00329D;
+      --white:#F6F6F6;
+      --lightblue: #007EA79a;
+      --hover-blue:#1453db;
+      --gradient-main:linear-gradient(to bottom right, var(--blue), var(--white));
+  
+      --legacy-color-main:#4c2a85;
+      --legacy-color-hover:#693bb2;
+      --legacy-color-th:#9ccbdc;
+      --legacy-color-td:rgb(142, 171, 222);
+      --legacy-color-border: rgb(71, 127, 226);
+      --legacy-color-navbar: #cd97ea70;
+      --legacy-color-form: linear-gradient(to bottom, rgb(141, 141, 227,0.9), rgb(168, 116, 205,0.9));
+  
+  /* fonts: */
+      --tittle-font: 'Montserrat', sans-serif;
+      --p-font: 'Roboto Flex', sans-serif;
+  }  
 
 /* ■■■■■■■■ NavBar ■■■■■■■■ */
 
@@ -1052,4 +1075,61 @@ main{
   max-width: 90%;
   min-height: auto;
   margin-top: 2.5rem;
+}
+
+/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Modal · Login ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ */
+
+.loginTitle{
+  font-family: var(--tittle-font);
+  font-weight: 700;
+  color: #00329D;
+}
+
+.login{
+  font-family: var(--p-font);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--blue);
+}
+
+.btnLogin{
+  color: #F6F6F6;
+  font-family: 'Roboto', sans-serif;    
+  font-size: 18px;
+  font-weight: 700;
+
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  text-align: center;
+
+  padding: 4px 35px 4px 10px;
+  opacity: 0.85;
+  border-radius: 5px;
+
+  background-color: #00329D;
+  border: none;
+  cursor: pointer;
+}
+
+.login button:hover{
+  background-color: #1453db;
+  transform: translatey(-10px);
+  animation-timing-function: ease-in-out;
+  animation-duration: 1s;
+}
+
+.formLogin input{
+  border: 1px;
+  border-style: solid;
+  border-color:#00329D90;
+  color: var(--blue);
+  font-family: var(--p-font);
+  font-size: 15px;
+}
+
+.formLogin input:focus {
+  outline: none !important;
+  border:1px solid #00329D70;
+  box-shadow: 0.5px 0.5px 5px #00329Daa;
 }

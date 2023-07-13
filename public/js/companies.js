@@ -131,45 +131,46 @@
                     for (var i in output) {
                         body+=` 
                             <td id='td-outside'>
-                            <table>
-                            <Tr class='trIntern'>
-                                <Th rowspan ='10'id='th-1'>
-                                    <a href="#" title="Click para abrir información completa de ${output[i].name}" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].name}</a>
-                                </Th>
-                            </Tr>
-                            <Tr class='trIntern'>
-                                <th>Industria</Th> <Td id='td-1'> ${output[i].industry} </Td>
-                            </Tr>
-                            <Tr class='trIntern'>
-                                <Th>Responsable</Th> <Td> ${output[i].responsable} </Td>
-                            </Tr>
-                            <Tr class='trIntern'>
-                                <Th>Telefono Resp.</Th><Td> ${output[i].phone} </Td>
-                            </Tr>
-                            <Tr class='trIntern'>
-                                <Th>Email Resp.</Th><Td> ${output[i].emailResponsable} </Td>
-                            </Tr>
-                            <Tr class='trIntern'>
-                                <Th>Telefono Comp.</Th><Td> ${output[i].phone} </Td>
-                            </Tr>
-                            <Tr class='trIntern'>
-                                <Th>Email Comp.</Th><Td> ${output[i].email} </Td>
-                            </Tr>
-                            <Tr class='trIntern'>
-                                <Th>Fecha de Inicio</Th><Td> ${output[i].openingDate} </Td>
-                            </Tr>
-                            <Tr class='trIntern'>
-                                <Th>Fecha último checkeo</Th><Td> ${output[i].lastCheckDate} </Td>
-                            </Tr>
-                            <Tr id='tr-last' class='trIntern'>
-                                <Th id='th-last' colspan ='2' >
-                                    <a href=#  title="Editar" onclick="editCompany(event, ${output[i].id}, urlFilterCompanies, urlEdit)" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
-                                    <a href=#  title="Borrar" onclick="deleteCompany(event, ${output[i].id}, urlDeleteCompany)" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-                                    <a href= # onclick="PDFcompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-                                    <a href=# onclick="EXCELcompany(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
-                                </Th>
-                            </Tr>
-                            </table>
+                                <table>
+                                    <Tr class='trIntern'>
+                                        <Th rowspan ='10'id='th-1'>
+                                            <a href="#" title="Click para abrir información completa de ${output[i].name}" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].name}</a>
+                                        </Th>
+                                    </Tr>
+                                        <Tr class='trIntern'>
+                                            <th>Industria</Th> <Td id='td-1'> ${output[i].industry} </Td>
+                                        </Tr>
+                                        <Tr class='trIntern'>
+                                            <Th>Responsable</Th> <Td> ${output[i].responsable} </Td>
+                                        </Tr>
+                                        <Tr class='trIntern'>
+                                            <Th>Telefono Resp.</Th><Td> ${output[i].phone} </Td>
+                                        </Tr>
+                                        <Tr class='trIntern'>
+                                            <Th>Email Resp.</Th><Td> ${output[i].emailResponsable} </Td>
+                                        </Tr>
+                                        <Tr class='trIntern'>
+                                            <Th>Telefono Comp.</Th><Td> ${output[i].phone} </Td>
+                                        </Tr>
+                                        <Tr class='trIntern'>
+                                            <Th>Email Comp.</Th><Td> ${output[i].email} </Td>
+                                        </Tr>
+                                        <Tr class='trIntern'>
+                                            <Th>Fecha de Inicio</Th><Td> ${output[i].openingDate} </Td>
+                                        </Tr>
+                                        <Tr class='trIntern'>
+                                            <Th>Fecha último checkeo</Th><Td> ${output[i].lastCheckDate} </Td>
+                                        </Tr>
+                                        <Tr id='tr-last' class='trIntern'>
+                                            <Th id='th-last' colspan ='2' >
+                                                <a href=#  title="Editar" onclick="editCompany(event, ${output[i].id}, urlFilterCompanies, urlEdit)" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a>
+                                                <a href=#  title="Borrar" onclick="deleteCompany(event, ${output[i].id}, urlDeleteCompany)" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                                <a href= # onclick="PDFcompany(event, ${output[i].id})" ><img id='btn_delete' src='../../../public/images/download-pdf.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                                <a href=# onclick="EXCELcompany(event, ${output[i].id})"><img id='btn_delete' src='../../../public/images/excel3.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a>
+                                            </Th>
+                                        </Tr>
+
+                                </table>
                             </td>`;
                             /////■■■■■■■■■ Modify for future feature of number of records per row /////■■■■■■■■■
                             if ((parseInt(i) + 1) % 3 === 0) {

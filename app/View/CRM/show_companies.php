@@ -262,8 +262,13 @@ require '../templates/headLoaderCRM.php';
 
                                     <!-- Status -->
                                     <div class="form-group">
-                                        <label for="status">Estado:</label>
-                                        <input type="text" id="statusEdit" name="status" class="form-control" placeholder="Por favor, ingrese el estado">
+                                    <label for="status">Estado:</label>
+                                    <select class="form-control" id="statusEdit" name="status" placeholder="Por favor, ingrese el estado">
+                                        <option selected value="No iniciado">No iniciado</option>
+                                        <option value="Primer contacto iniciado">Primer contacto iniciado</option>
+                                        <option value="Primer contacto finalizado">Primer contacto finalizado</option>
+                                        <option value="Venta finalizada">Venta finalizada</option>
+                                    </select>
                                     </div>
 
                                     <!-- Opportunity Level -->
@@ -604,6 +609,7 @@ require '../templates/headLoaderCRM.php';
         <script type="text/javascript" src="../../../public/js/companies.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Check for GET actions ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->   
 

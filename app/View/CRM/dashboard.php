@@ -138,8 +138,6 @@ switch (true) {
             <div class="info-bar">
 
             <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar Compañias </button>
-            <!-- 
-            <button name="form-company" onclick="redirectToPage('form_company.php')"> Insertar Compañia</button> -->
 
             <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
                 <input type="hidden" name="logout" value="true">

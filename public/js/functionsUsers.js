@@ -29,6 +29,7 @@
                 });
 
                 const output = await res.json();
+                console.log(output);
                 
                 if(output.empty==='empty'){
 

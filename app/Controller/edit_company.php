@@ -44,6 +44,7 @@ if ($putData) {
         $salesmanContacter = $data['salesmanContacter'];
         $salesmanCloser = $data['salesmanCloser'];
         $typeOfContract = $data['typeOfContract'];
+        $lastUpdatedBy = $_SESSION['id'];
 
         $company = new Company(
             $conn,
@@ -77,7 +78,8 @@ if ($putData) {
             $isClient,
             $salesmanContacter,
             $salesmanCloser,
-            $typeOfContract
+            $typeOfContract,
+            $lastUpdatedBy
         );
         
         $company->edit($id);

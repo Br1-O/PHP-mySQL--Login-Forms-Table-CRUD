@@ -161,9 +161,10 @@
 
                     <div id='optionsNav'>
 
-                        <button name="mostrarDatos" onclick="redirectToPage('show_companies.php')"> Mostrar todos </button>
-
                         <button name="mostrarUsuarios" onclick="redirectToPage('show_users.php')"> Mostrar Usuarios</button>
+
+                        <!-- TEMPORAL FOR TESTING-->
+                        <!-- <button name="mostrarUsuarios" onclick="redirectToPage('show_companies.php')"> Mostrar Compañias</button>  -->
 
                         <button><a href='../../Controller/PDF_companies.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
                     

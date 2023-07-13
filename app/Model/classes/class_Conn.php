@@ -97,7 +97,8 @@ class Conn {
             lastLogin TIMESTAMP, 
             isActive BOOLEAN, 
             activationToken VARCHAR(100), 
-            resetPasswordToken VARCHAR(100)
+            resetPasswordToken VARCHAR(100),
+            lastUpdatedBy INT(10)
             )";
 
             try {
@@ -146,7 +147,8 @@ class Conn {
             salesmanContacter int(10),
             salesmanCloser int(10),
             typeOfContract VARCHAR(100),
-            companyFiles VARCHAR(255)
+            companyFiles VARCHAR(255),
+            lastUpdatedBy INT(10)
             )";
         
             try {

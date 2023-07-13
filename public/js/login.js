@@ -1,21 +1,5 @@
-// const loginForm = document.getElementById('login-form');
-// const registerForm = document.getElementById('register-form');
-// const loginBtn = document.getElementById('login-btn');
-// const registerBtn = document.getElementById('register-btn');
-
-// loginBtn.addEventListener('click', () => {
-//   loginForm.classList.add('visible');
-//   registerForm.classList.remove('visible');
-// });
-
-// registerBtn.addEventListener('click', () => {
-//   loginForm.classList.remove('visible');
-//   registerForm.classList.add('visible');
-// });
-
-//show alert when registered
-
-  let btnInsertFormUser= document.getElementById('btnInsertFormUser');
+let btnInsertFormUser= document.getElementById('btnInsertFormUser');
+let btnToggleLogin2= document.getElementById('toggleLogin2');
 
   btnInsertFormUser.addEventListener('click', async (event) =>{
 
@@ -78,6 +62,8 @@
                   let form=document.querySelector('#register-form');
 
                   form.reset();
+
+                  btnToggleLogin2.click();
 
                   // setTimeout(() => {
                   //     successAlert.style.display = "none";

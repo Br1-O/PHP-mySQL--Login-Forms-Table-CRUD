@@ -39,6 +39,7 @@ class Company{
         private $salesmanCloser;
         private $typeOfContract;
         private $companyFiles;
+        private $lastUpdatedBy;
 
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    Constructor    ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
@@ -78,8 +79,8 @@ class Company{
             $salesmanContacter=0,
             $salesmanCloser=0,
             $typeOfContract='N/A',
-            $companyFiles=array()
-
+            $companyFiles=array(),
+            $lastUpdatedBy=0
         ) {
             $this->conn = $conn;
             $this->name = $name;
@@ -126,10 +127,9 @@ class Company{
             $this->salesmanCloser = $salesmanCloser;
             $this->typeOfContract = $typeOfContract;
             $this->companyFiles = $companyFiles;
+            $this->lastUpdatedBy = $lastUpdatedBy;
         }
     
-    
-
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■      Getters      ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
 
@@ -269,6 +269,9 @@ class Company{
             return $this->companyFiles;;
         }
 
+        public function lastUpdatedBy() {
+            return $this->lastUpdatedBy;;
+        }
 
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■      Setters      ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
@@ -408,6 +411,10 @@ class Company{
         public function setCompanyFiles($companyFiles) {
             $this->companyFiles = $companyFiles;
         }
+
+        public function setlastUpdatedBy($lastUpdatedBy) {
+            $this->lastUpdatedBy = $lastUpdatedBy;
+        }
         
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  Dinamic Methods  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
         
@@ -423,14 +430,14 @@ class Company{
             commentsSales1,commentsSales2,
             openingDate,lastCheckDate,closingContactDate,closingDate,nextDateForContact,nextDateForClosing,
             isInterested,salesState,isClient,
-            salesmanAdder,salesmanContacter,salesmanCloser,typeOfContract,companyFiles) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            salesmanAdder,salesmanContacter,salesmanCloser,typeOfContract,companyFiles,lastUpdatedBy) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             // Prepare la consulta
             $prep = $this->conn->prepare($sql);
 
             // Bind los parámetros
-            $prep->bind_param("ssssssssssssssssssssssssssisiiiiss",
+            $prep->bind_param("ssssssssssssssssssssssssssisiiiissi",
             $this->name,
             $this->status,
             $this->opportunityLevel,
@@ -464,7 +471,8 @@ class Company{
             $this->salesmanContacter,
             $this->salesmanCloser,
             $this->typeOfContract,
-            $this->companyFiles);
+            $this->companyFiles,
+            $this->lastUpdatedBy);
 
             // Ejecutar la consulta
             try {
@@ -498,12 +506,12 @@ class Company{
             openingDate = ?, lastCheckDate = ?, closingDate = ?,
             nextDateForContact = ?, nextDateForClosing = ?,
             isInterested = ?, salesState = ?, isClient = ?,
-            salesmanContacter = ?, salesmanCloser = ?, typeOfContract = ?
+            salesmanContacter = ?, salesmanCloser = ?, typeOfContract = ?, lastUpdatedBy = ?
             WHERE id = ?";
 
             $prep = $this->conn->prepare($sql);
 
-            $prep->bind_param("sssssssssssssssssssssssssisisssi",
+            $prep->bind_param("sssssssssssssssssssssssssisisssii",
                 $this->name,
                 $this->status,
                 $this->opportunityLevel,
@@ -535,6 +543,7 @@ class Company{
                 $this->salesmanContacter,
                 $this->salesmanCloser,
                 $this->typeOfContract,
+                $this->lastUpdatedBy,
                 $Id
             );
 
@@ -586,6 +595,8 @@ class Company{
 
         public static function showData($conn){
 
+            include_once 'UTF8_function.php';
+
             $sql="SELECT * FROM companies";
             $result = $conn->query($sql);
 
@@ -601,7 +612,7 @@ class Company{
                 $json['empty']='empty';
             }
 
-            $jsonString=json_encode($json);
+            $jsonString=json_encode(utf8ize($json));
 
             echo $jsonString;
                 
