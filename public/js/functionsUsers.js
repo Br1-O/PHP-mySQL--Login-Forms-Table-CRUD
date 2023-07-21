@@ -733,36 +733,135 @@
                 })
             }
 
-    ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ MODAL · Display Full Info of Company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
+    ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ MODAL · Display Full Info of User ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 
+    // ■■■■■■■■■■■■■ Tab 1 · User info ■■■■■■■■■■■■■//
             
-    let tableContact=document.getElementById('tableFullUserTab1');
-    let fullUserTittle=document.getElementById('fullUserLabel');
+        let tableContact=document.getElementById('tableFullUserTab1');
+        let fullUserTittle=document.getElementById('fullUserLabel');
 
+        let fullUserId;
+        let urlUserActivity;
 
-    async function openFullUser(event, id) {
+        async function openFullUser(event, id) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        $('#modalFullUser').modal('show');
+            $('#modalFullUser').modal('show');
 
-        let urlFilterUser=`../../Controller/filter_user.php`;
+            let urlFilterUser=`../../Controller/filter_user.php`;
+            
+            let fullUser= await searchById(urlFilterUser, id);
+
+            console.log(fullUser[0]);
+            
+            let body='';
+
+            Object.keys(fullUser[0]).forEach(key => {
+                const value = fullUser[0][key];
+
+                body+=`<tr><th><strong>${key}</strong></th><td>${value}</td></tr>`;
+                
+                //this clause is to be able to get the userId into the ActivityURL, to use in the next tab
+                if(key='id'){
+                    fullUserId=fullUser[0][key];
+                    urlUserActivity=`../../Controller/show_userActivity.php?user=${fullUserId}`;
+                }
+            });
+
+            tableContact.innerHTML=`${body}`;
+            fullUserTittle.innerHTML=`Datos del usuario: <strong>${fullUser[0].Usuario}</strong>`;
+        };
+
+    // ■■■■■■■■■■■■■ Tab 2 · User Activity ■■■■■■■■■■■■■//
+
+        let tableActivity=document.getElementById('tableUserActivityTab2');
+        let userActivityTab=document.getElementById('nav-activity-tab');
         
-        let fullUser= await searchById(urlFilterUser, id);
+        //establishing body of user's activity table
+            let userActivityBody = (output) => {
+                
+                let userActivityBody= '';
+                let flag=0;
 
-        console.log(fullUser[0]);
-        
-        let body='';
+                //loop to access to the keys and to all values once
+            
+                for (let i in output) {
+                    
+                    //basically we will print all the keys first
+                    if(flag==0){
+                        for (const key of Object.keys(output[i])){
+                            userActivityBody+=`
+                            <th><strong>${key}</strong></th>
+                            `;
+                        };
+                        flag++;  //will iterate only once, so the keys are printed in the head and then the values
 
-        Object.keys(fullUser[0]).forEach(key => {
-            const value = fullUser[0][key];
+                    };
+                    
+                    userActivityBody+=`
+                    <tr></tr>
+                    `;
 
-            body+=`<tr><th><strong>${key}</strong></th><td>${value}</td></tr>`;
-        });
+                    //will be the full table's body
+                    Object.keys(output[i]).forEach(key => {
+                        if(key=='Usuario afectado' && output[i][key]=='admin999'){
+                            userActivityBody+=`
+                            <td> - </td>
+                            `;
+                        }else if(key=='Compañia' && output[i][key]=='Batch'){
+                            userActivityBody+=`
+                            <td> - </td>
+                            `;
+                        }else{
+                            userActivityBody+=`
+                            <td>${output[i][key]}</td>
+                            `;
+                        }
+                    });
+                };
+                return userActivityBody;
+            };
 
-        tableContact.innerHTML=`${body}`;
-        fullUserTittle.innerHTML=`Datos del usuario: <strong>${fullUser[0].Usuario}</strong>`;
 
-    };
+        //establishing function to show the body
+            const showEntity = async (url, body, innerTable) => {
+
+                //API FETCH REQUEST
+                try{
+                    const res= await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const output = await res.json();
+                    console.log(output);
+
+                    if(output.empty==='empty'){
+
+                        body='<Tr><Td colspan="2"> El usuario no registra actividad dentro de la plataforma. </Td></Tr>';
+                        innerTable.innerHTML=`<tr class='tr-interTable'>${body}</tr>`;
+
+                    }else{
+                        body=body(output);
+
+                        innerTable.innerHTML=`<tr class='tr-interTable'>${body}</tr>`;
+                    }  
+                }catch(error){
+
+                    body='<Tr><Td colspan="2"> No se pudo conectar con el servidor. </Td></Tr>';
+                    innerTable.innerHTML=`<tr class='tr-interTable'>${body}</tr>`;
+
+                    console.log("Error: " + error)
+                }
+            };
+
+        //EventListener to show the table user Activity
+            userActivityTab.addEventListener('click', () => {
+                showEntity(urlUserActivity, userActivityBody, tableActivity);
+            });
+
 
     

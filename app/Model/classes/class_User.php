@@ -495,33 +495,10 @@ class User{
             }
         }
 
-        public static function showActivity($conn){
+        public static function showTable($conn, $sql){
 
             include_once 'UTF8_function.php';
-            
-            $sql="SELECT 
-            id AS 'id',
-            user AS 'Usuario',
-            `password` AS 'Contraseña',
-            `role` AS 'Rol',
-            `name` AS 'Nombre',
-            lastName AS 'Apellido',
-            birthDate AS 'Fecha de Nacimiento',
-            gender AS 'Género',
-            company AS 'Empresa',
-            email AS 'Email',
-            phone AS 'Teléfono',
-            country AS 'País',
-            city AS 'Ciudad',
-            picture AS 'Foto',
-            validatedEmail AS 'Email Validado',
-            registrationDate AS 'Fecha de Registro',
-            lastLogin AS 'Último Inicio de Sesión',
-            isActive AS 'Conectado',
-            activationToken AS 'Token de Activación',
-            resetPasswordToken AS 'Token de Restablecimiento de Contraseña',
-            lastUpdatedBy AS 'Última Actualización por'
-            FROM users ORDER BY id DESC;";
+
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {

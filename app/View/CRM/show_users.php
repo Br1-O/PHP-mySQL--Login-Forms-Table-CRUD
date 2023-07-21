@@ -247,10 +247,10 @@ require '../templates/headLoaderCRM.php';
 
                             <nav>
                                 <div class="nav nav-underline d-flex justify-content-center" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-anteproyecto" aria-selected="true">
+                                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-contacto" aria-selected="true">
                                     Contacto
                                     </button>
-                                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-planos constructivos" aria-selected="false">
+                                    <button class="nav-link" id="nav-activity-tab" data-bs-toggle="tab" data-bs-target="#nav-activity" type="button" role="tab" aria-controls="nav-actividad" aria-selected="false">
                                     Actividad
                                     </button>
                                     <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-permisos de construcción" aria-selected="false">
@@ -266,6 +266,7 @@ require '../templates/headLoaderCRM.php';
                             </nav>
 
                             <div class="tab-content" id="nav-tabContent">
+
                                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
                                     <div class="even-columns1 row tab-content">
                                     
@@ -273,24 +274,34 @@ require '../templates/headLoaderCRM.php';
                                             <img src="../../../public/images/Batch/splash-solutions.png" alt="splash de edificio visto desde abajo" aria-label="imagen splash de edificio visto desde abajo">
                                         </div>   
                                         
-                                        <div class='tab-text col-xl-6 col-lg-9 col-md-8 col-sm-8 col-8' >
+                                        <div class='tab-text col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5' >
                                             
 
                                             <table class="table table-success table-striped table-hover" id='tableFullUserTab1'>
 
                                             </table>
 
-                                            <div>
-                                            </div>
-
                                         </div>
+
                                     </div>  
-
                                 </div>
 
-                                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                                    <p class='tab-content'></p>
+                                <div class="tab-pane fade" id="nav-activity" role="tabpanel" aria-labelledby="nav-activity-tab" tabindex="0">
+                                    <div class="even-columns1 row tab-content">
+                                        
+                                        <div class='tab-text col-xl-6 col-lg-9 col-md-8 col-sm-8 col-8' >
+                                                
+
+                                            <table class="table table-success table-striped table-hover" id='tableUserActivityTab2'>
+
+                                            </table>
+
+                                            
+                                        </div>
+
+                                    </div>  
                                 </div>
+                                
 
                                 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
                                     <p class='tab-content'></p>

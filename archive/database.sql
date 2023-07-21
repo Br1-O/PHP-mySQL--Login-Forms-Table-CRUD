@@ -82,7 +82,7 @@
             lastName VARCHAR(50),
             email VARCHAR(50),
             lastUpdatedBy INT(10),
-            deletedDate datetime
+            deletedDate datetime default current_timestamp()
             );
 
         CREATE TABLE IF NOT EXISTS deletedCompanies (
@@ -93,7 +93,7 @@
             salesmanContacter INT(10),
             salesmanCloser INT(10),
             lastUpdatedBy INT(10),
-            deletedDate datetime
+            deletedDate datetime default current_timestamp()
             );
 
 -- ■■■■■■■■■■■■■■■■■■■■■■■■■ INSERT NEW REGISTER INTO USERS TABLE FOR ADAM ADMIN ■■■■■■■■■■■■■■■■■■■■■■■■ --
@@ -393,7 +393,6 @@
             DECLARE companyAdder INT(10);
             DECLARE companyContacter INT(10);
             DECLARE companyCloser INT(10);
-            DECLARE deletedDate DATE;
 
             DECLARE totalDeletedCompanies INT(3);
 
@@ -408,10 +407,9 @@
                 SET companyAdder= (SELECT salesmanAdder from companies WHERE id=companyId);
                 SET companyContacter= (SELECT salesmanContacter from companies WHERE id=companyId);
                 SET companyCloser= (SELECT salesmanCloser from companies WHERE id=companyId);
-                SET deletedDate= CURRENT_TIMESTAMP();
 
-                INSERT INTO deletedCompanies(idCompany,`name`,salesmanAdder,salesmanContacter,salesmanCloser,lastUpdatedBy,deletedDate)VALUES
-                (companyId,companyName,companyAdder,salesmanContacter,salesmanCloser,LastUpdatedBy,deletedDate);
+                INSERT INTO deletedCompanies(idCompany,`name`,salesmanAdder,salesmanContacter,salesmanCloser,lastUpdatedBy)VALUES
+                (companyId,companyName,companyAdder,salesmanContacter,salesmanCloser,LastUpdatedBy);
 
                 SET totalDeletedCompanies = (SELECT COUNT(*) FROM deletedCompanies);
 
@@ -515,10 +513,9 @@
                 SET `name`= (SELECT `name` from users WHERE id=userId);
                 SET lastName= (SELECT lastName from users WHERE id=userId);
                 SET email= (SELECT email from users WHERE id=userId);
-                SET deletedDate= CURRENT_TIMESTAMP();
 
-                INSERT INTO deletedUsers(idUser,user,`name`,lastName,email,lastUpdatedBy,deletedDate)VALUES
-                (userId,user,`name`,lastName,email,LastUpdatedBy,deletedDate);
+                INSERT INTO deletedUsers(idUser,user,`name`,lastName,email,lastUpdatedBy)VALUES
+                (userId,user,`name`,lastName,email,LastUpdatedBy);
 
                 SET totalDeletedUsers = (SELECT COUNT(*) FROM deletedUsers);
 
