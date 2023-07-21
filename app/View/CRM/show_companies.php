@@ -403,6 +403,12 @@ require '../templates/headLoaderCRM.php';
 
                                     <!-- Closing Date -->
                                     <div class="form-group">
+                                        <label for="closingContactDate">Fecha de cierre de 1er contacto:</label>
+                                        <input type="date" id="closingContactDateEdit" name="closingContactDate" class="form-control">
+                                    </div>
+
+                                    <!-- Closing Date -->
+                                    <div class="form-group">
                                         <label for="closingDate">Fecha de Cierre:</label>
                                         <input type="date" id="closingDateEdit" name="closingDate" class="form-control">
                                     </div>
@@ -444,6 +450,12 @@ require '../templates/headLoaderCRM.php';
                                         </div>
                                     </div>
 
+                                    <!-- Salesman (Adder) -->
+                                    <div class="form-group">
+                                    <label for="salesmanAdder">Vendedor (Agregado por):</label>
+                                    <input type="text" id="salesmanAdderEdit" name="salesmanAdder" class="form-control" placeholder="Por favor, ingrese el vendedor de contacto">
+                                    </div>
+
                                     <!-- Salesman (Contacter) -->
                                     <div class="form-group">
                                         <label for="salesmanContacter">Vendedor (Contacto):</label>
@@ -461,6 +473,7 @@ require '../templates/headLoaderCRM.php';
                                         <label for="typeOfContract">Tipo de Contrato:</label>
                                         <input type="text" id="typeOfContractEdit" name="typeOfContract" class="form-control" placeholder="Por favor, ingrese el tipo de contrato">
                                     </div>
+
                                 </div>
 
                                 <!-- Submit Button -->
@@ -595,9 +608,12 @@ require '../templates/headLoaderCRM.php';
             </div>
 
         <!--main table where all the registers will be appended-->
-                
-            <table class='table-companies'> 
-            </table>
+            <section class="d-flex row justify-content-center mt-2em">
+                <div class="col-8">  
+                    <table class='table-companies'> 
+                    </table>
+                </div>
+            </section>
 
             <table class='table-companies-full table table-primary table-striped table-hover table-bordered'>
             </table>

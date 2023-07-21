@@ -7,6 +7,7 @@ require_once 'session_validation.php';
 
 if($_SERVER['REQUEST_METHOD'] === 'DELETE' || $_GET['id']){
     $id=$_REQUEST['id'];
-    User::delete($conn, $id);
+    $lastUpdatedBy=$_SESSION["id"];
+    User::delete($conn, $id, $lastUpdatedBy);
 }
 ?>

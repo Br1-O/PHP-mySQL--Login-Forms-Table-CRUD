@@ -220,12 +220,7 @@ class User{
 
         public function insert(){
 
-            $sql = "INSERT INTO users 
-            (user, `password`, `role`, `name`, lastName, 
-            birthDate, gender, company, email, phone, 
-            country, city, picture, validatedEmail, 
-            registrationDate, lastLogin, isActive, activationToken, resetPasswordToken, lastUpdatedBy)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "CALL insertUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
             $prep = $this->conn->prepare($sql);
 
@@ -273,15 +268,12 @@ class User{
 
         public function edit($id){
 
-            $sql = "UPDATE users SET user = ?, `password` = ?, `role` = ?,
-            `name` = ?, lastName = ?, birthDate = ?, 
-            gender = ?, company = ?, email = ?, phone = ?,
-            country = ?, city = ?, validatedEmail = ?
-            WHERE id = ?";
+            $sql = "CALL updateUser(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
             $prep = $this->conn->prepare($sql);
 
-            $prep->bind_param("ssisssssssssii",
+            $prep->bind_param("ississsssssssii",
+            $id,
             $this->user,
             $this->password,
             $this->role,
@@ -295,7 +287,7 @@ class User{
             $this->country,
             $this->city,
             $this->validatedEmail,
-            $id    
+            $this->lastUpdatedBy
             );
 
             try{
@@ -320,7 +312,29 @@ class User{
 
             include_once 'UTF8_function.php';
             
-            $sql="SELECT * FROM users";
+            $sql="SELECT 
+            id AS 'id',
+            user AS 'Usuario',
+            `password` AS 'Contraseña',
+            `role` AS 'Rol',
+            `name` AS 'Nombre',
+            lastName AS 'Apellido',
+            birthDate AS 'Fecha de Nacimiento',
+            gender AS 'Género',
+            company AS 'Empresa',
+            email AS 'Email',
+            phone AS 'Teléfono',
+            country AS 'País',
+            city AS 'Ciudad',
+            picture AS 'Foto',
+            validatedEmail AS 'Email Validado',
+            registrationDate AS 'Fecha de Registro',
+            lastLogin AS 'Último Inicio de Sesión',
+            isActive AS 'Conectado',
+            activationToken AS 'Token de Activación',
+            resetPasswordToken AS 'Token de Restablecimiento de Contraseña',
+            lastUpdatedBy AS 'Última Actualización por'
+            FROM users ORDER BY id DESC;";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -362,15 +376,15 @@ class User{
             return $json;
         }
 
-        public static function delete($conn, $id){
+        public static function delete($conn, $id, $lastUpdatedBy){
             
             // Consulta INSERT
-            $sql = "DELETE from users WHERE id=?";
+            $sql = "CALL deleteUser(?,?);";
 
             // Prepare la consulta
             $prep = $conn->prepare($sql);
 
-            $prep->bind_param("i",$id);
+            $prep->bind_param("ii",$id,$lastUpdatedBy);
 
             // Ejecutar la consulta
             try{
@@ -391,7 +405,31 @@ class User{
 
         public static function search($conn, $field, $value){
 
-            $sql="SELECT * FROM users WHERE $field LIKE '%$value%'";
+            $sql="SELECT 
+            id AS 'id',
+            user AS 'Usuario',
+            `password` AS 'Contraseña',
+            `role` AS 'Rol',
+            `name` AS 'Nombre',
+            lastName AS 'Apellido',
+            birthDate AS 'Fecha de Nacimiento',
+            gender AS 'Género',
+            company AS 'Empresa',
+            email AS 'Email',
+            phone AS 'Teléfono',
+            country AS 'País',
+            city AS 'Ciudad',
+            picture AS 'Foto',
+            validatedEmail AS 'Email Validado',
+            registrationDate AS 'Fecha de Registro',
+            lastLogin AS 'Último Inicio de Sesión',
+            isActive AS 'Conectado',
+            activationToken AS 'Token de Activación',
+            resetPasswordToken AS 'Token de Restablecimiento de Contraseña',
+            lastUpdatedBy AS 'Última Actualización por'
+            FROM users 
+            WHERE $field LIKE '%$value%' ORDER BY id DESC";
+            
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -455,6 +493,53 @@ class User{
                     echo '</script>';
                     exit;
             }
+        }
+
+        public static function showActivity($conn){
+
+            include_once 'UTF8_function.php';
+            
+            $sql="SELECT 
+            id AS 'id',
+            user AS 'Usuario',
+            `password` AS 'Contraseña',
+            `role` AS 'Rol',
+            `name` AS 'Nombre',
+            lastName AS 'Apellido',
+            birthDate AS 'Fecha de Nacimiento',
+            gender AS 'Género',
+            company AS 'Empresa',
+            email AS 'Email',
+            phone AS 'Teléfono',
+            country AS 'País',
+            city AS 'Ciudad',
+            picture AS 'Foto',
+            validatedEmail AS 'Email Validado',
+            registrationDate AS 'Fecha de Registro',
+            lastLogin AS 'Último Inicio de Sesión',
+            isActive AS 'Conectado',
+            activationToken AS 'Token de Activación',
+            resetPasswordToken AS 'Token de Restablecimiento de Contraseña',
+            lastUpdatedBy AS 'Última Actualización por'
+            FROM users ORDER BY id DESC;";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $json = array();
+            
+                while ($row=$result->fetch_assoc()){
+                    $json[]= $row;
+                }
+
+            }else{
+                $json['empty']='empty';
+            }
+
+            $jsonString=json_encode(utf8ize($json));
+
+            echo $jsonString;
+                
+            $conn->close();
         }
     }
 

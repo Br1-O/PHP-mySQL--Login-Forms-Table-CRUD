@@ -21,6 +21,7 @@ html,body
     margin: 0px;
     padding: 0px;
     overflow-x: hidden; 
+    scroll-behavior: smooth;
 }
 
 /*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ VARIABLES ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
@@ -55,7 +56,6 @@ html,body
     display: flex;
     background-color: #F6F6F6;
     z-index: 999;
-
 }
 
     .navbar1{
@@ -914,9 +914,6 @@ main{
   margin-right: 2rem;
 }
 
-
-
-
 /* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 2nd page- services ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ */
 
 
@@ -1110,16 +1107,17 @@ main{
   background-color: #00329D;
   border: none;
   cursor: pointer;
+  transition: transform 1s ease-in-out;
 }
 
 .login button:hover{
   background-color: #1453db;
   transform: translatey(-10px);
-  animation-timing-function: ease-in-out;
-  animation-duration: 1s;
+  transition-duration: 0.25s;
 }
 
 .formLogin input{
+  background-color: #FFF;
   border: 1px;
   border-style: solid;
   border-color:#00329D90;
@@ -1131,5 +1129,24 @@ main{
 .formLogin input:focus {
   outline: none !important;
   border:1px solid #00329D70;
-  box-shadow: 0.5px 0.5px 5px #00329Daa;
+  box-shadow: 0.5px 0.5px 10px #00329Daa;
+  color: var(--blue);
+}
+
+.formLogin input::placeholder{
+  font-family: var(--p-font);
+} 
+
+.formLogin input[type="date"]{
+  font-family: var(--p-font);
+  color: #00000090;
+} 
+
+.loginBody{
+  background-color: var(--white);
+}
+
+.modalFooter a{
+  text-decoration: underline;
+  text-underline-offset: 0.1em;
 }

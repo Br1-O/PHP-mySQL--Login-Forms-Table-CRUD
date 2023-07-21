@@ -1,6 +1,8 @@
 <?php
 
 require_once '../Model/classes/autoload.php';
+require_once 'session_validation.php';
+
 // require_once '../Controller/session_validation.php';
 
 $input=file_get_contents("php://input");
@@ -22,14 +24,23 @@ if(!empty($input)){
     $city=$decode["city"];
     $birthDate=$decode["birthDate"];
     $gender=$decode["gender"];
-    
+    $lastUpdatedBy=$_SESSION["id"];
+
+    $picture="";
+    $validatedEmail=0;
+    $registrationDate='0000-00-00';
+    $lastLogin="0000-00-00";
+    $isActive=0;
+    $activationToken="";
+    $resetPasswordToken="";
+
 }else{
     header('Location:../View/CRM/loginNT.php');
 }
 
 ///////////////////////////////////////Instance of User///////////////////////////////////////////////
 
-$user= new User($conn,$userName,$hashed_password,$role,$name,$lastN,$company,$email,$phone,$city,$country,$birthDate,$gender);
+$user= new User($conn,$userName,$hashed_password,$role,$name,$lastN,$company,$email,$phone,$city,$country,$birthDate,$gender,$picture,$validatedEmail, $registrationDate, $lastLogin,$isActive,$activationToken,$resetPasswordToken,$lastUpdatedBy);
 $user->insert();
 
 // if(!isset($_SESSION['id'])){

@@ -14,8 +14,7 @@
 
                     <form class='search' action="../../Controller/filter_company.php" method="get">
                         <select name="searchField" id='searchField'>
-                            <option value="option" selected disabled>Categoria: </option>
-                            <option value="name">Nombre</option>
+                            <option value="name" selected>Nombre</option>
                             <option value="services">Servicios</option>
                             <option value="responsable">Responsable</option>
                             <option value="phone">Telefono</option>
@@ -41,8 +40,8 @@
 
                 <form class='search' action="../../Controller/filter_user.php" method="get">
                     <select name="searchField" id='searchField'>
-                        <option value="option" selected disabled>Categoria: </option>
-                        <option value="user">Usuario</option>
+                        <option value="user" selected>Usuario</option>
+                        <option value="role">Rol</option>
                         <option value="name">Nombre</option>
                         <option value="lastName">Apellido</option>
                         <option value="company">Compañia</option>
@@ -51,6 +50,11 @@
                         <option value="city">Ciudad</option>
                         <option value="country">País</option>
                         <option value="registrationDate">Fecha de Registro</option>
+                        <option value="lastLogin">Última conexión</option>
+                        <option value="isactive">Conectado</option>
+                        <option value="birthDate">Fecha de Nacimiento</option>
+                        <option value="gender">Género</option>                        
+                        <option value="validatedEmail">Email validado</option>
                     </select>
                 
                     <input type="text" id='inputSearch' placeholder="Ingrese su busqueda">  
@@ -110,7 +114,8 @@
 
                                 <button><a href='../../Controller/PDF_users.php' style="color:#FFF; display:inline; width:100px"> Exportar PDF </a></button>
 
-                                <button><a href='../../Controller/PDF_user.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Busqueda Avanzada</button>
+                                <!-- <button><a href='../../Controller/PDF_user.php?id=".$fila['id']."' style="color:#FFF; display:inline; width:100px"> Exportar Excel </a></button> -->
 
                                 <form class="form-logout" action="<?php $_SERVER['PHP_SELF']; ?>" method="get">
                                     <input type="hidden" name="logout" value="true">

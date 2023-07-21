@@ -28,6 +28,44 @@ if ($putData) {
         $city = $data['city'];
         $validatedEmail = $data['validatedEmail'];
 
+        if(isset($data['photo'])){
+            $photo=$data['photo'];
+        }else{
+            $photo="";
+        }
+
+        if(isset($data['registrationDate'])){
+            $registrationDate=$data['registrationDate'];
+        }else{
+            $registrationDate='0000-00-00';
+        }
+
+        if(isset($data['lastLogin'])){
+            $lastLogin=$data['lastLogin'];
+        }else{
+            $lastLogin='0000-00-00';
+        }
+
+        if(isset($data['isActive'])){
+            $isActive=$data['isActive'];
+        }else{
+            $isActive=0;
+        }
+
+        if(isset($data['activationToken'])){
+            $activationToken=$data['activationToken'];
+        }else{
+            $activationToken='0000-00-00';
+        }
+
+        if(isset($data['resetPasswordToken'])){
+            $resetPasswordToken=$data['resetPasswordToken'];
+        }else{
+            $resetPasswordToken='0000-00-00';
+        }
+
+        $lastUpdatedBy=$_SESSION['id'];
+
         $user = new User(
             $conn,
             $userName,
@@ -42,8 +80,14 @@ if ($putData) {
             $country,
             $birthDate, 
             $gender,
-            "", //poner campo foto luego en el edit
-            $validatedEmail
+            $photo,
+            $validatedEmail,
+            $registrationDate,
+            $lastLogin,
+            $isActive,
+            $activationToken,
+            $resetPasswordToken,
+            $lastUpdatedBy
         );
         
         $user->edit($id);

@@ -316,6 +316,32 @@ require '../templates/headLoaderCRM.php';
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Alerts in page | Table of Users | Check for GET actions ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->
 
+            <!-- offcanvas for advance filter & search options -->
+
+            <div class="offcanvas offcanvas-bottom" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasScrollingLabel"> Seleccione los parametros de la busqueda: </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <ul>
+                        <li>
+                            <span class="resume">Vista resumida</span>
+                            <input type="checkbox" class="switchView" value='true' onclick='switchView()'>
+                            <span class="full">Vista Completa</span>
+                        </li>
+
+                        input:radio*
+
+                    </ul>
+
+
+                </div>
+            </div>
+
+    
+
         <!--Optional in window alerts (will change display property based on events)-->
 
             <div class="container" id="alerts-container">
@@ -324,10 +350,17 @@ require '../templates/headLoaderCRM.php';
                     <div class="alert alert-danger" style='display:none;'> Failed. </div>
                 </div>
             </div>
-
+        
         <!--main table where all the registers will be appended-->
 
-            <table class='table-users'> 
+            <section class="d-flex row justify-content-center mt-2em">
+                <div class="col-8">
+                    <table class='table-users'> 
+                    </table>
+                </div>
+            </section>
+
+            <table class='table-users-full table table-primary table-striped table-hover table-bordered'>
             </table>
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Includes Js Functions & External CDNs ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  -->   

@@ -1,112 +1,137 @@
-let btnInsertFormUser= document.getElementById('btnInsertFormUser');
-let btnToggleLogin2= document.getElementById('toggleLogin2');
 
-  btnInsertFormUser.addEventListener('click', async (event) =>{
+//■■■■■■ Login insert form logic ■■■■■//
 
-      event.preventDefault();
+    let btnInsertFormUser= document.getElementById('btnInsertFormUser');
+    let btnToggleLogin2= document.getElementById('toggleLogin2');
 
-      let user= document.getElementById('user').value;
-      let password= document.getElementById('password').value;
-      let name= document.getElementById('name').value;
-      let lastN= document.getElementById('lastN').value;
-      let birthDate= document.getElementById('birthDate').value;
-      let gender= document.getElementById('gender').value;
-      let company= document.getElementById('company').value;
-      let phone= document.getElementById('phone').value;
-      let email= document.getElementById('email').value;
-      let country= document.getElementById('country').value;
-      let city= document.getElementById('city').value;
+    btnInsertFormUser.addEventListener('click', async (event) =>{
 
-      try {
+        event.preventDefault();
 
-          //■■■■■■ API fetch POST to Insert ■■■■■//
+        let user= document.getElementById('user').value;
+        let password= document.getElementById('password').value;
+        let name= document.getElementById('name').value;
+        let lastN= document.getElementById('lastN').value;
+        let birthDate= document.getElementById('birthDate').value;
+        let gender= document.getElementById('gender').value;
+        let company= document.getElementById('company').value;
+        let phone= document.getElementById('phone').value;
+        let email= document.getElementById('email').value;
+        let country= document.getElementById('country').value;
+        let city= document.getElementById('city').value;
 
-          let urlInsert= '../../Controller/insert_user.php';
+        try {
 
-          const res= await fetch(urlInsert, {
-                  method: 'POST',
-                  body: JSON.stringify({
-                      "user": user,
-                      "password": password,
-                      "name": name,
-                      "lastN": lastN,
-                      "birthDate": birthDate,
-                      "gender": gender,
-                      "company": company,
-                      "phone": phone,
-                      "email": email,
-                      "country": country,
-                      "city": city,
-                      }),
-                  headers: {
-                      'Content-Type': 'application/json'
-                  }
+            //■■■■■■ API fetch POST to Insert ■■■■■//
 
-              })
-              console.log(res);
-              const output= await res.json();
-              console.log(output);
+            let urlInsert= '../../Controller/insert_user.php';
 
-              if (output.success) {
+            const res= await fetch(urlInsert, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "user": user,
+                        "password": password,
+                        "name": name,
+                        "lastN": lastN,
+                        "birthDate": birthDate,
+                        "gender": gender,
+                        "company": company,
+                        "phone": phone,
+                        "email": email,
+                        "country": country,
+                        "city": city,
+                        }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
 
-                  Swal.fire({
-                  icon: 'success',
-                  title: output.message,
-                  showConfirmButton: false,
-                  timer: 1500
-                  });
+                })
+                console.log(res);
+                const output= await res.json();
+                console.log(output);
 
-                  // successAlert.style.display = "block";
-                  // successAlert.innerText = "¡Usuario creado!";
+                if (output.success) {
 
-                  let form=document.querySelector('#register-form');
+                    Swal.fire({
+                    icon: 'success',
+                    title: output.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                    });
 
-                  form.reset();
+                    // successAlert.style.display = "block";
+                    // successAlert.innerText = "¡Usuario creado!";
 
-                  btnToggleLogin2.click();
+                    let form=document.querySelector('#register-form');
 
-                  // setTimeout(() => {
-                  //     successAlert.style.display = "none";
-                  //     successAlert.innerText = "";
+                    form.reset();
 
-                  // }, 1000);
+                    btnToggleLogin2.click();
 
-          } else {
+                    // setTimeout(() => {
+                    //     successAlert.style.display = "none";
+                    //     successAlert.innerText = "";
 
-              console.log(output.message)
+                    // }, 1000);
 
-              Swal.fire({
-              icon: 'error',
-              title: '¡No pudo crearse el usuario!',
-              showConfirmButton: false,
-              timer: 1500
-              });
+            } else {
 
-              // dangerAlert.style.display = "block";
-              // dangerAlert.innerText = output.message;
-              // setTimeout(() => {
-              //     dangerAlert.style.display = "none";
-              //     dangerAlert.innerText = "";
+                console.log(output.message)
 
-              // }, 1000)
-          }
+                Swal.fire({
+                icon: 'error',
+                title: '¡No pudo crearse el usuario!',
+                showConfirmButton: false,
+                timer: 1500
+                });
 
-      }catch (error) {
+                // dangerAlert.style.display = "block";
+                // dangerAlert.innerText = output.message;
+                // setTimeout(() => {
+                //     dangerAlert.style.display = "none";
+                //     dangerAlert.innerText = "";
 
-          console.log("Error: " + error)
+                // }, 1000)
+            }
 
-          Swal.fire({
-          icon: 'error',
-          title: '¡Error comunicandose con el servidor!',
-          showConfirmButton: false,
-          timer: 1500
-          });
+        }catch (error) {
 
-          // dangerAlert.style.display = "block";
-          // dangerAlert.innerText = error.message;
-          // setTimeout(() => {
-          // dangerAlert.style.display = "none";
-          // dangerAlert.innerText = "";
-          // }, 1000)
-      }
-  });
+            console.log("Error: " + error)
+
+            Swal.fire({
+            icon: 'error',
+            title: '¡Error comunicandose con el servidor!',
+            showConfirmButton: false,
+            timer: 1500
+            });
+
+            // dangerAlert.style.display = "block";
+            // dangerAlert.innerText = error.message;
+            // setTimeout(() => {
+            // dangerAlert.style.display = "none";
+            // dangerAlert.innerText = "";
+            // }, 1000)
+        }
+    });
+
+//■■■■■■ Autofocus eventlistener for modal ■■■■■//
+
+    //login
+
+        let modalLogin=document.getElementById('LoginToggle');
+
+        modalLogin.addEventListener('shown.bs.modal', () => {
+
+            let firstInput = document.getElementById('user_login');
+            firstInput.focus();
+        });
+
+    //register
+
+        let modalRegister=document.getElementById('LoginToggle2');
+
+        modalRegister.addEventListener('shown.bs.modal', () => {
+
+            let firstInput = document.getElementById('name');
+            firstInput.focus();
+        });

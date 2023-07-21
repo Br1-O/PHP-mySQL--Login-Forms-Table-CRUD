@@ -35,15 +35,18 @@ if ($putData) {
         $commentsSales2 = $data['commentsSales2'];
         $openingDate = $data['openingDate'];
         $lastCheckDate = $data['lastCheckDate'];
+        $closingContactDate = $data['closingContactDate'];
         $closingDate = $data['closingDate'];
         $nextDateForContact = $data['nextDateForContact'];
         $nextDateForClosing = $data['nextDateForClosing'];
         $isInterested = $data['isInterested'];
         $salesState = $data['salesState'];
         $isClient = $data['isClient'];
+        $salesmanAdder= $data['salesmanAdder'];
         $salesmanContacter = $data['salesmanContacter'];
         $salesmanCloser = $data['salesmanCloser'];
         $typeOfContract = $data['typeOfContract'];
+        $companyFiles = array();
         $lastUpdatedBy = $_SESSION['id'];
 
         $company = new Company(
@@ -70,15 +73,18 @@ if ($putData) {
             $commentsSales2,
             $openingDate,
             $lastCheckDate,
+            $closingContactDate,
             $closingDate,
             $nextDateForContact,
             $nextDateForClosing,
             $isInterested,
             $salesState,
             $isClient,
+            $salesmanAdder,
             $salesmanContacter,
             $salesmanCloser,
             $typeOfContract,
+            $companyFiles,
             $lastUpdatedBy
         );
         

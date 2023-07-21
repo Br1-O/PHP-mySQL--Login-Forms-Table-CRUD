@@ -1,3 +1,24 @@
+//■■■■■■ Autofocus eventlistener for modal ■■■■■//
+
+    //insertCompany
+
+    let insertCompany=document.getElementById('modalInsertCompany');
+
+    insertCompany.addEventListener('shown.bs.modal', () => {
+
+        let firstInput = document.getElementById('name');
+        firstInput.focus();
+    });
+
+//EditCompany
+
+    let modalEditCompany=document.getElementById('modalEditCompany');
+
+    modalEditCompany.addEventListener('shown.bs.modal', () => {
+
+        let firstInput = document.getElementById('nameEdit');
+        firstInput.focus();
+    });
 
 // ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Funciones API Fetch ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 
@@ -9,8 +30,6 @@
             let urlDeleteCompany= '../../Controller/delete_company.php';
 
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Edit Company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
-
-        let modalEditCompany=document.getElementById('modalEditCompany');
 
         //URL edit data
 
@@ -61,7 +80,7 @@
                             if(flag==0){
                                     for (const key of Object.keys(output[i])){
                                         //here I want to avoid printing some keys, just because I personally think it is best those doesn't show in table
-                                        if(key!='id'&&key!='commentsSales1'&&key!='commentsSales2'&&key!='isInterested'&&key!='socialMedia'&&key!='companyFiles'&&key!='extraInfoResponsable'&&key!='extraInfoCompany'&&key!='isClient'&&key!='address'){
+                                        if(key!='id'&&key!='Comentarios de Ventas 1'&&key!='Comentarios de Ventas 2'&&key!='Interesado'&&key!='Redes Sociales'&&key!='Archivos de la Compañía'&&key!='Extra info del Responsable'&&key!='Extra info de la Compañía'&&key!='Es Cliente'&&key!='Dirección'){
 
                                             body+=`
                                             <th>${key}</th>
@@ -78,39 +97,39 @@
                             
                                 flag++;  //will iterate only once, so the keys are printed in the head and then the values
 
-                            }else{
+                            }
                                 //will be the full table's body
                                 body+=` <tr>
-                                <td><a href="#" title="Click para abrir información completa de ${output[i].name}" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].name}</a></td>
+                                <td><a href="#" title="Click para abrir información completa de ${output[i].Nombre}" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].Nombre}</a></td>
                                 <td><a href=# title="Editar" onclick="editCompany(event, ${output[i].id}, urlFilterCompanies, urlEdit)" ><img src='../../../public/images/icon_edit.png' alt='edit register' style='width:30px; height:30px; margin-right:5%;' id='btn_edit'></a></td>
                                 <td><a href=# title="Borrar" onclick="deleteCompany(event, ${output[i].id}, urlDeleteCompany)" ><img id='btn_delete' src='../../../public/images/icon_delete2.png' alt='delete register' style='width:30px; height:30px; margin-right:5%;'></a></td>
-                                <td>${output[i].status}</td>
-                                <td>${output[i].opportunityLevel}</td>
-                                <td>${output[i].nextAction}</td>
-                                <td>${output[i].industry}</td>
-                                <td>${output[i].services}</td>
-                                <td>${output[i].phone}</td>
-                                <td>${output[i].email}</td>
-                                <td>${output[i].website}</td>
-                                <td>${output[i].responsable}</td>
-                                <td>${output[i].phoneResponsable}</td>
-                                <td>${output[i].emailResponsable}</td>
-                                <td>${output[i].city}</td>
-                                <td>${output[i].country}</td>
-                                <td>${output[i].openingDate}</td>
-                                <td>${output[i].lastCheckDate}</td>
-                                <td>${output[i].closingContactDate}</td>
-                                <td>${output[i].closingDate}</td>
-                                <td>${output[i].nextDateForContact}</td>
-                                <td>${output[i].nextDateForClosing}</td>
-                                <td>${output[i].salesState}</td>
-                                <td>${output[i].salesmanAdder}</td>
-                                <td>${output[i].salesmanContacter}</td>
-                                <td>${output[i].salesmanCloser}</td>
-                                <td>${output[i].typeOfContract}</td>
+                                <td>${output[i].Estado}</td>
+                                <td>${output[i]['Nivel de Oportunidad']}</td>
+                                <td>${output[i]['Próxima Acción']}</td>
+                                <td>${output[i]['Industria']}</td>
+                                <td>${output[i]['Servicios']}</td>
+                                <td>${output[i]['Teléfono']}</td>
+                                <td>${output[i]['Email']}</td>
+                                <td>${output[i]['Sitio Web']}</td>
+                                <td>${output[i]['Responsable']}</td>
+                                <td>${output[i]['Teléfono del Responsable']}</td>
+                                <td>${output[i]['Email del Responsable']}</td>
+                                <td>${output[i]['Ciudad']}</td>
+                                <td>${output[i]['País']}</td>
+                                <td>${output[i]['Fecha de Apertura']}</td>
+                                <td>${output[i]['Fecha de último contacto']}</td>
+                                <td>${output[i]['Fecha cierre de 1er contacto']}</td>
+                                <td>${output[i]['Fecha de Cierre']}</td>
+                                <td>${output[i]['Próxima Fecha para 1er contacto']}</td>
+                                <td>${output[i]['Próxima Fecha para cierre']}</td>
+                                <td>${output[i]['Estado de Ventas']}</td>
+                                <td>${output[i]['Añadida por']}</td>
+                                <td>${output[i]['Asignado para 1er contacto']}</td>
+                                <td>${output[i]['Asignado para cierre']}</td>
+                                <td>${output[i]['Tipo de Contrato']}</td>
                                 </tr>
                                 `;
-                            }   
+                             
                         }
                         return body;
                     }
@@ -134,32 +153,32 @@
                                 <table>
                                     <Tr class='trIntern'>
                                         <Th rowspan ='10'id='th-1'>
-                                            <a href="#" title="Click para abrir información completa de ${output[i].name}" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].name}</a>
+                                            <a href="#" title="Click para abrir información completa de ${output[i].Nombre}" id='openFullCompany' class="btn btn-primary" onclick="openFullCompany(event,${output[i].id})">${output[i].Nombre}</a>
                                         </Th>
                                     </Tr>
                                         <Tr class='trIntern'>
-                                            <th>Industria</Th> <Td id='td-1'> ${output[i].industry} </Td>
+                                            <th>Industria</Th> <Td id='td-1'> ${output[i]['Industria']} </Td>
                                         </Tr>
                                         <Tr class='trIntern'>
-                                            <Th>Responsable</Th> <Td> ${output[i].responsable} </Td>
+                                            <Th>Responsable</Th> <Td> ${output[i]['Responsable']} </Td>
                                         </Tr>
                                         <Tr class='trIntern'>
-                                            <Th>Telefono Resp.</Th><Td> ${output[i].phone} </Td>
+                                            <Th>Telefono Resp.</Th><Td> ${output[i]['Teléfono del Responsable']} </Td>
                                         </Tr>
                                         <Tr class='trIntern'>
-                                            <Th>Email Resp.</Th><Td> ${output[i].emailResponsable} </Td>
+                                            <Th>Email Resp.</Th><Td> ${output[i]['Email del Responsable']} </Td>
                                         </Tr>
                                         <Tr class='trIntern'>
-                                            <Th>Telefono Comp.</Th><Td> ${output[i].phone} </Td>
+                                            <Th>Telefono Comp.</Th><Td> ${output[i]['Teléfono']} </Td>
                                         </Tr>
                                         <Tr class='trIntern'>
-                                            <Th>Email Comp.</Th><Td> ${output[i].email} </Td>
+                                            <Th>Email Comp.</Th><Td> ${output[i]['Email']} </Td>
                                         </Tr>
                                         <Tr class='trIntern'>
-                                            <Th>Fecha de Inicio</Th><Td> ${output[i].openingDate} </Td>
+                                            <Th>Fecha de Inicio</Th><Td> ${output[i]['Fecha de Apertura']} </Td>
                                         </Tr>
                                         <Tr class='trIntern'>
-                                            <Th>Fecha último checkeo</Th><Td> ${output[i].lastCheckDate} </Td>
+                                            <Th>Fecha último checkeo</Th><Td> ${output[i]['Fecha de último contacto']} </Td>
                                         </Tr>
                                         <Tr id='tr-last' class='trIntern'>
                                             <Th id='th-last' colspan ='2' >
@@ -207,8 +226,8 @@
                     await searchCompanies(urlFilterCompanies, fullBody, fullTable);
                     console.log(texto);
                 }else{
-                await searchCompanies(urlFilterCompanies, body, resumeTable);
-                console.log(texto);
+                    await searchCompanies(urlFilterCompanies, body, resumeTable);
+                    console.log(texto);
                 };
             });
     
@@ -222,9 +241,6 @@
         let dangerAlert= document.querySelector('.alert-danger');
 
         let urlInsert= '../../Controller/insert_company.php';
-
-        let insertCompany=document.getElementById('modalInsertCompany');
-
 
         btnInsertCompany.addEventListener('click', function() {
 
@@ -325,7 +341,7 @@
         });
 
         tableContact.innerHTML=`${body}`;
-        fullCompanyTittle.innerHTML=`Datos de la empresa: <strong>${fullCompany[0].name}</strong>`;
+        fullCompanyTittle.innerHTML=`Datos de la empresa: <strong>${fullCompany[0].Nombre}</strong>`;
     };
 
 

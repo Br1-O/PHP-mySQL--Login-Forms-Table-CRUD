@@ -68,7 +68,33 @@
         typeOfContract VARCHAR(100),
         companyFiles VARCHAR(255),
         lastUpdatedBy INT(10)
-    )
+    );
+
+-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ PRE-PERMADELETE TABLES ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
+
+    -- tables to save last 50 deleted companies/users
+
+        CREATE TABLE IF NOT EXISTS deletedUsers (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            idUser INT(10),
+            user VARCHAR(50),
+            `name` VARCHAR(50),
+            lastName VARCHAR(50),
+            email VARCHAR(50),
+            lastUpdatedBy INT(10),
+            deletedDate datetime
+            );
+
+        CREATE TABLE IF NOT EXISTS deletedCompanies (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            idCompany INT(10),
+            `name` VARCHAR(50),
+            salesmanAdder INT(10),
+            salesmanContacter INT(10),
+            salesmanCloser INT(10),
+            lastUpdatedBy INT(10),
+            deletedDate datetime
+            );
 
 -- ■■■■■■■■■■■■■■■■■■■■■■■■■ INSERT NEW REGISTER INTO USERS TABLE FOR ADAM ADMIN ■■■■■■■■■■■■■■■■■■■■■■■■ --
 
@@ -128,7 +154,9 @@
     FROM users
     ORDER BY `name` ASC;
 
--- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Activity tables user-company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
+
+
+-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ User Activity tables ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
 
     -- table to record activity of users 
 
@@ -186,132 +214,387 @@
         ('Concretó cierre')
         ;
 
--- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ COMPANY TRIGGERS ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
+-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ COMPANY PROCEDURES AND TRANSACTIONS ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ --
+
+    SHOW PROCEDURE STATUS WHERE db = 'panama' AND name = 'deleteUser';
 
     --on insert company
 
-        DELIMITER @
-        CREATE TRIGGER update_users_on_insert_company
-        AFTER INSERT ON companies
-        FOR EACH ROW 
-        BEGIN
-            --this registers the correlation between the user that added the company and the company
-            INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES(
-                NEW.id,NEW.salesmanAdder, 2);
+        DELIMITER $$
 
-                --this selects randomly one user with 'first contact' role to assign the company for first contact it 
+        CREATE PROCEDURE insertCompany(IN `name` VARCHAR(50),IN `status` VARCHAR(50),IN opportunityLevel VARCHAR(20),
+                    IN nextAction VARCHAR(50),IN industry VARCHAR(50), 
+                    IN services varchar(200),IN phone VARCHAR(50),IN email VARCHAR(100),IN website VARCHAR(50),IN socialMedia VARCHAR(255), 
+                    IN responsable VARCHAR(50),IN phoneResponsable VARCHAR(50),IN emailResponsable VARCHAR(100),IN extraInfoResponsable VARCHAR(255), 
+                    IN extraInfoCompany VARCHAR(255),IN `address` VARCHAR(50),IN city VARCHAR(50),IN country VARCHAR(50),
+                    IN commentsSales1 VARCHAR(255),IN commentsSales2 VARCHAR(255),
+                    IN openingDate DATE,IN lastCheckDate DATE,IN closingContactDate DATE,IN closingDate DATE,IN nextDateForContact DATE,IN nextDateForClosing DATE, 
+                    IN isInterested TINYINT(1),IN salesState VARCHAR(50),IN isClient TINYINT(1),
+                    IN salesmanAdder INT(10),IN salesmanContacter INT(10),IN salesmanCloser INT(10),IN typeOfContract VARCHAR(100),IN companyFiles VARCHAR(255),IN lastUpdatedBy INT(10))
+        BEGIN
+            DECLARE lastInsertedCompanyID INT(100);
+            DECLARE is_error INT DEFAULT 0;
+            DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET is_error = 1;
+            
+            START TRANSACTION;
+                --insert statement, prepare with placeholders and execute
+                SET @sql = 'INSERT INTO companies (`name`, `status`, opportunityLevel, 
+                            nextAction,industry,services,
+                            phone,email,website,socialMedia,
+                            responsable,phoneResponsable,emailResponsable,extraInfoResponsable,
+                            extraInfoCompany,`address`,city,country,
+                            commentsSales1,commentsSales2,
+                            openingDate,lastCheckDate,closingContactDate,closingDate,nextDateForContact,nextDateForClosing,
+                            isInterested,salesState,isClient,
+                            salesmanAdder,salesmanContacter,salesmanCloser,typeOfContract,companyFiles,lastUpdatedBy) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                    
+                PREPARE stmt FROM @sql;
+                
+                EXECUTE stmt USING `name`, `status`, opportunityLevel, nextAction, industry, services, phone, email, website, socialMedia, 
+                responsable, phoneResponsable, emailResponsable, extraInfoResponsable,
+                extraInfoCompany, `address`, city, country, 
+                commentsSales1, commentsSales2, 
+                openingDate, lastCheckDate, closingContactDate, closingDate, nextDateForContact, nextDateForClosing, 
+                isInterested, salesState, isClient,
+                salesmanAdder, salesmanContacter, salesmanCloser, typeOfContract, companyFiles, lastUpdatedBy;
+
+                --get last ID from companies table
+                SET lastInsertedCompanyID = LAST_INSERT_ID();
+
+                --deallocate the prepared statement
+                DEALLOCATE PREPARE stmt;
+
+                --this registers the correlation between the user that added the company and the company
                 INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES(
-                NEW.id,(SELECT id FROM users WHERE role=2 ORDER BY RAND() LIMIT 1), 3);
+                lastInsertedCompanyID,salesmanAdder, 2);
 
-            --this registers the user activity, which is 1=insert and the company inserted
-            INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
-                NEW.salesmanAdder, 1, NEW.id, 1);
+                    --this selects randomly one user with 'first contact' role to assign the company for first contact to it
+                    INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES(
+                    lastInsertedCompanyID,(SELECT id FROM users WHERE role=2 ORDER BY RAND() LIMIT 1), 3);
 
-        END@
+                --this registers the user activity, which is 1, insert, and the company that was inserted
+                INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                salesmanAdder, 1, lastInsertedCompanyID, 1);
 
+                --this sets the salesmanContacter for that company into the companies table
+                UPDATE companies SET salesmanContacter = (SELECT user_id FROM correlation_user_company WHERE company_id=lastInsertedCompanyID AND relation = 3)
+                WHERE id=lastInsertedCompanyID;
+                
+                IF is_error THEN
+                        ROLLBACK;
+                    ELSE
+                    COMMIT;
+                END IF;
+        END$$
 
-    -- SET salesmanContacter = 
-    -- (SELECT user_id FROM correlation_user_company WHERE id = company_id AND relation = 3) WHERE id = company_id;
-
+        DELIMITER ;
+ 
 --■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
-
-    --on update company
     
-        DELIMITER @
-        CREATE TRIGGER update_users_on_update_company
-        BEFORE UPDATE ON companies
-        FOR EACH ROW 
+    --on update company
+
+        DELIMITER $$
+
+        CREATE PROCEDURE updateCompany(
+            IN `name` VARCHAR(50),
+            IN `status` VARCHAR(50),
+            IN opportunityLevel VARCHAR(20),
+            IN nextAction VARCHAR(50),
+            IN industry VARCHAR(50),
+            IN services VARCHAR(200),
+            IN phone VARCHAR(50),
+            IN email VARCHAR(100),
+            IN website VARCHAR(50),
+            IN socialMedia VARCHAR(255),
+            IN responsable VARCHAR(50),
+            IN phoneResponsable VARCHAR(50),
+            IN emailResponsable VARCHAR(100),
+            IN extraInfoResponsable VARCHAR(255),
+            IN extraInfoCompany VARCHAR(255),
+            IN `address` VARCHAR(50),
+            IN city VARCHAR(50),
+            IN country VARCHAR(50),
+            IN commentsSales1 VARCHAR(255),
+            IN commentsSales2 VARCHAR(255),
+            IN openingDate DATE,
+            IN lastCheckDate DATE,
+            IN closingDate DATE,
+            IN closingContactDate DATE,
+            IN nextDateForContact DATE,
+            IN nextDateForClosing DATE,
+            IN isInterested TINYINT(1),
+            IN salesState VARCHAR(50),
+            IN isClient TINYINT(1),
+            IN salesmanContacter INT(10),
+            IN salesmanCloser INT(10),
+            IN typeOfContract VARCHAR(100),
+            IN lastUpdatedBy INT(10),
+            IN companyId INT(10)
+        )
         BEGIN
+            DECLARE is_error INT DEFAULT 0;
+            DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET is_error = 1;
 
-            IF NEW.status != OLD.status THEN
+            START TRANSACTION;
 
-                IF NEW.status = 'Primer contacto finalizado' THEN
+                SET lastCheckDate = CURRENT_TIMESTAMP();
 
-                    SET NEW.status = 'Venta iniciada';
-                    SET NEW.salesState = 'Presentación';
-                    SET NEW.closingContactDate = CURRENT_TIMESTAMP();
+                SET @sql = 'UPDATE companies SET `name` = ?, `status` = ?, opportunityLevel = ?, 
+                            nextAction = ?, industry = ?, services = ?, 
+                            phone = ?, email = ?, website = ?, socialMedia = ?, 
+                            responsable = ?, phoneResponsable = ?, emailResponsable = ?, 
+                            extraInfoResponsable = ?, extraInfoCompany = ?, 
+                            `address` = ?, city = ?, country = ?, 
+                            commentsSales1 = ?, commentsSales2 = ?, 
+                            openingDate = ?, lastCheckDate = ?, closingContactDate = ?, closingDate = ?, 
+                            nextDateForContact = ?, nextDateForClosing = ?, 
+                            isInterested = ?, salesState = ?, isClient = ?, 
+                            salesmanContacter = ?, salesmanCloser = ?, typeOfContract = ?, lastUpdatedBy = ? 
+                            WHERE id = ?';
 
-                    INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES (
-                        NEW.id, NEW.salesmanContacter, 4
-                    );
+                PREPARE stmt FROM @sql;
 
-                    INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES (
-                        NEW.id, (SELECT id FROM users WHERE role = 3 ORDER BY RAND() LIMIT 1), 5
-                    );
+                EXECUTE stmt USING `name`, `status`, opportunityLevel, nextAction, industry, services, 
+                    phone, email, website, socialMedia, responsable, phoneResponsable, emailResponsable, 
+                    extraInfoResponsable, extraInfoCompany, `address`, city, country, 
+                    commentsSales1, commentsSales2, openingDate, lastCheckDate, closingContactDate, closingDate, 
+                    nextDateForContact, nextDateForClosing, isInterested, salesState, isClient, 
+                    salesmanContacter, salesmanCloser, typeOfContract, lastUpdatedBy, companyId;
 
-                    SET NEW.salesmanCloser = (
-                        SELECT user_id FROM correlation_user_company WHERE company_id = NEW.id AND relation = 5
-                    );
+                DEALLOCATE PREPARE stmt;
 
-                ELSEIF NEW.status = 'Venta finalizada' THEN
+                INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                    lastUpdatedBy, 2, companyId, 1);
 
-                    SET NEW.closingDate = CURRENT_TIMESTAMP();
-                    SET NEW.salesState = 'Cerrado';
-
-                    INSERT INTO correlation_user_company(company_id,user_id,relation) VALUES (
-                        NEW.id, NEW.salesmanCloser, 6
-                    );
-
+                IF is_error THEN
+                    ROLLBACK;
+                ELSE
+                    COMMIT;
                 END IF;
 
-            END IF;
-
-            SET NEW.lastCheckDate = CURRENT_TIMESTAMP();
-
-        END@
+        END$$
 
         DELIMITER ;
 
-        --(status: //No iniciado / Primer contacto iniciado / 'Primer contacto finalizado' - Venta iniciada / Venta finalizada)
-        --(salesState: // Presentación // Negociación inicial // Negociación avanzada // Fase de cierre // Cerrado )
+    --(status: //No iniciado / Primer contacto iniciado / 'Primer contacto finalizado' - Venta iniciada / Venta finalizada)
+    --(salesState: // Presentación // Negociación inicial // Negociación avanzada // Fase de cierre // Cerrado )
 
 --■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
 
-      --on delete company
-        DELIMITER @
-        CREATE TRIGGER update_users_on_delete_company
-        AFTER DELETE ON companies
-        FOR EACH ROW 
-        BEGIN
-            INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
-                OLD.lastUpdatedBy, 1, OLD.id, 3);
-        END@
+    --on delete company
 
---■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ USER TRIGGERS ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
+        DELIMITER $$
+
+        CREATE PROCEDURE deleteCompany(IN companyId INT(100), IN LastUpdatedBy INT(100))
+            
+        BEGIN
+            DECLARE companyName VARCHAR(50);
+            DECLARE companyAdder INT(10);
+            DECLARE companyContacter INT(10);
+            DECLARE companyCloser INT(10);
+            DECLARE deletedDate DATE;
+
+            DECLARE totalDeletedCompanies INT(3);
+
+            DECLARE is_error INT DEFAULT 0;
+            DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET is_error = 1;
+
+            START TRANSACTION;
+
+                UPDATE companies set lastCheckDate = CURRENT_TIMESTAMP(), lastUpdatedBy = LastUpdatedBy WHERE id=companyId;
+
+                SET companyName = (SELECT `name` from companies WHERE id=companyId);
+                SET companyAdder= (SELECT salesmanAdder from companies WHERE id=companyId);
+                SET companyContacter= (SELECT salesmanContacter from companies WHERE id=companyId);
+                SET companyCloser= (SELECT salesmanCloser from companies WHERE id=companyId);
+                SET deletedDate= CURRENT_TIMESTAMP();
+
+                INSERT INTO deletedCompanies(idCompany,`name`,salesmanAdder,salesmanContacter,salesmanCloser,lastUpdatedBy,deletedDate)VALUES
+                (companyId,companyName,companyAdder,salesmanContacter,salesmanCloser,LastUpdatedBy,deletedDate);
+
+                SET totalDeletedCompanies = (SELECT COUNT(*) FROM deletedCompanies);
+
+                IF totalDeletedCompanies > 50 THEN
+                    DELETE FROM deletedCompanies
+                    ORDER BY id
+                    LIMIT 1;
+                END IF;
+
+                DELETE from companies WHERE id = companyId;
+
+                INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                    LastUpdatedBy, 3, companyId, 1);
+
+                IF is_error THEN
+                    ROLLBACK;
+                ELSE
+                    COMMIT;
+                END IF;
+
+        END$$
+
+        DELIMITER ;
+
+--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ USER TRIGGERS, PROCEDURES AND TRANSACTIONS ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
 
     --on insert user
 
-        DELIMITER @
-        CREATE TRIGGER update_user_activity_on_insert_users
-        AFTER INSERT ON users
-        FOR EACH ROW 
+        DELIMITER $$
+
+        CREATE PROCEDURE insertUser(
+            IN user VARCHAR(50),IN `password` VARCHAR(100),IN `role` INT(3),IN `name` VARCHAR(50),IN lastName VARCHAR(50), 
+            IN birthDate DATE,IN gender VARCHAR(30),IN company VARCHAR(100),IN email VARCHAR(100),IN phone VARCHAR(20), 
+            IN country VARCHAR(50),IN city VARCHAR(50),IN picture VARCHAR(50),IN validatedEmail BOOLEAN, 
+            IN registrationDate DATE,IN lastLogin TIMESTAMP,IN isActive BOOLEAN,IN activationToken VARCHAR(100),IN resetPasswordToken VARCHAR(100),IN lastUpdatedBy INT(10)
+            )
+
         BEGIN
-            INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
-                NEW.lastUpdatedBy, 1, 1, NEW.id);
-        END@
+            DECLARE lastInsertedUserID INT(20);
+            DECLARE is_error INT DEFAULT 0;
+            DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET is_error = 1;
+            
+            START TRANSACTION;
+            
+                SET @sql = 'INSERT INTO users 
+                            (user, `password`, `role`, `name`, lastName, 
+                            birthDate, gender, company, email, phone, 
+                            country, city, picture, validatedEmail, 
+                            registrationDate, lastLogin, isActive, activationToken, resetPasswordToken, lastUpdatedBy)
+                            VALUES 
+                            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                    
+                PREPARE stmt FROM @sql;
+                
+                EXECUTE stmt USING user, `password`, `role`, `name`, lastName, 
+                                    birthDate, gender, company, email, phone, 
+                                    country, city, picture, validatedEmail, 
+                                    registrationDate, lastLogin, isActive, activationToken, resetPasswordToken, lastUpdatedBy;
+
+                SET lastInsertedUserID = LAST_INSERT_ID();
+
+                DEALLOCATE PREPARE stmt;
+
+                INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                lastUpdatedBy, 1, 1, lastInsertedUserID);
+                
+                IF is_error THEN
+                        ROLLBACK;
+                    ELSE
+                    COMMIT;
+                END IF;
+        END$$
+
+        DELIMITER ;
 
 --■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
 
     --on delete user
 
-        DELIMITER @
-        CREATE TRIGGER update_user_activity_on_delete_users
-        AFTER DELETE ON users
-        FOR EACH ROW 
+        DELIMITER $$
+
+        CREATE PROCEDURE deleteUser(IN userId INT(100), IN LastUpdatedBy INT(100))
+            
         BEGIN
-            INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
-                OLD.lastUpdatedBy, 3, 1, OLD.id);
-        END@
+            DECLARE user VARCHAR(50);
+            DECLARE `name` VARCHAR(50);
+            DECLARE lastName VARCHAR(50);
+            DECLARE email VARCHAR(50);
+            DECLARE deletedDate DATE;
+
+            DECLARE totalDeletedUsers INT(3);
+
+            DECLARE is_error INT DEFAULT 0;
+            DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET is_error = 1;
+
+            START TRANSACTION;
+
+                UPDATE users set lastUpdatedBy = LastUpdatedBy WHERE id=userId;
+
+                SET user = (SELECT user from users WHERE id=userId);
+                SET `name`= (SELECT `name` from users WHERE id=userId);
+                SET lastName= (SELECT lastName from users WHERE id=userId);
+                SET email= (SELECT email from users WHERE id=userId);
+                SET deletedDate= CURRENT_TIMESTAMP();
+
+                INSERT INTO deletedUsers(idUser,user,`name`,lastName,email,lastUpdatedBy,deletedDate)VALUES
+                (userId,user,`name`,lastName,email,LastUpdatedBy,deletedDate);
+
+                SET totalDeletedUsers = (SELECT COUNT(*) FROM deletedUsers);
+
+                IF totalDeletedUsers > 50 THEN
+                    DELETE FROM deletedUsers
+                    ORDER BY id
+                    LIMIT 1;
+                END IF;
+
+                DELETE from users WHERE id = userId;
+
+                INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                    LastUpdatedBy, 3, 1, userId);
+
+                IF is_error THEN
+                    ROLLBACK;
+                ELSE
+                    COMMIT;
+                END IF;
+
+        END$$
+
+        DELIMITER ;
 
 --■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--
 
-    --on edit company
+    --on update user
 
-        DELIMITER @
-        CREATE TRIGGER update_user_activity_on_update_users
-        AFTER UPDATE ON users
-        FOR EACH ROW 
+        DELIMITER $$
+
+        CREATE PROCEDURE updateUser(
+            IN id VARCHAR(100),
+            IN user VARCHAR(50),
+            IN `password` VARCHAR(100),
+            IN `role` INT(3),
+            IN  `name` VARCHAR(50),
+            IN lastName VARCHAR(50),
+            IN birthDate date,
+            IN gender VARCHAR(30),
+            IN company VARCHAR(100),
+            IN email VARCHAR(100),
+            IN phone VARCHAR(20),
+            IN country VARCHAR(50),
+            IN city VARCHAR(50),
+            IN validatedEmail BOOLEAN,
+            IN LastUpdatedBy INT(10)
+        )
         BEGIN
-            INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
-                OLD.lastUpdatedBy, 2, 1, OLD.id);
-        END@
+            DECLARE is_error INT DEFAULT 0;
+            DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET is_error = 1;
+
+            START TRANSACTION;
+
+                SET @sql = 'UPDATE users SET user = ?, `password` = ?, `role` = ?,
+                            `name` = ?, lastName = ?, birthDate = ?, 
+                            gender = ?, company = ?, email = ?, phone = ?,
+                            country = ?, city = ?, validatedEmail = ?
+                            WHERE id = ?';
+
+                PREPARE stmt FROM @sql;
+
+                EXECUTE stmt USING user, `password`, `role`, `name`, lastName, birthDate, 
+                    gender, company, email, phone, country, city, validatedEmail, id;
+
+                DEALLOCATE PREPARE stmt;
+
+                INSERT INTO user_activity(user_id,`action`,company_id,receiving_user_id) VALUES(
+                LastUpdatedBy, 2, 1, id);
+
+                IF is_error THEN
+                    ROLLBACK;
+                ELSE
+                    COMMIT;
+                END IF;
+        END$$
+
+        DELIMITER ;
+
+--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■--

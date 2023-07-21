@@ -4,7 +4,6 @@
         window.location.href = destination;
         }
 
-
 // ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Funciones API Fetch ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Show Companies ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
@@ -75,7 +74,7 @@
                 
 
                 if(output.empty==='empty'){
-                    body+='<Tr><Td colspan="2"><Th> No se encontró ninguna compañia.<Th></Td></Tr>';
+                    search+='<Tr><Td colspan="2"><Th> No se encontró ninguna compañia.<Th></Td></Tr>';
                 }else{
                     search=searchBody(output);
 
@@ -216,7 +215,7 @@
 
                 try {
 
-                    let url= `${urlEdit}`;
+                    let url= urlEdit;
                     const res= await fetch(url, {
                         method: 'POST',
                         headers: {
@@ -224,9 +223,7 @@
                         },
                         body: bodyE
                     })
-                    console.log(res);
                     const output= await res.json();
-                    console.log(output);
 
                     //displaying the updated companies list*//
                     //if fullTable is checked it shows that one, otherwise just the resume one
@@ -253,6 +250,8 @@
                         let form=document.getElementById('formEditCompany');
 
                         form.reset();
+
+                        bodyE=null;
 
                         document.getElementById('closeModalEditCompany').click();
 
@@ -308,50 +307,55 @@
 
 
         //Function asigned to the button edit
+
+        let companyEditId;
         
-        const editCompany = async (event, idE, urlFilter, urlEdit) => {
+        const editCompany = async (event, idE, urlFilter) => {
 
             event.preventDefault();
 
             $('#modalEditCompany').modal('show');
-        
-            console.log(idE); /*for DEBUG*/
 
+            companyEditId=idE;
+        
             /*Getting the values of the company via its ID*/
 
             var company= await searchById(urlFilter,idE);
 
-            document.getElementById('nameEdit').value = company[0].name;
-            document.getElementById('statusEdit').value = company[0].status;
-            document.getElementById('opportunityLevelEdit').value = company[0].opportunityLevel;
-            document.getElementById('nextActionEdit').value = company[0].nextAction;
-            document.getElementById('industryEdit').value = company[0].industry;
-            document.getElementById('servicesEdit').value = company[0].services;
-            document.getElementById('phoneEdit').value = company[0].phone;
-            document.getElementById('emailEdit').value = company[0].email;
-            document.getElementById('websiteEdit').value = company[0].website;
-            document.getElementById('socialMediaEdit').value = company[0].socialMedia;
-            document.getElementById('responsableEdit').value = company[0].responsable;
-            document.getElementById('phoneResponsableEdit').value = company[0].phoneResponsable;
-            document.getElementById('emailResponsableEdit').value = company[0].emailResponsable;
-            document.getElementById('extraInfoResponsableEdit').value = company[0].extraInfoResponsable;
-            document.getElementById('extraInfoCompanyEdit').value = company[0].extraInfoCompany;
-            document.getElementById('addressEdit').value = company[0].address;
-            document.getElementById('cityEdit').value = company[0].city;
-            document.getElementById('countryEdit').value = company[0].country;
-            document.getElementById('commentsSales1Edit').value = company[0].commentsSales1;
-            document.getElementById('commentsSales2Edit').value = company[0].commentsSales2;
-            document.getElementById('openingDateEdit').value = company[0].openingDate;
-            document.getElementById('lastCheckDateEdit').value = company[0].lastCheckDate;
-            document.getElementById('closingDateEdit').value = company[0].closingDate;
-            document.getElementById('nextDateForContactEdit').value = company[0].nextDateForContact;
-            document.getElementById('nextDateForClosingEdit').value = company[0].nextDateForClosing;
-            document.getElementById('isInterestedEdit').value = company[0].isInterested;
-            document.getElementById('salesStateEdit').value = company[0].salesState;
-            document.getElementById('isClientEdit').value = company[0].isClient;
-            document.getElementById('salesmanContacterEdit').value = company[0].salesmanContacter;
-            document.getElementById('salesmanCloserEdit').value = company[0].salesmanCloser;
-            document.getElementById('typeOfContractEdit').value = company[0].typeOfContract;
+            document.getElementById('nameEdit').value = company[0].Nombre;
+            document.getElementById('statusEdit').value = company[0].Estado;
+            document.getElementById('opportunityLevelEdit').value = company[0]['Nivel de Oportunidad'];
+            document.getElementById('nextActionEdit').value = company[0]['Próxima Acción'];
+            document.getElementById('industryEdit').value = company[0]['Industria'];
+            document.getElementById('servicesEdit').value = company[0]['Servicios'];
+            document.getElementById('phoneEdit').value = company[0]['Teléfono'];
+            document.getElementById('emailEdit').value = company[0]['Email'];
+            document.getElementById('websiteEdit').value = company[0]['Sitio Web'];
+            document.getElementById('socialMediaEdit').value = company[0]['Redes Sociales'];
+            document.getElementById('responsableEdit').value = company[0]['Responsable'];
+            document.getElementById('phoneResponsableEdit').value = company[0]['Teléfono del Responsable'];
+            document.getElementById('emailResponsableEdit').value = company[0]['Email del Responsable'];
+            document.getElementById('extraInfoResponsableEdit').value = company[0]['Extra info del Responsable'];
+            document.getElementById('extraInfoCompanyEdit').value = company[0]['Extra info de la Compañía'];
+            document.getElementById('addressEdit').value = company[0]['Dirección'];
+            document.getElementById('cityEdit').value = company[0]['Ciudad'];
+            document.getElementById('countryEdit').value = company[0]['País'];
+            document.getElementById('commentsSales1Edit').value = company[0]['Comentarios de Ventas 1'];
+            document.getElementById('commentsSales2Edit').value = company[0]['Comentarios de Ventas 2'];
+            document.getElementById('openingDateEdit').value = company[0]['Fecha de Apertura'];
+            document.getElementById('lastCheckDateEdit').value = company[0]['Fecha de último contacto'];
+            document.getElementById('closingDateEdit').value = company[0]['Fecha de Cierre'];
+            document.getElementById('nextDateForContactEdit').value = company[0]['Próxima Fecha para 1er contacto'];
+            document.getElementById('nextDateForClosingEdit').value = company[0]['Próxima Fecha para cierre'];
+            document.getElementById('isInterestedEdit').value = company[0]['Interesado'];
+            document.getElementById('salesStateEdit').value = company[0]['Estado de Ventas'];
+            document.getElementById('isClientEdit').value = company[0]['Es Cliente'];
+            document.getElementById('salesmanAdderEdit').value = company[0]['Añadida por'];
+            document.getElementById('salesmanContacterEdit').value = company[0]['Asignado para 1er contacto'];
+            document.getElementById('salesmanCloserEdit').value = company[0]['Asignado para cierre'];
+            document.getElementById('typeOfContractEdit').value = company[0]['Tipo de Contrato'];
+
+        };
 
             //■■■■■■ API fetch PUT request to Edit Data ■■■■■//
 
@@ -383,18 +387,20 @@
                 let commentsSales2= document.getElementById('commentsSales2Edit').value;
                 let openingDate= document.getElementById('openingDateEdit').value;
                 let lastCheckDate= document.getElementById('lastCheckDateEdit').value;
+                let closingContactDate= document.getElementById('closingContactDateEdit').value;
                 let closingDate= document.getElementById('closingDateEdit').value;
                 let nextDateForContact= document.getElementById('nextDateForContactEdit').value;
                 let nextDateForClosing= document.getElementById('nextDateForClosingEdit').value;
                 let isInterested= document.getElementById('isInterestedEdit').value;
                 let salesState= document.getElementById('salesStateEdit').value;
                 let isClient= document.getElementById('isClientEdit').value;
+                let salesmanAdder= document.getElementById('salesmanAdderEdit').value;
                 let salesmanContacter= document.getElementById('salesmanContacterEdit').value;
                 let salesmanCloser= document.getElementById('salesmanCloserEdit').value;
                 let typeOfContract= document.getElementById('typeOfContractEdit').value;
 
-                const bodyE= JSON.stringify({
-                    "id":idE,
+                let bodyE= JSON.stringify({
+                    "id":companyEditId,
                     "name": name,
                     "status": status,
                     "opportunityLevel": opportunityLevel,
@@ -417,20 +423,22 @@
                     "commentsSales2": commentsSales2,
                     "openingDate": openingDate,
                     "lastCheckDate": lastCheckDate,
+                    "closingContactDate": closingContactDate,
                     "closingDate": closingDate,
                     "nextDateForContact": nextDateForContact,
                     "nextDateForClosing": nextDateForClosing,
                     "isInterested": isInterested,
                     "salesState": salesState,
                     "isClient": isClient,
+                    "salesmanAdder": salesmanAdder,
                     "salesmanContacter": salesmanContacter,
                     "salesmanCloser": salesmanCloser,
                     "typeOfContract": typeOfContract,
-                    })
+                    });
 
                 editEntity(urlEdit, bodyE);
+
             });
-        }
 
     ///////////////■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Delete Company ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■///////////////
 

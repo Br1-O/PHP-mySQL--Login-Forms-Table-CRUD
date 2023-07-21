@@ -422,16 +422,7 @@ class Company{
         public function insert(){
 
             // Consulta INSERT
-            $sql = "INSERT INTO companies (`name`, `status`, opportunityLevel, 
-            nextAction,industry,services,
-            phone,email,website,socialMedia,
-            responsable,phoneResponsable,emailResponsable,extraInfoResponsable,
-            extraInfoCompany,`address`,city,country,
-            commentsSales1,commentsSales2,
-            openingDate,lastCheckDate,closingContactDate,closingDate,nextDateForContact,nextDateForClosing,
-            isInterested,salesState,isClient,
-            salesmanAdder,salesmanContacter,salesmanCloser,typeOfContract,companyFiles,lastUpdatedBy) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "CALL insertCompany(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
             // Prepare la consulta
             $prep = $this->conn->prepare($sql);
@@ -496,22 +487,11 @@ class Company{
 
         public function edit($Id){
 
-            $sql = "UPDATE companies SET `name` = ?, `status` = ?, opportunityLevel = ?,
-            nextAction = ?, industry = ?, services = ?, 
-            phone = ?, email = ?, website = ?, socialMedia = ?,
-            responsable = ?, phoneResponsable = ?, emailResponsable = ?,
-            extraInfoResponsable = ?, extraInfoCompany = ?,
-            `address` = ?, city = ?, country = ?,
-            commentsSales1 = ?, commentsSales2 = ?,
-            openingDate = ?, lastCheckDate = ?, closingDate = ?,
-            nextDateForContact = ?, nextDateForClosing = ?,
-            isInterested = ?, salesState = ?, isClient = ?,
-            salesmanContacter = ?, salesmanCloser = ?, typeOfContract = ?, lastUpdatedBy = ?
-            WHERE id = ?";
+            $sql = "CALL updateCompany(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
             $prep = $this->conn->prepare($sql);
 
-            $prep->bind_param("sssssssssssssssssssssssssisisssii",
+            $prep->bind_param("ssssssssssssssssssssssssssisiiisii",
                 $this->name,
                 $this->status,
                 $this->opportunityLevel,
@@ -534,6 +514,7 @@ class Company{
                 $this->commentsSales2,
                 $this->openingDate,
                 $this->lastCheckDate,
+                $this->closingContactDate,
                 $this->closingDate,
                 $this->nextDateForContact,
                 $this->nextDateForClosing,
@@ -566,15 +547,15 @@ class Company{
     //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  Static Methods   ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■//
 
 
-        public static function delete($conn, $id){
+        public static function delete($conn, $id, $lastUpdatedBy){
             
             // Consulta INSERT
-            $sql = "delete from companies WHERE id=?";
+            $sql = "CALL deleteCompany(?,?)";
 
             // Prepare la consulta
             $prep = $conn->prepare($sql);
 
-            $prep->bind_param("i",$id);
+            $prep->bind_param("ii",$id,$lastUpdatedBy);
 
             // Ejecutar la consulta
             try{
@@ -597,7 +578,44 @@ class Company{
 
             include_once 'UTF8_function.php';
 
-            $sql="SELECT * FROM companies";
+            $sql="SELECT 
+            id AS 'id',
+            `name` AS 'Nombre',
+            `status` AS 'Estado',
+            opportunityLevel AS 'Nivel de Oportunidad',
+            nextAction AS 'Próxima Acción',
+            industry AS 'Industria',
+            services AS 'Servicios',
+            phone AS 'Teléfono',
+            email AS 'Email',
+            website AS 'Sitio Web',
+            socialMedia AS 'Redes Sociales',
+            responsable AS 'Responsable',
+            phoneResponsable AS 'Teléfono del Responsable',
+            emailResponsable AS 'Email del Responsable',
+            extraInfoResponsable AS 'Extra info del Responsable',
+            extraInfoCompany AS 'Extra info de la Compañía',
+            `address` AS 'Dirección',
+            city AS 'Ciudad',
+            country AS 'País',
+            commentsSales1 AS 'Comentarios de Ventas 1',
+            commentsSales2 AS 'Comentarios de Ventas 2',
+            openingDate AS 'Fecha de Apertura',
+            lastCheckDate AS 'Fecha de último contacto',
+            closingContactDate AS 'Fecha cierre de 1er contacto',
+            closingDate AS 'Fecha de Cierre',
+            nextDateForContact AS 'Próxima Fecha para 1er contacto',
+            nextDateForClosing AS 'Próxima Fecha para cierre',
+            isInterested AS 'Interesado',
+            salesState AS 'Estado de Ventas',
+            isClient AS 'Es Cliente',
+            (SELECT user from users WHERE id=salesmanAdder) AS 'Añadida por',
+            (SELECT user from users WHERE id=salesmanContacter) AS 'Asignado para 1er contacto',
+            (SELECT user from users WHERE id=salesmanCloser) AS 'Asignado para cierre',
+            typeOfContract AS 'Tipo de Contrato',
+            companyFiles AS 'Archivos de la Compañía',
+            lastUpdatedBy AS 'Última Actualización por'
+            FROM companies ORDER BY id DESC;";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -621,7 +639,44 @@ class Company{
 
         public static function returnData($conn){
 
-            $sql="SELECT * FROM companies";
+            $sql="SELECT 
+            id AS 'id',
+            `name` AS 'Nombre',
+            `status` AS 'Estado',
+            opportunityLevel AS 'Nivel de Oportunidad',
+            nextAction AS 'Próxima Acción',
+            industry AS 'Industria',
+            services AS 'Servicios',
+            phone AS 'Teléfono',
+            email AS 'Email',
+            website AS 'Sitio Web',
+            socialMedia AS 'Redes Sociales',
+            responsable AS 'Responsable',
+            phoneResponsable AS 'Teléfono del Responsable',
+            emailResponsable AS 'Email del Responsable',
+            extraInfoResponsable AS 'Extra info del Responsable',
+            extraInfoCompany AS 'Extra info de la Compañía',
+            `address` AS 'Dirección',
+            city AS 'Ciudad',
+            country AS 'País',
+            commentsSales1 AS 'Comentarios de Ventas 1',
+            commentsSales2 AS 'Comentarios de Ventas 2',
+            openingDate AS 'Fecha de Apertura',
+            lastCheckDate AS 'Fecha de último contacto',
+            closingContactDate AS 'Fecha cierre de 1er contacto',
+            closingDate AS 'Fecha de Cierre',
+            nextDateForContact AS 'Próxima Fecha para 1er contacto',
+            nextDateForClosing AS 'Próxima Fecha para cierre',
+            isInterested AS 'Interesado',
+            salesState AS 'Estado de Ventas',
+            isClient AS 'Es Cliente',
+            salesmanAdder AS 'Añadida por',
+            salesmanContacter AS 'Asignado para 1er contacto',
+            salesmanCloser AS 'Asignado para cierre',
+            typeOfContract AS 'Tipo de Contrato',
+            companyFiles AS 'Archivos de la Compañía',
+            lastUpdatedBy AS 'Última Actualización por'
+            FROM companies ORDER BY id DESC;";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -656,7 +711,45 @@ class Company{
 
         public static function search($conn, $field, $value){
 
-            $sql="SELECT * FROM companies WHERE $field LIKE '%$value%'";
+            $sql="SELECT 
+            id AS 'id',
+            `name` AS 'Nombre',
+            `status` AS 'Estado',
+            opportunityLevel AS 'Nivel de Oportunidad',
+            nextAction AS 'Próxima Acción',
+            industry AS 'Industria',
+            services AS 'Servicios',
+            phone AS 'Teléfono',
+            email AS 'Email',
+            website AS 'Sitio Web',
+            socialMedia AS 'Redes Sociales',
+            responsable AS 'Responsable',
+            phoneResponsable AS 'Teléfono del Responsable',
+            emailResponsable AS 'Email del Responsable',
+            extraInfoResponsable AS 'Extra info del Responsable',
+            extraInfoCompany AS 'Extra info de la Compañía',
+            `address` AS 'Dirección',
+            city AS 'Ciudad',
+            country AS 'País',
+            commentsSales1 AS 'Comentarios de Ventas 1',
+            commentsSales2 AS 'Comentarios de Ventas 2',
+            openingDate AS 'Fecha de Apertura',
+            lastCheckDate AS 'Fecha de último contacto',
+            closingContactDate AS 'Fecha cierre de 1er contacto',
+            closingDate AS 'Fecha de Cierre',
+            nextDateForContact AS 'Próxima Fecha para 1er contacto',
+            nextDateForClosing AS 'Próxima Fecha para cierre',
+            isInterested AS 'Interesado',
+            salesState AS 'Estado de Ventas',
+            isClient AS 'Es Cliente',
+            (SELECT user from users WHERE id=salesmanAdder) AS 'Añadida por',
+            (SELECT user from users WHERE id=salesmanContacter) AS 'Asignado para 1er contacto',
+            (SELECT user from users WHERE id=salesmanCloser) AS 'Asignado para cierre',
+            typeOfContract AS 'Tipo de Contrato',
+            companyFiles AS 'Archivos de la Compañía',
+            lastUpdatedBy AS 'Última Actualización por'
+            FROM companies 
+            WHERE $field LIKE '%$value%' ORDER BY id DESC";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
